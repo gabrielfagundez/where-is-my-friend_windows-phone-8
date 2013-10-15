@@ -1,0 +1,177 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="WhereIsMyFriend.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    shell:SystemTray.IsVisible="True">
+
+    <toolkit:TransitionService.NavigationInTransition>
+        <toolkit:NavigationInTransition>
+            <toolkit:NavigationInTransition.Backward>
+                <toolkit:SlideTransition Mode="SlideRightFadeIn"/>
+            </toolkit:NavigationInTransition.Backward>
+            <toolkit:NavigationInTransition.Forward>
+                <toolkit:SlideTransition Mode="SlideLeftFadeIn"/>
+            </toolkit:NavigationInTransition.Forward>
+        </toolkit:NavigationInTransition>
+    </toolkit:TransitionService.NavigationInTransition>
+    <toolkit:TransitionService.NavigationOutTransition>
+        <toolkit:NavigationOutTransition>
+            <toolkit:NavigationOutTransition.Backward>
+                <toolkit:SlideTransition Mode="SlideRightFadeOut"/>
+            </toolkit:NavigationOutTransition.Backward>
+            <toolkit:NavigationOutTransition.Forward>
+                <toolkit:SlideTransition Mode="SlideLeftFadeOut"/>
+            </toolkit:NavigationOutTransition.Forward>
+        </toolkit:NavigationOutTransition>
+    </toolkit:TransitionService.NavigationOutTransition>
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="#FFF" Margin="0,0,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+
+        <!--AppTitlePanel contains the name of the application-->
+
+        <Grid x:Name="AppTitlePanel" Grid.Row="0" Margin="0,0,0,0" Background="#FFF" >
+            <TextBlock Text="Where is my friend?"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
+                       Margin="0,0,0,0" 
+                       Foreground="#00aff0" FontFamily="Segoe WP Light" FontSize="30"/>
+        </Grid>
+
+        <!--TitlePanel contains the name of the application and page title-->
+        <Grid x:Name="TitlePanel" Grid.Row="1" Margin="0,0,0,0" Background="#FFF">
+            <TextBlock Text="login"
+        		HorizontalAlignment="Left"
+        		VerticalAlignment="Center"
+                Height="Auto"
+                Width="Auto"
+        		Margin="0,0,0,0" 
+        		Foreground="#00aff0"
+                FontFamily="Segoe WP Light"
+                FontSize="100"
+                FontWeight="Thin"/>
+        </Grid>
+
+        <!--StackPanel - place additional content here-->
+        <Grid x:Name="SocialGrid" Grid.Row="2" Margin="5,0,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="3.5*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="3.5*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="3.5*"/>
+                <RowDefinition Height="3*"/>
+            </Grid.RowDefinitions>
+
+            <!-- La grilla tiene 5 lugares
+                    Label Mail
+                    Input Mail
+                    Label Pass
+                    Input Pass
+                    Boton
+            -->
+            <!-- #1 -->
+            <Grid x:Name="LabelMail" Grid.Row="1" Margin="0,0,0,0" Background="#FFF">
+                <TextBlock
+                    Text="Mail"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Margin="0,0,0,0" 
+                    Foreground="#000"
+                    Style="{StaticResource PhoneTextTitle2Style}"/>
+            </Grid>
+
+            <!-- #2 -->
+            <Grid x:Name="InputMail" Grid.Row="2" Margin="-10,0,20,0" Background="#FFF">
+                <TextBox
+                    x:Name="MailIngresado" 
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    TextWrapping="Wrap" 
+                    Text="" 
+                    Height="Auto"
+                    Width="Auto"
+                    SelectionBackground="#FFEBEBEB" 
+                    BorderBrush="#FFC6C6C6"
+                    Background="#FFEBEBEB"/>
+            </Grid>
+
+            <!-- #3 -->
+            <Grid x:Name="LabelPass" Grid.Row="4" Margin="0,0,20,0" Background="#FFF">
+                <TextBlock
+                    Text="Password"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Margin="0,0,0,0" 
+                    Foreground="#000"
+                    Style="{StaticResource PhoneTextTitle2Style}"/>
+            </Grid>
+
+            <!-- #4 -->
+            <Grid x:Name="InputPass" Grid.Row="5" Margin="-10,0,20,0" Background="#FFF">
+                <PasswordBox
+                    x:Name="PassIngresado"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Background="#FFEBEBEB"
+                    BorderBrush="#FFC6C6C6"
+                    Height="Auto"
+                    Width="Auto"
+                    Margin="0,0,0,0"/>
+            </Grid>
+
+            <!-- #6 -->
+            <Grid x:Name="Error" Grid.Row="6" Margin="0,0,0,0" Background="#FFF">
+                <TextBlock
+                    x:Name="ErrorBlock"
+                    HorizontalAlignment="Left"
+                    Height="36" Margin="0,0,0,0"
+                    Grid.Row="2" Visibility="Collapsed"
+                    TextWrapping="Wrap"
+                    Text="Invalid mail or password"
+                    VerticalAlignment="Top"
+                    Width="290"
+                    Foreground="#DEF30808"/>
+            </Grid>
+
+            <!-- #7 -->
+            <!--<Grid x:Name="Button" Grid.Row="7" Margin="0,0,0,0" Background="#FFF">
+                <Button
+                    x:Name="EnviarDatosLogin" 
+                    Content="Create new account" 
+                    HorizontalAlignment="Right" 
+                    Margin="0,0,20,0" 
+                    VerticalAlignment="Stretch"
+                    Width="300"
+                    Background="#00aff0" Tap="EnviarDatosLogin_Tap" />
+            </Grid>-->
+
+
+
+        </Grid>
+    </Grid>
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar Mode="Default"  Opacity=".99" IsMenuEnabled="False" IsVisible="True" BackgroundColor="#00aff0">
+            <shell:ApplicationBarIconButton IconUri="/Toolkit.Content/ApplicationBar.Check.png" Click="Click_check" Text="Login" />
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+</phone:PhoneApplicationPage>
