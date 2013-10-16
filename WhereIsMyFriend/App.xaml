@@ -12,9 +12,10 @@
 
     <Application.ApplicationLifetimeObjects>
         <!--Objeto requerido que controla los eventos de duración de la aplicación-->
-        <shell:PhoneApplicationService
-            Launching="Application_Launching" Closing="Application_Closing"
-            Activated="Application_Activated" Deactivated="Application_Deactivated"/>
+        <shell:PhoneApplicationService 
+        Launching="Application_Launching" Closing="Application_Closing" 
+        Activated="Application_Activated" Deactivated="Application_Deactivated"
+        RunningInBackground="Application_RunningInBackground"/>
     </Application.ApplicationLifetimeObjects>
 
 </Application>

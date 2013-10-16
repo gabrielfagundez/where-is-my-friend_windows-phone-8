@@ -93,12 +93,17 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\FriendData.cs" />
+    <Compile Include="Classes\ListaAmigos.cs" />
     <Compile Include="Classes\LoggedUser.cs" />
     <Compile Include="Classes\Session.cs" />
     <Compile Include="Classes\UserData.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="LoggedMainPages\Friends.xaml.cs">
       <DependentUpon>Friends.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LoggedMainPages\Map.xaml.cs">
+      <DependentUpon>Map.xaml</DependentUpon>
     </Compile>
     <Compile Include="LoggedMainPages\Menu.xaml.cs">
       <DependentUpon>Menu.xaml</DependentUpon>
@@ -125,6 +130,10 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Page Include="LoggedMainPages\Friends.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoggedMainPages\Map.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

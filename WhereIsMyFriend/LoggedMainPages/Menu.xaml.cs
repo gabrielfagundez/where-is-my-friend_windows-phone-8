@@ -17,8 +17,7 @@ namespace WhereIsMyFriend.LoggedMainPages
         
         public Menu()
         {
-            InitializeComponent();
-           
+            InitializeComponent();         
             
             
         }
@@ -29,7 +28,7 @@ namespace WhereIsMyFriend.LoggedMainPages
             webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompleted);
             LoggedUser user = LoggedUser.Instance;
             UserData luser = user.GetLoggedUser();
-            Uri LoggedUserFriends = new Uri("http://servidorpis.azurewebsites.net/api/Friends/GetAllFriends/1002");
+            Uri LoggedUserFriends = new Uri("http://serverdevelopmentpis.azurewebsites.net/api/Friends/GetAllFriends/" + luser.Id);
             webClient.DownloadStringAsync(LoggedUserFriends);
 
         }
@@ -37,12 +36,16 @@ namespace WhereIsMyFriend.LoggedMainPages
         {
             List<UserData> friendsList = JsonConvert.DeserializeObject<List<UserData>>(e.Result);
             LoggedUser luser = LoggedUser.Instance;
-            luser.setFriends(friendsList);
-          
+            luser.setFriends(friendsList);    
 
 
             NavigationService.Navigate(new Uri("/LoggedMainPages/Friends.xaml", UriKind.Relative));
 
+        }
+
+        private void HubTile_Tap_1(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/LoggedMainPages/Map.xaml", UriKind.Relative));
         }
     }
 }

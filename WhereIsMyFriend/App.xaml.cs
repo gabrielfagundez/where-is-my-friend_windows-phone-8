@@ -8,6 +8,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using WhereIsMyFriend.Resources;
 using System.Windows.Media;
+using Windows.Devices.Geolocation;
 
 namespace WhereIsMyFriend
 {
@@ -18,7 +19,8 @@ namespace WhereIsMyFriend
         /// </summary>
         /// <returns>Marco raíz de la aplicación telefónica.</returns>
         public static PhoneApplicationFrame RootFrame { get; private set; }
-
+        public static Geolocator Geolocator { get; set; }
+        public static bool RunningInBackground { get; set; }
         /// <summary>
         /// Constructor para el objeto Application.
         /// </summary>
@@ -64,10 +66,17 @@ namespace WhereIsMyFriend
         {
         }
 
+        private void Application_RunningInBackground(object sender, RunningInBackgroundEventArgs args)
+        {
+            RunningInBackground = true;
+            // Suspend all unnecessary processing such as UI updates
+        }
+
         // Código para ejecutar cuando la aplicación se activa (se trae a primer plano)
         // Este código no se ejecutará cuando la aplicación se inicie por primera vez
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
+            RunningInBackground = false;
         }
 
         // Código para ejecutar cuando la aplicación se desactiva (se envía a segundo plano)

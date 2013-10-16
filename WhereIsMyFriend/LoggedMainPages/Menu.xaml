@@ -84,7 +84,7 @@
             <toolkit:HubTile Grid.Row="0" Grid.Column="0" GroupTag="hubs0"  Title="Friends" Background="#00aff0" Source="/Assets/images/friends.png"  Margin="10" Tap="HubTile_Tap"/>
             <toolkit:HubTile Grid.Row="0" Grid.Column="1" GroupTag="hubs1"  Title="Requests"  Background="#00aff0" Margin="10"/>
 
-            <toolkit:HubTile Grid.Row="1" Grid.Column="0" GroupTag="hubs1"  Title="Map"  Background="#00aff0" Source="/Assets/images/map.png"  Margin="10"/>
+            <toolkit:HubTile Grid.Row="1" Grid.Column="0" GroupTag="hubs1"  Title="Map"  Background="#00aff0" Source="/Assets/images/map.png"  Margin="10" Tap="HubTile_Tap_1"/>
        
         </Grid>
 
