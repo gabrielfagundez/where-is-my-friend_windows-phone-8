@@ -25,7 +25,7 @@
             <maps:Map x:Name="mapWithMyLocation">
 
             </maps:Map>
-            <Button x:Name="testFR" Background="White" Content="TEST FRIENDS POS" HorizontalAlignment="Left" Margin="31,10,0,0" VerticalAlignment="Top" Width="248" Click="testFR_Click" Height="82">
+            <Button x:Name="testFR" Background="Black" Content="TEST FRIENDS POS" HorizontalAlignment="Left" Margin="31,10,0,0" VerticalAlignment="Top" Width="248" Click="testFR_Click" Height="82">
 
             </Button>
         </Grid>

@@ -45,7 +45,7 @@ namespace WhereIsMyFriend.LoggedMainPages
 
         private void HubTile_Tap_1(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/LoggedMainPages/Map.xaml", UriKind.Relative));
+            NavigationService.Navigate(new Uri("/LoggedMainPages/Mapa.xaml", UriKind.Relative));
         }
     }
 }
