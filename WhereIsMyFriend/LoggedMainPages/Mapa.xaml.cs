@@ -5,6 +5,7 @@ using Microsoft.Phone.Maps.Toolkit;
 using Microsoft.Phone.Shell;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel; //Provides the Geocoordinate class.
 using System.Device.Location; // Provides the GeoCoordinate class.
 using System.Globalization;
 using System.Linq;
@@ -16,25 +17,28 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WhereIsMyFriend.Classes;
-using Windows.Devices.Geolocation; //Provides the Geocoordinate class.
+using Windows.Devices.Geolocation;
 
 namespace WhereIsMyFriend.LoggedMainPages
 {
     public partial class Mapa : PhoneApplicationPage
     {
+
+        string latitud, longitud = string.Empty;
+
         public Mapa()
         {
             InitializeComponent();
-            CustomMessageBox messageBox = new CustomMessageBox()
-            {
-                Caption = "",
-                LeftButtonContent = "Ok",
-                Message = "Instrucciones:\n*desplegar simulador de posicionamiento para ver como cambia tu pos. actual(puntito azul)\n* el boton de test agrega algunos puntos, si apretetas varias veces el boton, se simula el movimiento de tus amigos\n*para agregar o actualizar posiciones de amigos usar la funcion  public void insert(string id, string nom, GeoCoordinate geo) q esta en la clase PointsHandler q es un singleton\n*para dejar de seguir a un amigo en el mapa esta la funcion deleteFriend(string id)",
+            //CustomMessageBox messageBox = new CustomMessageBox()
+           // {
+            //    Caption = "",
+            //    LeftButtonContent = "Ok",
+                //Message = "Instrucciones:\n*desplegar simulador de posicionamiento para ver como cambia tu pos. actual(puntito azul)\n* el boton de test agrega algunos puntos, si apretetas varias veces el boton, se simula el movimiento de tus amigos\n*para agregar o actualizar posiciones de amigos usar la funcion  public void insert(string id, string nom, GeoCoordinate geo) q esta en la clase PointsHandler q es un singleton\n*para dejar de seguir a un amigo en el mapa esta la funcion deleteFriend(string id)",
 
 
-            };
-            messageBox.Show();
-            GetCoordinate();
+          //  };
+         //   messageBox.Show();
+           // GetCoordinate();
 
         }
 
@@ -181,6 +185,150 @@ namespace WhereIsMyFriend.LoggedMainPages
             updateFriednsPosition();
         }
 
+        // Inicializacion del mapa
+
+        protected async override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            if (App.Geolocator == null)
+            {
+                //Si nunca se inicializo
+                App.Geolocator = new Geolocator();
+                App.Geolocator.DesiredAccuracy = PositionAccuracy.High;
+                App.Geolocator.MovementThreshold = 15; // The units are meters.
+                App.Geolocator.PositionChanged += geolocator_PositionChanged;
+            }
+            // Graficar mi posicion y setearla en el singleton
+            var pos = await App.Geolocator.GetGeopositionAsync(); 
+            var pos2 = ConvertGeocoordinate(pos.Coordinate);
+            PointsHandler ph = PointsHandler.Instance;
+            ph.myPosition = pos2;
+            // Make my current location the center of the Map.
+            this.mapWithMyLocation.Center = pos2;
+            clearMap();
+            drawMyPosition();
+            dragFriends();
+        }
+
+        protected override void OnRemovedFromJournal(System.Windows.Navigation.JournalEntryRemovedEventArgs e)
+        {
+            App.Geolocator.PositionChanged -= geolocator_PositionChanged;
+            App.Geolocator = null;
+        }
+
+        
+        public static GeoCoordinate ConvertGeocoordinate(Geocoordinate geocoordinate)
+        {
+            return new GeoCoordinate
+                (
+                geocoordinate.Latitude,
+                geocoordinate.Longitude,
+                geocoordinate.Altitude ?? Double.NaN,
+                geocoordinate.Accuracy,
+                geocoordinate.AltitudeAccuracy ?? Double.NaN,
+                geocoordinate.Speed ?? Double.NaN,
+                geocoordinate.Heading ?? Double.NaN
+                );
+        }
+        
+
+        void geolocator_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
+        {
+
+            if (!App.RunningInBackground)
+            {
+                Dispatcher.BeginInvoke(() =>
+                {
+                    latitud = args.Position.Coordinate.Latitude.ToString("0.00000");
+                    longitud = args.Position.Coordinate.Longitude.ToString("0.00000");
+
+                    var pos = ConvertGeocoordinate(args.Position.Coordinate);
+                    PointsHandler ph = PointsHandler.Instance;
+                    ph.myPosition = pos;
+                    // Make my current location the center of the Map.
+                    this.mapWithMyLocation.Center = pos;
+                    clearMap();
+                    drawMyPosition();
+                    dragFriends();
+
+                    var webClient = new WebClient();
+                    webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
+                    webClient.UploadStringCompleted += this.sendPostCompleted1;
+                    LoggedUser user = LoggedUser.Instance;
+                    string json = "{\"Mail\":\"" + user.GetLoggedUser().Mail + "\"," +
+                                    "\"Latitude\":\"" + latitud + "\"," +
+                                      "\"Longitude\":\"" + longitud + "\"}";
+                    System.Diagnostics.Debug.WriteLine(json);
+
+                    webClient.UploadStringAsync((new Uri("http://serverdevelopmentpis.azurewebsites.net/api/Geolocation/SetLocation/")), "POST", json);
+                });
+            }
+            else
+            {
+                latitud = args.Position.Coordinate.Latitude.ToString("0.00000");
+                longitud = args.Position.Coordinate.Longitude.ToString("0.00000");
+                var webClient = new WebClient();
+                webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
+                webClient.UploadStringCompleted += this.sendPostCompleted1;
+                LoggedUser user = LoggedUser.Instance;
+                string json = "{\"Mail\":\"" + user.GetLoggedUser().Mail + "\"," +
+                                "\"Latitude\":\"" + latitud + "\"," +
+                                  "\"Longitude\":\"" + longitud + "\"}";
+                System.Diagnostics.Debug.WriteLine(json);
+
+                webClient.UploadStringAsync((new Uri("http://serverdevelopmentpis.azurewebsites.net/api/Geolocation/SetLocation/")), "POST", json);
+
+
+                Microsoft.Phone.Shell.ShellToast toast = new Microsoft.Phone.Shell.ShellToast();
+                toast.Content = latitud + longitud;
+                toast.Title = "Location: ";
+                toast.NavigationUri = new Uri("/LoggedMainPages/Mapa.xaml", UriKind.Relative);
+                toast.Show();
+
+            }
+        }
+
+        private void sendPostCompleted1(object sender, UploadStringCompletedEventArgs e)
+        {
+            if ((e.Error != null) && (e.Error.GetType().Name == "WebException"))
+            {
+                WebException we = (WebException)e.Error;
+                HttpWebResponse response = (System.Net.HttpWebResponse)we.Response;
+
+                switch (response.StatusCode)
+                {
+
+                    case HttpStatusCode.NotFound: // 404
+                        System.Diagnostics.Debug.WriteLine("Not found!");
+                        break;
+                    case HttpStatusCode.Unauthorized: // 401
+                        System.Diagnostics.Debug.WriteLine("Not authorized!");
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine(e.Result.ToString());
+            }
+        }
+
+        private void PhoneApplicationPage_OrientationChanged_1(object sender, OrientationChangedEventArgs e)
+        {   
+            
+            if ( (e.Orientation == PageOrientation.PortraitUp) && !App.Mapa )
+            {
+                App.Mapa = false;
+                NavigationService.Navigate(new Uri("/LoggedMainPages/Menu.xaml", UriKind.Relative));
+                
+            }        
+        
+        }       
+
+        private void PhoneApplicationPage_BackKeyPress_1(object sender, CancelEventArgs e)
+        {
+            App.Mapa = false;
+        }
 
 
     }

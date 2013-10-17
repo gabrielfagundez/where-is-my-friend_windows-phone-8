@@ -32,7 +32,7 @@
     <Tasks>
       <DefaultTask Name="_default" NavigationPage="MainPage.xaml">
         <BackgroundExecution>
-          <ExecutionType  Name="LocationTracking" />
+          <ExecutionType Name="LocationTracking" />
         </BackgroundExecution>
       </DefaultTask>
     </Tasks>

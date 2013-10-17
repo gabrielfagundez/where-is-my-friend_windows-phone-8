@@ -21,6 +21,7 @@ namespace WhereIsMyFriend
         public static PhoneApplicationFrame RootFrame { get; private set; }
         public static Geolocator Geolocator { get; set; }
         public static bool RunningInBackground { get; set; }
+        public static bool Mapa = false;
         /// <summary>
         /// Constructor para el objeto Application.
         /// </summary>

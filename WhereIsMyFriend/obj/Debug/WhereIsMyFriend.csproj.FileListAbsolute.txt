@@ -233,3 +233,4 @@ C:\git\wmf_wp\WhereIsMyFriend\obj\Debug\WhereIsMyFriend.dll
 C:\git\wmf_wp\WhereIsMyFriend\obj\Debug\WhereIsMyFriend.pdb
 C:\git\wmf_wp\WhereIsMyFriend\obj\Debug\XapCacheFile.xml
 C:\git\wmf_wp\WhereIsMyFriend\obj\Debug\LoggedMainPages\Mapa.g.cs
+C:\Users\Guille\Documents\GitHub\wmf_wp\WhereIsMyFriend\obj\Debug\LoggedMainPages\Mapa.g.cs
