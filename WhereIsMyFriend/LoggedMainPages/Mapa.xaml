@@ -1,0 +1,59 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="WhereIsMyFriend.LoggedMainPages.Mapa"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True"
+    xmlns:maps="clr-namespace:Microsoft.Phone.Maps.Controls;assembly=Microsoft.Phone.Maps"
+    xmlns:Controls="clr-namespace:Microsoft.Phone.Maps.Controls;assembly=Microsoft.Phone.Maps"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Maps.Toolkit;assembly=Microsoft.Phone.Controls.Toolkit"
+    
+    >
+
+    <!--LayoutRoot es la cuadrícula raíz donde se coloca todo el contenido de la página-->
+    <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+        <Grid>
+
+            <maps:Map x:Name="mapWithMyLocation">
+
+            </maps:Map>
+            <Button x:Name="testFR" Background="White" Content="TEST FRIENDS POS" HorizontalAlignment="Left" Margin="31,10,0,0" VerticalAlignment="Top" Width="248" Click="testFR_Click" Height="82">
+
+            </Button>
+        </Grid>
+        <Button x:Name="zoomIN" Content="+" HorizontalAlignment="Left" Margin="335,19,0,0" VerticalAlignment="Top" Width="81" Click="zoomIN_Click">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+        <Button x:Name="zoomOUT" Content="-" HorizontalAlignment="Left" Margin="335,134,0,0" VerticalAlignment="Top" Width="81" Click="zoomOUT_Click">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+
+
+
+
+    </Grid>
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar Mode="Default" Opacity="0.99" IsMenuEnabled="False" IsVisible="True" BackgroundColor="#00aff0">
+            <shell:ApplicationBarIconButton IconUri="/Toolkit.Content/ApplicationBar.Add.png"  Text="Add" />
+
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+</phone:PhoneApplicationPage>
