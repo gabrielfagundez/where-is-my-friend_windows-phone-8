@@ -10,6 +10,7 @@ using Microsoft.Phone.Shell;
 using Windows.Devices.Geolocation;
 using WhereIsMyFriend.Classes;
 using Newtonsoft.Json;
+using System.Threading;
 
 namespace WhereIsMyFriend.LoggedMainPages
 {
@@ -167,14 +168,20 @@ namespace WhereIsMyFriend.LoggedMainPages
             }
             else
             {
-                System.Diagnostics.Debug.WriteLine("{\"FriendData\":" + e.Result + "}");
+                System.Diagnostics.Debug.WriteLine("{\"Amigos\":" + e.Result + "}");
                 var p = JsonConvert.DeserializeObject<ListaAmigos>("{\"Amigos\":" + e.Result + "}");
                 foreach (var friend in p.Amigos)
                 {
-                    System.Diagnostics.Debug.WriteLine(friend.Id);
+                    System.Diagnostics.Debug.WriteLine(friend.Mail);
                 } 
             }
         }
+
+        // THREAD ******************************************************
+
+
+       
+        
 
        
 

@@ -10,4 +10,5 @@ namespace WhereIsMyFriend.Classes
     {
         public List<FriendData> Amigos { get; set; }        
     }
+
 }
