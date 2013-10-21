@@ -30,8 +30,8 @@ namespace WhereIsMyFriend
 
             InitializeComponent();
             Loaded += MainPage_Loaded;
-            MailIngresado.Text = "mail1@mail.com"; 
-            PassIngresado.Password = "pass";
+            MailIngresado.Text = "guilledufort@mail.com"; 
+            PassIngresado.Password = "password";
             // Try to find the push channel.
             //pushChannel = HttpNotificationChannel.Find(channelName);
 
@@ -99,7 +99,7 @@ namespace WhereIsMyFriend
                 string json = "{\"Mail\":\"" + MailIngresado.Text + "\"," +
                                   "\"Password\":\"" + PassIngresado.Password + "\"}";
 
-                webClient.UploadStringAsync((new Uri("http://developmentpis.azurewebsites.net/api/Users/Login")), "POST", json);
+                webClient.UploadStringAsync((new Uri("http://testpis.azurewebsites.net/api/Users/Login")), "POST", json);
             }
             catch (WebException webex)
             {
