@@ -28,7 +28,7 @@ namespace WhereIsMyFriend.LoggedMainPages
             webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompleted);
             LoggedUser user = LoggedUser.Instance;
             UserData luser = user.GetLoggedUser();
-            Uri LoggedUserFriends = new Uri("http://serverdevelopmentpis.azurewebsites.net/api/Friends/GetAllFriends/" + luser.Id);
+            Uri LoggedUserFriends = new Uri("http://testingpis.azurewebsites.net/api/Friends/GetAllFriends/" + luser.Id);
             webClient.DownloadStringAsync(LoggedUserFriends);
 
         }

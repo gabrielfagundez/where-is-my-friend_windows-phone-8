@@ -262,7 +262,7 @@ namespace WhereIsMyFriend.LoggedMainPages
                                       "\"Longitude\":\"" + longitud + "\"}";
                     System.Diagnostics.Debug.WriteLine(json);
 
-                    webClient.UploadStringAsync((new Uri("http://serverdevelopmentpis.azurewebsites.net/api/Geolocation/SetLocation/")), "POST", json);
+                    webClient.UploadStringAsync((new Uri("http://testingpis.azurewebsites.net/api/Geolocation/SetLocation/")), "POST", json);
                 });
             }
             else
@@ -278,7 +278,7 @@ namespace WhereIsMyFriend.LoggedMainPages
                                   "\"Longitude\":\"" + longitud + "\"}";
                 System.Diagnostics.Debug.WriteLine(json);
 
-                webClient.UploadStringAsync((new Uri("http://serverdevelopmentpis.azurewebsites.net/api/Geolocation/SetLocation/")), "POST", json);
+                webClient.UploadStringAsync((new Uri("http://testingpis.azurewebsites.net/api/Geolocation/SetLocation/")), "POST", json);
 
 
                 Microsoft.Phone.Shell.ShellToast toast = new Microsoft.Phone.Shell.ShellToast();
@@ -402,7 +402,7 @@ namespace WhereIsMyFriend.LoggedMainPages
                     WebClient webClient = new WebClient();
                     webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompleted);
                     LoggedUser user = LoggedUser.Instance;
-                    webClient.DownloadStringAsync(new Uri("http://developmentpis.azurewebsites.net/api/Geolocation/GetLastFriendsLocations/" + user.GetLoggedUser().Id));
+                    webClient.DownloadStringAsync(new Uri("http://testingpis.azurewebsites.net/api/Geolocation/GetLastFriendsLocations/" + user.GetLoggedUser().Id));
 
                 }
                 catch (WebException webex)
