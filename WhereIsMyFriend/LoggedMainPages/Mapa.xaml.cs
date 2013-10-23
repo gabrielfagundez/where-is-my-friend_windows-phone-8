@@ -28,8 +28,6 @@ namespace WhereIsMyFriend.LoggedMainPages
     {
 
         string latitud, longitud = string.Empty;
-        private Worker workerObject = null;
-        private Thread workerThread = null;
         DispatcherTimer newTimer = new DispatcherTimer();
 
         public Mapa()
@@ -37,7 +35,7 @@ namespace WhereIsMyFriend.LoggedMainPages
             
             InitializeComponent();
             // timer interval specified as 1 second
-            newTimer.Interval = TimeSpan.FromSeconds(2);
+            newTimer.Interval = TimeSpan.FromSeconds(5);
             // Sub-routine OnTimerTick will be called at every 1 second
             newTimer.Tick += OnTimerTick;
             // starting the timer
@@ -60,7 +58,7 @@ namespace WhereIsMyFriend.LoggedMainPages
             // text box property is set to current system date.
             // ToString() converts the datetime value into text
             System.Diagnostics.Debug.WriteLine("Friends Update en mapa!");
-            updateFriendsPosition();            
+            DibujarAmigos();
         }
 
         //******************************************************************************************
@@ -206,8 +204,9 @@ namespace WhereIsMyFriend.LoggedMainPages
             clearMap();
             drawMyPosition();
             dragFriends();
+            DibujarAmigos();
             //Funcion que inicia el thread
-            Dibujar();
+           // Dibujar();
         }
 
         
@@ -241,6 +240,7 @@ namespace WhereIsMyFriend.LoggedMainPages
             {
                 Dispatcher.BeginInvoke(() =>
                 {
+                    System.Diagnostics.Debug.WriteLine("Actualizamos en background");
                     latitud = args.Position.Coordinate.Latitude.ToString("0.00000");
                     longitud = args.Position.Coordinate.Longitude.ToString("0.00000");
 
@@ -262,11 +262,12 @@ namespace WhereIsMyFriend.LoggedMainPages
                                       "\"Longitude\":\"" + longitud + "\"}";
                     System.Diagnostics.Debug.WriteLine(json);
 
-                    webClient.UploadStringAsync((new Uri("http://testingpis.azurewebsites.net/api/Geolocation/SetLocation/")), "POST", json);
+                    webClient.UploadStringAsync((new Uri("http://developmentpis.azurewebsites.net/api/Geolocation/SetLocation/")), "POST", json);
                 });
             }
             else
             {
+                System.Diagnostics.Debug.WriteLine("Actualizamos en de frente");
                 latitud = args.Position.Coordinate.Latitude.ToString("0.00000");
                 longitud = args.Position.Coordinate.Longitude.ToString("0.00000");
                 var webClient = new WebClient();
@@ -278,7 +279,7 @@ namespace WhereIsMyFriend.LoggedMainPages
                                   "\"Longitude\":\"" + longitud + "\"}";
                 System.Diagnostics.Debug.WriteLine(json);
 
-                webClient.UploadStringAsync((new Uri("http://testingpis.azurewebsites.net/api/Geolocation/SetLocation/")), "POST", json);
+                webClient.UploadStringAsync((new Uri("http://developmentpis.azurewebsites.net/api/Geolocation/SetLocation/")), "POST", json);
 
 
                 Microsoft.Phone.Shell.ShellToast toast = new Microsoft.Phone.Shell.ShellToast();
@@ -334,131 +335,77 @@ namespace WhereIsMyFriend.LoggedMainPages
         }
 
 
-        // THREAD ****************************************************************
-
-
-        // Funcion que inicia el thread para redibujar puntos de amigos
-        private void Dibujar()
-        {
-            // Create the thread object. This does not start the thread.
-            
-            workerObject = new Worker();
-            workerThread = new Thread(workerObject.DoWork);
-
-            // Start the worker thread.
-            workerThread.Start();
-            System.Diagnostics.Debug.WriteLine("main thread: Starting worker thread...");
-
-            // Loop until worker thread activates. 
-            while (!workerThread.IsAlive) ;
-           
-        }
 
         // Cuando me voy de la pagina apago el thread de actualizacion de puntos
         protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
         {
-            // Request that the worker thread stop itself:
+            
             newTimer.Stop();
-            workerObject.RequestStop();
-
-            // Use the Join method to block the current thread  
-            // until the object's thread terminates.
-            //workerThread.Join();
+           
             System.Diagnostics.Debug.WriteLine("Me fui de la pagina");
 
         }
 
-        //Este es el thread principal para redibujar las posiciones en el mapa de tus amigos
-
-        public class Worker
+        public void DibujarAmigos()
         {
-            // This method will be called when the thread is started. 
-            public void DoWork()
+            try
             {
-                while (!_shouldStop)
-                {
-                    //
-                    System.Diagnostics.Debug.WriteLine("Actualizamos posicion");
-                    DibujarAmigos();
-                    Thread.Sleep(5000);
-                }
-                System.Diagnostics.Debug.WriteLine("Apagamos la actualizacion");
+                WebClient webClient = new WebClient();
+                webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompleted);
+                LoggedUser user = LoggedUser.Instance;
+                webClient.DownloadStringAsync(new Uri("http://developmentpis.azurewebsites.net/api/Geolocation/GetLastFriendsLocationsById/" + user.GetLoggedUser().Id));
+
             }
-
-            public void RequestStop()
+            catch (WebException webex)
             {
-                _shouldStop = true;
-            }
-            // Volatile is used as hint to the compiler that this data 
-            // member will be accessed by multiple threads. 
-            private volatile bool _shouldStop;
+                HttpWebResponse webResp = (HttpWebResponse)webex.Response;
 
-
-            // Funcion para bajar a todas las posiciones de mis amigos
-            public void DibujarAmigos()
-            {
-                try
+                switch (webResp.StatusCode)
                 {
-                    WebClient webClient = new WebClient();
-                    webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompleted);
-                    LoggedUser user = LoggedUser.Instance;
-                    webClient.DownloadStringAsync(new Uri("http://developmentpis.azurewebsites.net/api/Geolocation/GetLastFriendsLocations/" + user.GetLoggedUser().Id));
-
-                }
-                catch (WebException webex)
-                {
-                    HttpWebResponse webResp = (HttpWebResponse)webex.Response;
-
-                    switch (webResp.StatusCode)
-                    {
-                        case HttpStatusCode.NotFound: // 404
-                            break;
-                        case HttpStatusCode.InternalServerError: // 500
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
-
-            void webClient_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
-            {
-                if ((e.Error != null) && (e.Error.GetType().Name == "WebException"))
-                {
-                    WebException we = (WebException)e.Error;
-                    HttpWebResponse response = (System.Net.HttpWebResponse)we.Response;
-
-                    switch (response.StatusCode)
-                    {
-
-                        case HttpStatusCode.NotFound: // 404
-                            System.Diagnostics.Debug.WriteLine("Not found!");
-                            break;
-                        case HttpStatusCode.Unauthorized: // 401
-                            System.Diagnostics.Debug.WriteLine("Not authorized!");
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                else
-                {
-                    System.Diagnostics.Debug.WriteLine("{\"Amigos\":" + e.Result + "}");
-                    var p = JsonConvert.DeserializeObject<ListaAmigos>("{\"Amigos\":" + e.Result + "}");
-                    PointsHandler ph = PointsHandler.Instance;
-                    int i = 0;
-                    foreach (var friend in p.Amigos)
-                    {
-                        ph.insert(i.ToString(), friend.Mail, new GeoCoordinate(Convert.ToDouble(friend.Latitude), Convert.ToDouble(friend.Longitude)));
-                        i++;
-                    }
+                    case HttpStatusCode.NotFound: // 404
+                        break;
+                    case HttpStatusCode.InternalServerError: // 500
+                        break;
+                    default:
+                        break;
                 }
             }
         }
-        
 
-        
+        void webClient_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+        {
+            if ((e.Error != null) && (e.Error.GetType().Name == "WebException"))
+            {
+                WebException we = (WebException)e.Error;
+                HttpWebResponse response = (System.Net.HttpWebResponse)we.Response;
 
+                switch (response.StatusCode)
+                {
 
+                    case HttpStatusCode.NotFound: // 404
+                        System.Diagnostics.Debug.WriteLine("Not found!");
+                        break;
+                    case HttpStatusCode.Unauthorized: // 401
+                        System.Diagnostics.Debug.WriteLine("Not authorized!");
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("{\"Amigos\":" + e.Result + "}");
+                var p = JsonConvert.DeserializeObject<ListaAmigos>("{\"Amigos\":" + e.Result + "}");
+                PointsHandler ph = PointsHandler.Instance;
+                int i = 0;
+                foreach (var friend in p.Amigos)
+                {
+                    ph.insert(i.ToString(), friend.Mail, new GeoCoordinate(Convert.ToDouble(friend.Latitude), Convert.ToDouble(friend.Longitude)));
+                    i++;
+                }
+                System.Diagnostics.Debug.WriteLine("update friend positions!");
+                updateFriendsPosition();            
+            }
+        }  
     }
 }
