@@ -99,7 +99,7 @@ namespace WhereIsMyFriend
                 string json = "{\"Mail\":\"" + MailIngresado.Text + "\"," +
                                   "\"Password\":\"" + PassIngresado.Password + "\"}";
 
-                webClient.UploadStringAsync((new Uri("http://serverdevelopmentpis.azurewebsites.net/api/Users/Login")), "POST", json);
+                webClient.UploadStringAsync((new Uri("http://developmentpis.azurewebsites.net/api/Users/Login")), "POST", json);
             }
             catch (WebException webex)
             {

@@ -25,9 +25,9 @@
             <maps:Map x:Name="mapWithMyLocation" ZoomLevel="11">
 
             </maps:Map>
-            <Button x:Name="testFR" Background="Black" Content="TEST FRIENDS POS" HorizontalAlignment="Left" Margin="31,10,0,0" VerticalAlignment="Top" Width="248" Click="testFR_Click" Height="82">
+            <!--<Button x:Name="testFR" Background="Black" Content="TEST FRIENDS POS" HorizontalAlignment="Left" Margin="31,10,0,0" VerticalAlignment="Top" Width="248" Click="testFR_Click" Height="82">
 
-            </Button>
+            </Button>-->
         </Grid>
         <Button x:Name="zoomIN" Content="+" HorizontalAlignment="Left" Margin="335,19,0,0" VerticalAlignment="Top" Width="81" Click="zoomIN_Click">
             <Button.Background>

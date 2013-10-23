@@ -262,7 +262,7 @@ namespace WhereIsMyFriend.LoggedMainPages
                                       "\"Longitude\":\"" + longitud + "\"}";
                     System.Diagnostics.Debug.WriteLine(json);
 
-                    webClient.UploadStringAsync((new Uri("http://serverdevelopmentpis.azurewebsites.net/api/Geolocation/SetLocation/")), "POST", json);
+                    webClient.UploadStringAsync((new Uri("http://testingpis.azurewebsites.net/api/Geolocation/SetLocation/")), "POST", json);
                 });
             }
             else
@@ -278,7 +278,7 @@ namespace WhereIsMyFriend.LoggedMainPages
                                   "\"Longitude\":\"" + longitud + "\"}";
                 System.Diagnostics.Debug.WriteLine(json);
 
-                webClient.UploadStringAsync((new Uri("http://serverdevelopmentpis.azurewebsites.net/api/Geolocation/SetLocation/")), "POST", json);
+                webClient.UploadStringAsync((new Uri("http://testingpis.azurewebsites.net/api/Geolocation/SetLocation/")), "POST", json);
 
 
                 Microsoft.Phone.Shell.ShellToast toast = new Microsoft.Phone.Shell.ShellToast();
