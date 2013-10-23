@@ -17,7 +17,8 @@ namespace WhereIsMyFriend.LoggedMainPages
         
         public Menu()
         {
-            InitializeComponent();         
+            InitializeComponent();
+            TiltEffect.TiltableItems.Add(typeof(Grid)); 
             
             
         }

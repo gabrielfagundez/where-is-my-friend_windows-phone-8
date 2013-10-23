@@ -36,7 +36,7 @@
     </toolkit:TransitionService.NavigationOutTransition>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="#FFF" Margin="20,0,0,0">
+    <Grid x:Name="LayoutRoot" Background="#FFF" Margin="10,0,10,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="150"/>
@@ -46,12 +46,12 @@
 
         <!--AppTitlePanel contains the name of the application-->
 
-        <Grid x:Name="AppTitlePanel" Grid.Row="0" Margin="0,0,0,0" Background="#FFF" >
-            <TextBlock Text="Where is my friend?"
+        <Grid x:Name="AppTitlePanel" Grid.Row="0" Margin="0,8,0,142" Background="#FFF" Grid.RowSpan="2" >
+            <Image Source="/Assets/Images/LogoCeleste.png"
                        HorizontalAlignment="Left"
-                       VerticalAlignment="Center"
-                       Margin="0,0,0,0" 
-                       Foreground="#00aff0" FontFamily="Segoe WP Light" FontSize="30"/>
+                       VerticalAlignment="Bottom"
+                       Margin="0,-1,0,1" 
+                       />
         </Grid>
 
         <!--TitlePanel contains the name of the application and page title-->
@@ -64,7 +64,7 @@
         		Margin="0,0,0,0" 
         		Foreground="#00aff0"
                 FontFamily="Segoe WP Light"
-                FontSize="100"
+                FontSize="95"
                 FontWeight="Thin"/>
         </Grid>
 
@@ -164,6 +164,7 @@
                     Width="300"
                     Background="#00aff0" Tap="EnviarDatosLogin_Tap" />
             </Grid>-->
+
 
 
 

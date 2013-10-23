@@ -30,8 +30,8 @@ namespace WhereIsMyFriend
 
             InitializeComponent();
             Loaded += MainPage_Loaded;
-            MailIngresado.Text = "mail1@mail.com"; 
-            PassIngresado.Password = "pass";
+            MailIngresado.Text = "guilledufort@mail.com"; 
+            PassIngresado.Password = "password";
             // Try to find the push channel.
             //pushChannel = HttpNotificationChannel.Find(channelName);
 

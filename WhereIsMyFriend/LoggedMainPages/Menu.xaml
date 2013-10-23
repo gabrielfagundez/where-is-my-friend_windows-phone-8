@@ -7,7 +7,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
-     xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -37,7 +36,7 @@
     </toolkit:TransitionService.NavigationOutTransition>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="#FFF" Margin="0,0,0,0">
+    <Grid x:Name="LayoutRoot" Background="#FFF" Margin="10,0,10,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="150"/>
             <RowDefinition Height="8*"/>
@@ -48,45 +47,45 @@
 
         <!--TitlePanel contains the name of frame-->
         <Grid x:Name="TitlePanel" Grid.Row="0" Margin="0,0,0,0" Background="#FFF">
-            <TextBlock Text="share"
+            <Image Source="/Assets/Images/LogoCeleste.png"
         		HorizontalAlignment="Left"
-        		VerticalAlignment="Stretch"
-        		Margin="12,0,0,0" 
-        		Foreground="#00aff0"
-        		Style="{StaticResource PhoneTextTitle1Style}" 
-                FontFamily="Segoe WP Light"
-                FontSize="100"
+        		VerticalAlignment="Bottom"
+        		Margin="0,0,0,0"
                 Width="Auto"/>
         </Grid>
 
         <!--Aca esta el contenido principal -->
 
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0,0,0,0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-        </Grid>
+
 
         <Grid x:Name="Tiles" Grid.Row="1" Margin="12,0,12,0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <toolkit:HubTile Grid.Row="0" Grid.Column="0" GroupTag="hubs0"  Title="Friends" Background="#00aff0" Source="/Assets/images/friends.png"  Margin="10" Tap="HubTile_Tap"/>
+            <!--<toolkit:HubTile Grid.Row="0" Grid.Column="0" GroupTag="hubs0"  Title="Friends" Background="#00aff0" Source="/Assets/images/friends.png"  Margin="10" Tap="HubTile_Tap"/>
             <toolkit:HubTile Grid.Row="0" Grid.Column="1" GroupTag="hubs1"  Title="Requests"  Background="#00aff0" Margin="10"/>
 
-            <toolkit:HubTile Grid.Row="1" Grid.Column="0" GroupTag="hubs1"  Title="Map"  Background="#00aff0" Source="/Assets/images/map.png"  Margin="10" Tap="HubTile_Tap_1"/>
+            <toolkit:HubTile Grid.Row="1" Grid.Column="0" GroupTag="hubs1"  Title="Map"  Background="#00aff0" Source="/Assets/images/map.png"  Margin="10" Tap="HubTile_Tap_1"/>-->
+            <Grid  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" toolkit:TiltEffect.IsTiltEnabled="True" Background="#00aff0" Margin="10"  Tap="HubTile_Tap_1"  >
+                <Image Name="mapImage" Grid.Column="0"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-5, 10, 0, 0" Width="100" Height="100" Source="/Assets/Images/map.png" />
+                <TextBlock Name="map" Margin="10, 0, 5, 10" Text="Map" Width="100" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontFamily="Segoe UI" FontSize="26" Foreground ="White"/>
+            </Grid>
+            <Grid  Grid.Row="0" Grid.Column="0"  toolkit:TiltEffect.IsTiltEnabled="True" Background="#00aff0" Margin="10" Tap="HubTile_Tap" >
+                <Image Name="friendsImage" Grid.Column="0"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="34,28,39,45" Width="120" Height="120" Source="/Assets/Images/friends.png" />
+                <TextBlock Name="friends" Margin="10, 0, 5, 10" Text="Friends" Width="100" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontFamily="Segoe UI" FontSize="26" Foreground ="White"/>
+            </Grid>
+            <Grid  Grid.Row="0" Grid.Column="1" toolkit:TiltEffect.IsTiltEnabled="True"  Background="#00aff0" Margin="10"  >
+                <TextBlock Name="requestsImage" Grid.Column="0" Text=" 5"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="47,42,51,77" Width="100" Height="100" FontFamily="Segoe UI" FontSize="90" Foreground ="White" />
+                <TextBlock Name="requests" Margin="10, 0, 5, 10" Text="Requests" Width="120" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontFamily="Segoe UI" FontSize="26" Foreground ="White"/>
+            </Grid>
        
         </Grid>
+
 
 
 
