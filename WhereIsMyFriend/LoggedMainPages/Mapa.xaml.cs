@@ -113,11 +113,11 @@ namespace WhereIsMyFriend.LoggedMainPages
         {
             clearMap();
             drawMyPosition();
-            dragFriends();
+            drawFriends();
         }
 
         //******************************************************************************************
-        private void dragFriends()
+        private void drawFriends()
         {
             PointsHandler ph = PointsHandler.Instance;
             List<KeyValuePair<string, nodo>> l = ph.allCoords();
@@ -210,7 +210,7 @@ namespace WhereIsMyFriend.LoggedMainPages
             this.mapWithMyLocation.Center = pos2;
             clearMap();
             drawMyPosition();
-            dragFriends();
+            drawFriends();
             DibujarAmigos();
             //Funcion que inicia el thread
            // Dibujar();
@@ -258,7 +258,7 @@ namespace WhereIsMyFriend.LoggedMainPages
                     this.mapWithMyLocation.Center = pos;
                     clearMap();
                     drawMyPosition();
-                    dragFriends();
+                    drawFriends();
 
                     var webClient = new WebClient();
                     webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
