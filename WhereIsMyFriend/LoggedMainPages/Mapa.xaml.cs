@@ -65,12 +65,19 @@ namespace WhereIsMyFriend.LoggedMainPages
 
         private void zoomOUT_Click(object sender, RoutedEventArgs e)
         {
-            mapWithMyLocation.ZoomLevel--;
+            if (mapWithMyLocation.ZoomLevel > 1)
+            {
+                mapWithMyLocation.ZoomLevel--;
+            }
+            
         }
 
         private void zoomIN_Click(object sender, RoutedEventArgs e)
         {
-            mapWithMyLocation.ZoomLevel++;
+            if (mapWithMyLocation.ZoomLevel < 20)
+            {
+                mapWithMyLocation.ZoomLevel++;
+            }
         }
 
         //******************************************************************************************
