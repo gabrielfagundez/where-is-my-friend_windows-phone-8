@@ -147,6 +147,7 @@ namespace WhereIsMyFriend
                 user.SetLoggedUser(JsonConvert.DeserializeObject<UserData>(e.Result));
                 ErrorBlock.Visibility = System.Windows.Visibility.Collapsed;
                 NavigationService.Navigate(new Uri("/LoggedMainPages/Menu.xaml", UriKind.Relative));
+
             }
         }
         //void PushChannel_ChannelUriUpdated(object sender, NotificationChannelUriEventArgs e)

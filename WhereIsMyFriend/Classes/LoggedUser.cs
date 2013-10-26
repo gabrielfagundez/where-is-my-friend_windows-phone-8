@@ -14,6 +14,7 @@ namespace WhereIsMyFriend.Classes
         private LoggedUser() { }
         private UserData user;
         private List<UserData> Friends;
+        private List<UserData> Requests;
 
         public static LoggedUser Instance
         {
@@ -86,6 +87,18 @@ namespace WhereIsMyFriend.Classes
         {
             return this.Friends;
         }
+        public void  deleteUserRequests(UserData u)
+        {
+            this.Requests.Remove(u);
+        }
+        public void setRequests(List<UserData> f)
+        {
+            this.Requests = f;
+        }
+        public List<UserData> getRequests()
+        {
+            return this.Requests;
+        }
         
         public UserData RegisterUser()
         {
@@ -93,20 +106,18 @@ namespace WhereIsMyFriend.Classes
             return this.user;
         }
 
-        public void LogOut()
-        {            
+        public async Task LogOut()
+        {
             this.user = null;
             Session session = new Session();
             session.RemoveStringObject("Email");
-            session.RemoveStringObject("FacebookId");
             session.RemoveStringObject("Id");
             session.RemoveStringObject("LinkedInId");
             session.RemoveStringObject("Name");
             session.RemoveStringObject("Password");
             session.RemoveStringObject("AccessToken");
             session.RemoveStringObject("FacebookId");
-            //FacebookSessionCacheProvider.Current.DeleteSessionData();          
-            
+
         }
 
         

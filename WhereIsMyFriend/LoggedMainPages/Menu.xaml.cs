@@ -54,5 +54,30 @@ namespace WhereIsMyFriend.LoggedMainPages
         {
             NavigationService.Navigate(new Uri("/LoggedMainPages/Mapa.xaml", UriKind.Relative));
         }
+
+        private void ApplicationBarIconButton_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/LoggedMainPages/Settings.xaml", UriKind.Relative));
+        }
+
+        private void Grid_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            LoggedUser user = LoggedUser.Instance;
+            List<UserData> requests = new List<UserData>();
+            UserData usuario1 = new UserData();
+            UserData usuario2 = new UserData();
+            UserData usuario3 = new UserData();
+            UserData usuario4 = new UserData();
+            usuario1.Name = "Jhon Smith";
+            usuario2.Name = "Tom Jones";
+            usuario3.Name = "Jamie Oliver";
+            usuario4.Name = "Amanda Jones";
+            requests.Add(usuario1);
+            requests.Add(usuario2);
+            requests.Add(usuario3);
+            requests.Add(usuario4);
+            user.setRequests(requests);
+            NavigationService.Navigate(new Uri("/LoggedMainPages/Requests.xaml", UriKind.Relative));
+        }
     }
 }

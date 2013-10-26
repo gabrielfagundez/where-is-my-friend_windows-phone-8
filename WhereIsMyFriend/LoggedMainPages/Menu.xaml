@@ -79,7 +79,7 @@
                 <Image Name="friendsImage" Grid.Column="0"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="34,28,39,45" Width="120" Height="120" Source="/Assets/Images/friends.png" />
                 <TextBlock Name="friends" Margin="10, 0, 5, 10" Text="Friends" Width="100" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontFamily="Segoe UI" FontSize="26" Foreground ="White"/>
             </Grid>
-            <Grid  Grid.Row="0" Grid.Column="1" toolkit:TiltEffect.IsTiltEnabled="True"  Background="#00aff0" Margin="10"  >
+            <Grid  Grid.Row="0" Grid.Column="1" toolkit:TiltEffect.IsTiltEnabled="True"  Background="#00aff0" Margin="10" Tap="Grid_Tap" >
                 <TextBlock Name="requestsImage" Grid.Column="0" Text=" 5"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="47,42,51,77" Width="100" Height="100" FontFamily="Segoe UI" FontSize="90" Foreground ="White" />
                 <TextBlock Name="requests" Margin="10, 0, 5, 10" Text="Requests" Width="120" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontFamily="Segoe UI" FontSize="26" Foreground ="White"/>
             </Grid>
@@ -97,7 +97,7 @@
 
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar Mode="Default" Opacity="0.99" IsMenuEnabled="False" IsVisible="True" BackgroundColor="#00aff0">
-            <shell:ApplicationBarIconButton IconUri="/Toolkit.Content/feature.settings.png"  Text="Settings" />
+            <shell:ApplicationBarIconButton IconUri="/Toolkit.Content/feature.settings.png"  Text="Settings" Click="ApplicationBarIconButton_Click" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 

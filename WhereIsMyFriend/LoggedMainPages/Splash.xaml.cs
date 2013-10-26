@@ -30,7 +30,7 @@ namespace WhereIsMyFriend.LoggedMainPages
             }
             else
             {
-                a = new Uri("/MainPage.xaml", UriKind.Relative);
+                a = new Uri("/LoggedMainPages/Menu.xaml", UriKind.Relative);
             }
             // timer interval specified as 1 second
             newTimer.Interval = TimeSpan.FromSeconds(1);

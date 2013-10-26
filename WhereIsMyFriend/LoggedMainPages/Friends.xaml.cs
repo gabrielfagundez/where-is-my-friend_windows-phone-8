@@ -59,7 +59,6 @@ namespace WhereIsMyFriend.LoggedMainPages
                 switch (e1.Result)
                 {
                     case CustomMessageBoxResult.LeftButton:
-                        // Acción.
                         break;
                     case CustomMessageBoxResult.RightButton:
                         // Acción.

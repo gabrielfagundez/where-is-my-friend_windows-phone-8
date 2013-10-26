@@ -314,6 +314,7 @@ C:\Users\Carmela\Documents\VisualStudio2013\Projects\WhereIsMyFriend\WhereIsMyFr
 C:\Users\Carmela\Documents\VisualStudio2013\Projects\WhereIsMyFriend\WhereIsMyFriend\obj\Debug\WhereIsMyFriend.dll
 C:\Users\Carmela\Documents\VisualStudio2013\Projects\WhereIsMyFriend\WhereIsMyFriend\obj\Debug\WhereIsMyFriend.pdb
 C:\Users\Carmela\Documents\VisualStudio2013\Projects\WhereIsMyFriend\WhereIsMyFriend\obj\Debug\XapCacheFile.xml
+<<<<<<< Updated upstream
 C:\wmf_wp\WhereIsMyFriend\Bin\Debug\Assets\ApplicationIcon.png
 C:\wmf_wp\WhereIsMyFriend\Bin\Debug\Assets\Tiles\FlipCycleTileLarge.png
 C:\wmf_wp\WhereIsMyFriend\Bin\Debug\Assets\Tiles\FlipCycleTileMedium.png
@@ -394,3 +395,6 @@ C:\wmf_wp\WhereIsMyFriend\obj\Debug\WhereIsMyFriend.csproj.GenerateResource.Cach
 C:\wmf_wp\WhereIsMyFriend\obj\Debug\WhereIsMyFriend.dll
 C:\wmf_wp\WhereIsMyFriend\obj\Debug\WhereIsMyFriend.pdb
 C:\wmf_wp\WhereIsMyFriend\obj\Debug\XapCacheFile.xml
+=======
+C:\Users\Carmela\Documents\VisualStudio2013\Projects\WhereIsMyFriend\WhereIsMyFriend\obj\Debug\LoggedMainPages\Settings.g.cs
+>>>>>>> Stashed changes

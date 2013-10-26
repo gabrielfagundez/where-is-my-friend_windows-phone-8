@@ -14,22 +14,93 @@
     shell:SystemTray.IsVisible="True">
 
     <!--LayoutRoot es la cuadrícula raíz donde se coloca todo el contenido de la página-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid x:Name="LayoutRoot" Background="#FFF" Margin="10,0,10,0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="8*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="80"/>
         </Grid.RowDefinitions>
 
-        <!--TitlePanel contiene el nombre de la aplicación y el título de la página-->
-        <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="MI APLICACIÓN" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock Text="Requests" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
-        </StackPanel>
-
-        <!--ContentPanel. Colocar aquí el contenido adicional-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-
+        <!--TitlePanel contains the name of frame-->
+        <Grid x:Name="TitlePanel" Grid.Row="0" Margin="0,0,0,0" Background="#FFF">
+            <TextBlock Text="requests"
+				HorizontalAlignment="Left"
+				VerticalAlignment="Stretch"
+				Foreground="#00aff0"
+				Style="{StaticResource PhoneTextTitle1Style}" 
+				FontFamily="Segoe WP Light"
+				FontSize="100"
+				Width="Auto" Margin="10,0,0,0"/>
         </Grid>
+
+        <!--Aca esta el contenido principal -->
+
+
+
+        <Grid x:Name="List" Grid.Row="1" Margin="0">
+
+
+            <ListBox x:Name="RequestsList" Background="Transparent"   Margin="0,0,0,0" >
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="104"/>
+
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="94"/>
+                                <ColumnDefinition Width="250"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid x:Name="Name" Grid.Column="1">
+                                <TextBlock 
+                                 Margin="10"  
+                                 Foreground ="Black" 
+                                 HorizontalAlignment="Left" 
+                                 VerticalAlignment="Center" 
+                                 Text="{Binding Name}"
+                                 FontSize="35" />
+                            </Grid>
+                            <Grid x:Name="Image" Grid.Column="0">
+                                <Image 
+                                 Margin="10"
+                                 HorizontalAlignment="Left" 
+                                 VerticalAlignment="Center" 
+                                 Source="/Assets/Images/friendspic.png"  
+                                 />
+                            </Grid>
+                            <Grid x:Name="Button1"  Grid.Row="0" Grid.Column="2"  >
+                                <Button Background="#00aff0" Height="70" Width="70" Padding="0" HorizontalAlignment="Left" 
+                                 VerticalAlignment="Center" Click="OkButton_Click">
+                                    <Button.Content>
+                                      <Image Source="/Toolkit.Content/ApplicationBar.Check.png" />
+                                    </Button.Content>
+                                </Button>
+                            </Grid>
+                            <Grid x:Name="Button2" Grid.Row="0" Grid.Column="3"  >
+                                <Button Background="#b6b6b6" Padding="0" Height="70" Width="70" HorizontalAlignment="Left" VerticalAlignment="Center" Click="CancelButton_Click">
+                                    <Button.Content>
+                                        <Image Source="/Toolkit.Content/ApplicationBar.Cancel.png" />
+                                    </Button.Content>
+                                </Button>
+                            </Grid>
+
+
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+
+            </ListBox>
+        </Grid>
+
+
+
+
+
     </Grid>
 
 </phone:PhoneApplicationPage>

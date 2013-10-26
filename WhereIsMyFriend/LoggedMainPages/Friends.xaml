@@ -42,7 +42,7 @@
 
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar Mode="Default" Opacity="0.99" IsMenuEnabled="False" IsVisible="True" BackgroundColor="#00aff0">
-            <shell:ApplicationBarIconButton IconUri="/Toolkit.Content/feature.settings.png"  Text="Settings" />
+            <shell:ApplicationBarIconButton IconUri="/Toolkit.Content/feature.search.png"  Text="Settings" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 
@@ -58,7 +58,7 @@
 
         <!--TitlePanel contains the name of frame-->
         <Grid x:Name="TitlePanel" Grid.Row="0" Margin="0,0,0,0" Background="#FFF">
-            <TextBlock Text="Friends"
+            <TextBlock Text="friends"
 				HorizontalAlignment="Left"
 				VerticalAlignment="Stretch"
 				Foreground="#00aff0"
@@ -80,7 +80,29 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>  
                         <Grid>
-                            <TextBlock Margin="0,10,0,10"   Foreground ="Black" Text="{Binding Name}" FontSize="45"/>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="94"/>
+             
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="94"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid x:Name="Name" Grid.Column="1">
+                                <TextBlock 
+                                 Margin="10"  
+                                 Foreground ="Black" 
+                                 Text="{Binding Name}"
+                                 FontSize="35" />
+                            </Grid>
+                            <Grid x:Name="Image" Grid.Row="0" Grid.Column="0">
+                                <Image 
+                                 Margin="10"
+                                 HorizontalAlignment="Left" 
+                                 VerticalAlignment="Center" 
+                                 Source="/Assets/Images/friendspic.png"  
+                                 />
+                            </Grid>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
