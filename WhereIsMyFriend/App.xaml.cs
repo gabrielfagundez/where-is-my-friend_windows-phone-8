@@ -22,6 +22,7 @@ namespace WhereIsMyFriend
         public static Geolocator Geolocator { get; set; }
         public static bool RunningInBackground { get; set; }
         public static bool Mapa = false;
+        public static string webService = "http://serverdevelopmentpis.azurewebsites.net";
         /// <summary>
         /// Constructor para el objeto Application.
         /// </summary>

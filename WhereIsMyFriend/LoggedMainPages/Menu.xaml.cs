@@ -29,7 +29,7 @@ namespace WhereIsMyFriend.LoggedMainPages
             webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompleted);
             LoggedUser user = LoggedUser.Instance;
             UserData luser = user.GetLoggedUser();
-            Uri LoggedUserFriends = new Uri("http://developmentpis.azurewebsites.net/api/Friends/GetAllFriends/" + luser.Id);
+            Uri LoggedUserFriends = new Uri(App.webService + "/api/Friends/GetAllFriends/" + luser.Id);
             webClient.DownloadStringAsync(LoggedUserFriends);
 
         }
@@ -55,12 +55,7 @@ namespace WhereIsMyFriend.LoggedMainPages
             NavigationService.Navigate(new Uri("/LoggedMainPages/Mapa.xaml", UriKind.Relative));
         }
 
-        private void ApplicationBarIconButton_Click(object sender, EventArgs e)
-        {
-            NavigationService.Navigate(new Uri("/LoggedMainPages/Settings.xaml", UriKind.Relative));
-        }
-
-        private void Grid_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private void Requests_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             LoggedUser user = LoggedUser.Instance;
             List<UserData> requests = new List<UserData>();
@@ -78,6 +73,13 @@ namespace WhereIsMyFriend.LoggedMainPages
             requests.Add(usuario4);
             user.setRequests(requests);
             NavigationService.Navigate(new Uri("/LoggedMainPages/Requests.xaml", UriKind.Relative));
+
+        }
+
+        private void Settings_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/LoggedMainPages/Settings.xaml", UriKind.Relative));
+
         }
     }
 }
