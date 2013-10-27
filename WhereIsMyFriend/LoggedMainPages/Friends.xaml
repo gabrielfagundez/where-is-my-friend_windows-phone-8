@@ -40,14 +40,10 @@
 
     <!--Application Bar-->
 
-    <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default" Opacity="0.99" IsMenuEnabled="False" IsVisible="True" BackgroundColor="#00aff0">
-            <shell:ApplicationBarIconButton IconUri="/Toolkit.Content/feature.search.png"  Text="Settings" />
-        </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar>
+   
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="#FFF" Margin="0,0,0,0">
+    <Grid x:Name="LayoutRoot" Background="#FFF" Margin="10,0,10,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="150"/>
             <RowDefinition Height="8*"/>
@@ -58,14 +54,12 @@
 
         <!--TitlePanel contains the name of frame-->
         <Grid x:Name="TitlePanel" Grid.Row="0" Margin="0,0,0,0" Background="#FFF">
-            <TextBlock Text="friends"
-				HorizontalAlignment="Left"
-				VerticalAlignment="Stretch"
-				Foreground="#00aff0"
-				Style="{StaticResource PhoneTextTitle1Style}" 
-				FontFamily="Segoe WP Light"
-				FontSize="100"
-				Width="Auto" Margin="10,0,0,0"/>
+            <TextBlock Text="{Binding Path=LocalizedResources.FriendsTitle, Source={StaticResource LocalizedStrings}}"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Margin="0,0,0,0" 
+                Foreground="#00aff0"
+                Style="{StaticResource PhoneTextTitle1Style}"/>
         </Grid>
 
         <!--Aca esta el contenido principal -->
@@ -75,7 +69,7 @@
         <Grid x:Name="List" Grid.Row="1" Margin="0,20,0,20">
 
 
-            <ListBox x:Name="FriendsList" Background="Transparent"   Margin="12,0,12,0" SelectionChanged="Select">
+            <ListBox x:Name="FriendsList" Background="Transparent"   Margin="0,0,0,0" SelectionChanged="Select">
 
                 <ListBox.ItemTemplate>
                     <DataTemplate>  

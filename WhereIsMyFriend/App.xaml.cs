@@ -9,6 +9,8 @@ using Microsoft.Phone.Shell;
 using WhereIsMyFriend.Resources;
 using System.Windows.Media;
 using Windows.Devices.Geolocation;
+using WhereIsMyFriend.Classes;
+using System.IO.IsolatedStorage;
 
 namespace WhereIsMyFriend
 {
@@ -22,7 +24,8 @@ namespace WhereIsMyFriend
         public static Geolocator Geolocator { get; set; }
         public static bool RunningInBackground { get; set; }
         public static bool Mapa = false;
-        public static string webService = "http://serverdevelopmentpis.azurewebsites.net";
+        public static string webService = "http://testingpis.azurewebsites.net";
+        
         /// <summary>
         /// Constructor para el objeto Application.
         /// </summary>
@@ -60,6 +63,19 @@ namespace WhereIsMyFriend
                 PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             }
 
+        }
+        private void checkFirstTimeLaunch()
+        {
+            var settings = IsolatedStorageSettings.ApplicationSettings;
+            if (!settings.Contains("WasLaunched"))
+            {
+                settings.Add("WasLaunched", true);
+            }
+            else
+            {
+                settings.Remove("WasLaunched");
+                settings.Add("WasLaunched", false);
+            }
         }
 
         // Código para ejecutar cuando la aplicación se inicia (p.ej. a partir de Inicio)

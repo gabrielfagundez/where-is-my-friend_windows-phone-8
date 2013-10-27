@@ -122,82 +122,82 @@
     <comment>Controls the FlowDirection for all elements in the RootFrame. Set to the traditional direction of this resource file's language</comment>
   </data>
   <data name="ResourceLanguage" xml:space="preserve">
-    <value>en-US</value>
+    <value>es-ES</value>
     <comment>Controls the Language and ensures that the font for all elements in the RootFrame aligns with the app's language. Set to the language code of this resource file's language.</comment>
   </data>
   <data name="LoginTitle" xml:space="preserve">
-    <value>login</value>
+    <value>iniciar sesión</value>
   </data>
   <data name="AppBarLoginButtonText" xml:space="preserve">
-    <value>login</value>
+    <value>iniciar sesión</value>
   </data>
   <data name="AppBarMenuItemText" xml:space="preserve">
     <value>Elemento de menú</value>
   </data>
   <data name="FriendsTitle" xml:space="preserve">
-    <value>friends</value>
+    <value>amigos</value>
   </data>
   <data name="LanguageTitle" xml:space="preserve">
-    <value>Language</value>
+    <value>Idioma</value>
   </data>
   <data name="MailTitle" xml:space="preserve">
     <value>Mail</value>
   </data>
   <data name="PasswordTitle" xml:space="preserve">
-    <value>Password</value>
+    <value>Contraseña</value>
   </data>
   <data name="RequestsTitle" xml:space="preserve">
-    <value>requests</value>
+    <value>solicitudes</value>
   </data>
   <data name="SettingsTitle" xml:space="preserve">
-    <value>settings</value>
+    <value>configuración</value>
   </data>
   <data name="WrongMailError" xml:space="preserve">
-    <value>The email you entered is not correct</value>
+    <value>El mail ingresado no es correcto</value>
   </data>
   <data name="WrongPasswordError" xml:space="preserve">
-    <value>The password you entered is not correct</value>
+    <value>La constraseña ingresada no es correcta</value>
   </data>
   <data name="AppBarAddButtonText" xml:space="preserve">
-    <value>Add</value>
+    <value>agregar</value>
   </data>
   <data name="AppBarLogoutButtonText" xml:space="preserve">
-    <value>logout</value>
+    <value>cerrar sesión</value>
   </data>
   <data name="AppBarSearchButtonText" xml:space="preserve">
-    <value>Search</value>
+    <value>Buscar</value>
   </data>
   <data name="FriendsTitleTile" xml:space="preserve">
-    <value>Friends</value>
+    <value>Amigos</value>
   </data>
   <data name="invalidMail" xml:space="preserve">
-    <value>Enter your email</value>
+    <value>Ingrese su email</value>
   </data>
   <data name="invalidPassword" xml:space="preserve">
-    <value>Enter your password</value>
+    <value>Ingrese su contraseña</value>
   </data>
   <data name="MapTitleTile" xml:space="preserve">
-    <value>Map</value>
+    <value>Mapa</value>
   </data>
   <data name="RequestsTitleTile" xml:space="preserve">
-    <value>Requests</value>
+    <value>Solicitudes</value>
   </data>
   <data name="CancelTitle" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Cancelar</value>
   </data>
   <data name="NoTitle" xml:space="preserve">
     <value>No</value>
   </data>
   <data name="OkTitle" xml:space="preserve">
-    <value>Ok</value>
+    <value>Aceptar</value>
   </data>
   <data name="sendRequest1Title" xml:space="preserve">
-    <value>Do you want to send </value>
+    <value>¿Desea enviarle una solicitud a </value>
   </data>
   <data name="sendRequest2Title" xml:space="preserve">
-    <value> a request to know where he/she is?</value>
+    <value> para saber donde se encuentra?</value>
   </data>
   <data name="YesTitle" xml:space="preserve">
-    <value>Yes</value>
+    <value>Si</value>
   </data>
 </root>

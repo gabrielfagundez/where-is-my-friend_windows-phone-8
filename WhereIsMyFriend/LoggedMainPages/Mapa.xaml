@@ -50,10 +50,5 @@
 
 
     </Grid>
-    <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default" Opacity="0.99" IsMenuEnabled="False" IsVisible="True" BackgroundColor="#00aff0">
-            <shell:ApplicationBarIconButton IconUri="/Toolkit.Content/ApplicationBar.Add.png"  Text="Add" />
-
-        </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar>
+ 
 </phone:PhoneApplicationPage>

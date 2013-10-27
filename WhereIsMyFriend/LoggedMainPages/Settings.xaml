@@ -24,9 +24,7 @@
         </Grid.RowDefinitions>
 
         <!--TitlePanel contiene el nombre de la aplicación y el título de la página-->
-        <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="settings" Margin="9,-7,0,0" Foreground="#00aff0" Style="{StaticResource PhoneTextTitle1Style}"/>
-        </StackPanel>
+    
 
 
         <!--ContentPanel. Colocar aquí el contenido adicional-->
@@ -37,16 +35,12 @@
         <Grid x:Name="TitlePanel" Grid.Row="0" Margin="0,0,0,0" Background="#FFF">
 
             <!--Este es el titulo superior-->
-            <TextBlock Text="settings"
+            <TextBlock Text="{Binding Path=LocalizedResources.SettingsTitle, Source={StaticResource LocalizedStrings}}"
                        HorizontalAlignment="Left"
                        VerticalAlignment="Center"
                        Margin="0,0,0,0" 
                        Foreground="#00aff0"
-                       Style="{StaticResource PhoneTextTitle1Style}" 
-                       FontFamily="Segoe WP Light" 
-                       Height="144" 
-                       Width="320" 
-                       FontSize="90"/>
+                       Style="{StaticResource PhoneTextTitle1Style}"/>
         </Grid>
 
         <!--Informacion del usuario-->
@@ -110,7 +104,8 @@
             <Grid x:Name="Mail1" Grid.Row="1" Grid.Column="0">
                 <TextBlock 
                     Foreground="#00aff0" 
-                    Margin="0,0,0,0" Text="Mail" 
+                    Margin="0,0,0,0" 
+                    Text="{Binding Path=LocalizedResources.MailTitle, Source={StaticResource LocalizedStrings}}" 
                     HorizontalAlignment="Left" 
                     VerticalAlignment="Center" 
                     FontSize="30" />
@@ -122,7 +117,7 @@
                     x:Name="PasswordLable1"
                     Foreground="#00aff0" 
                     Margin="0,0,-30,0" 
-                    Text="Password" 
+                    Text="{Binding Path=LocalizedResources.PasswordTitle, Source={StaticResource LocalizedStrings}}" 
                     HorizontalAlignment="Left" 
                     VerticalAlignment="Center" 
                     FontSize="30" />
@@ -177,12 +172,7 @@
     </Grid>
 
     <!--Application Bar-->
-    <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default" Opacity="0.99" IsMenuEnabled="False" IsVisible="True" BackgroundColor="#00aff0">
-            <shell:ApplicationBarIconButton IconUri="/Toolkit.Content/ApplicationBar.Check.png"  Text="Check" />
-            <shell:ApplicationBarIconButton IconUri="/Assets/images/Logout-32.png" Click="ApplicationBarIconButton_Click"  Text="Logout" />
-        </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar>
+  
 
 
 </phone:PhoneApplicationPage>

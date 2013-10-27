@@ -6,13 +6,13 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True" >
 
     <toolkit:TransitionService.NavigationInTransition>
         <toolkit:NavigationInTransition>
@@ -36,7 +36,7 @@
     </toolkit:TransitionService.NavigationOutTransition>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="#FFF" Margin="10,0,10,0">
+    <Grid x:Name="LayoutRoot" Background="#FFF" Margin="20,20,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="150"/>
@@ -45,6 +45,7 @@
         </Grid.RowDefinitions>
 
         <!--AppTitlePanel contains the name of the application-->
+
 
         <Grid x:Name="AppTitlePanel" Grid.Row="0" Margin="0,8,0,142" Background="#FFF" Grid.RowSpan="2" >
             <Image Source="/Assets/Images/LogoCeleste.png"
@@ -56,20 +57,18 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <Grid x:Name="TitlePanel" Grid.Row="1" Margin="0,0,0,0" Background="#FFF">
-            <TextBlock Text="login"
+            <TextBlock Text="{Binding Path=LocalizedResources.LoginTitle, Source={StaticResource LocalizedStrings}}"
         		HorizontalAlignment="Left"
         		VerticalAlignment="Center"
                 Height="Auto"
                 Width="Auto"
         		Margin="0,0,0,0" 
         		Foreground="#00aff0"
-                FontFamily="Segoe WP Light"
-                FontSize="95"
-                FontWeight="Thin"/>
+                Style="{StaticResource PhoneTextTitle1Style}"/>
         </Grid>
 
         <!--StackPanel - place additional content here-->
-        <Grid x:Name="SocialGrid" Grid.Row="2" Margin="5,0,0,0">
+        <Grid x:Name="SocialGrid" Grid.Row="2" Margin="0,0,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="3*"/>
@@ -92,8 +91,7 @@
             <!-- #1 -->
             <Grid x:Name="LabelMail" Grid.Row="1" Margin="0,0,0,0" Background="#FFF">
                 <TextBlock
-                    Text="Mail"
-                    HorizontalAlignment="Left"
+                    Text="{Binding Path=LocalizedResources.MailTitle, Source={StaticResource LocalizedStrings}}"                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Margin="0,0,0,0" 
                     Foreground="#000"
@@ -118,13 +116,14 @@
             <!-- #3 -->
             <Grid x:Name="LabelPass" Grid.Row="4" Margin="0,0,20,0" Background="#FFF">
                 <TextBlock
-                    Text="Password"
+                   Text="{Binding Path=LocalizedResources.PasswordTitle, Source={StaticResource LocalizedStrings}}" 
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Margin="0,0,0,0" 
                     Foreground="#000"
                     Style="{StaticResource PhoneTextTitle2Style}"/>
             </Grid>
+
 
             <!-- #4 -->
             <Grid x:Name="InputPass" Grid.Row="5" Margin="-10,0,20,0" Background="#FFF">
@@ -147,32 +146,41 @@
                     Height="36" Margin="0,0,0,0"
                     Grid.Row="2" Visibility="Collapsed"
                     TextWrapping="Wrap"
-                    Text="Invalid mail or password"
                     VerticalAlignment="Top"
-                    Width="290"
+                    Width="400"
                     Foreground="#DEF30808"/>
             </Grid>
 
             <!-- #7 -->
-            <!--<Grid x:Name="Button" Grid.Row="7" Margin="0,0,0,0" Background="#FFF">
-                <Button
-                    x:Name="EnviarDatosLogin" 
-                    Content="Create new account" 
-                    HorizontalAlignment="Right" 
-                    Margin="0,0,20,0" 
-                    VerticalAlignment="Stretch"
-                    Width="300"
-                    Background="#00aff0" Tap="EnviarDatosLogin_Tap" />
-            </Grid>-->
 
+
+            <Grid x:Name="ProgressBar" Grid.Row="8" Background="Transparent">
+
+                <ProgressBar
+                x:Name="ProgressB"
+                IsIndeterminate="False"
+                HorizontalAlignment="Stretch"
+                Height="Auto"
+                Margin="0,0,0,0"
+                VerticalAlignment="Stretch"
+                Width="Auto"
+                Foreground="#FF00AFF0"/>
+
+                <TextBlock
+                    x:Name="Connecting"
+                    HorizontalAlignment="Center"
+                    Height="Auto" Margin="0,0,0,0"
+                    Grid.Row="2" Visibility="Collapsed"
+                    TextWrapping="Wrap"
+                    Text="Connecting to server"
+                    VerticalAlignment="Bottom"
+                    Width="Auto"
+                    Foreground="#FF00AFF0"/>
+            </Grid>
 
 
 
         </Grid>
     </Grid>
-    <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Default"  Opacity=".99" IsMenuEnabled="False" IsVisible="True" BackgroundColor="#00aff0">
-            <shell:ApplicationBarIconButton IconUri="/Toolkit.Content/ApplicationBar.Check.png" Click="Click_check" Text="Login" />
-        </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar>
+
 </phone:PhoneApplicationPage>

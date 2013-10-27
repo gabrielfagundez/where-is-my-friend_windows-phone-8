@@ -9,6 +9,8 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using WhereIsMyFriend.Classes;
 using Newtonsoft.Json;
+using WhereIsMyFriend.Resources;
+using System.Windows.Media;
 
 namespace WhereIsMyFriend.LoggedMainPages
 {
@@ -18,7 +20,9 @@ namespace WhereIsMyFriend.LoggedMainPages
         public Menu()
         {
             InitializeComponent();
-            TiltEffect.TiltableItems.Add(typeof(Grid)); 
+            TiltEffect.TiltableItems.Add(typeof(Grid));
+            // Código de ejemplo para traducir ApplicationBar
+            BuildLocalizedApplicationBar();
             
             
         }
@@ -80,6 +84,30 @@ namespace WhereIsMyFriend.LoggedMainPages
         {
             NavigationService.Navigate(new Uri("/LoggedMainPages/Settings.xaml", UriKind.Relative));
 
+        }
+
+        private void BuildLocalizedApplicationBar()
+        {
+            ApplicationBar = new ApplicationBar();
+
+            // Create a new button and set the text value to the localized string from AppResources.
+            ApplicationBarIconButton appBarButton =
+                new ApplicationBarIconButton(new
+                Uri("/Toolkit.Content/feature.settings.png", UriKind.Relative));
+            appBarButton.Text = AppResources.SettingsTitle;
+            appBarButton.Click += this.Settings_Click;
+            ApplicationBar.Buttons.Add(appBarButton);
+            ApplicationBar.BackgroundColor = Color.FromArgb(255, 0, 175, 240);
+            ApplicationBar.IsMenuEnabled = false;
+            ApplicationBar.IsVisible = true;
+            ApplicationBar.Opacity = (double)(.99);
+            ApplicationBar.Mode = ApplicationBarMode.Default;
+
+
+            // Create a new menu item with the localized string from AppResources.
+            ApplicationBarMenuItem appBarMenuItem =
+                new ApplicationBarMenuItem(AppResources.AppBarMenuItemText);
+            ApplicationBar.MenuItems.Add(appBarMenuItem);
         }
     }
 }

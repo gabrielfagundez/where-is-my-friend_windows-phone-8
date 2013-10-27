@@ -9,8 +9,8 @@ namespace WhereIsMyFriend.Classes
 {
     class LoggedUser
     {
-         private static LoggedUser instance;
 
+        private static LoggedUser instance;
         private LoggedUser() { }
         private UserData user;
         private List<UserData> Friends;

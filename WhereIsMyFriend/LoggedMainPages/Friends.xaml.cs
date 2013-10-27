@@ -26,6 +26,8 @@ namespace WhereIsMyFriend.LoggedMainPages
             InitializeComponent();
             LoggedUser luser = LoggedUser.Instance;
             FriendsList.ItemsSource = luser.getFriends();
+            // Código de ejemplo para traducir ApplicationBar
+            BuildLocalizedApplicationBar();
 
           
         }
@@ -46,9 +48,9 @@ namespace WhereIsMyFriend.LoggedMainPages
             CustomMessageBox messageBox = new CustomMessageBox()
             {
                 Caption = "",
-                Message = " Do you want to send " + selectedUser.Name +" a request to know where he is?",
-                LeftButtonContent = "Ok",
-                RightButtonContent = "Cancel",
+                Message = AppResources.sendRequest1Title + selectedUser.Name + AppResources.sendRequest2Title,
+                LeftButtonContent = AppResources.YesTitle,
+                RightButtonContent = AppResources.NoTitle,
                 Background = mybrush,
                 IsFullScreen = false
             };
@@ -73,6 +75,29 @@ namespace WhereIsMyFriend.LoggedMainPages
 
             messageBox.Show();
 
+        }
+       
+           private void BuildLocalizedApplicationBar()
+        {
+            ApplicationBar = new ApplicationBar();
+
+            // Create a new button and set the text value to the localized string from AppResources.
+            ApplicationBarIconButton appBarButton =
+                new ApplicationBarIconButton(new
+                Uri("/Toolkit.Content/feature.search.png", UriKind.Relative));
+            appBarButton.Text = AppResources.AppBarSearchButtonText;
+            ApplicationBar.Buttons.Add(appBarButton);
+            ApplicationBar.BackgroundColor = Color.FromArgb(255, 0, 175, 240);
+            ApplicationBar.IsMenuEnabled = false;
+            ApplicationBar.IsVisible = true;
+            ApplicationBar.Opacity = (double)(.99);
+            ApplicationBar.Mode = ApplicationBarMode.Default;
+
+
+            // Create a new menu item with the localized string from AppResources.
+            ApplicationBarMenuItem appBarMenuItem =
+                new ApplicationBarMenuItem(AppResources.AppBarMenuItemText);
+            ApplicationBar.MenuItems.Add(appBarMenuItem);
         }
        
         

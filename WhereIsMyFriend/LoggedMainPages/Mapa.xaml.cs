@@ -21,6 +21,8 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using WhereIsMyFriend.Classes;
 using Windows.Devices.Geolocation;
+using WhereIsMyFriend.Resources;
+using System.Windows.Media;
 
 namespace WhereIsMyFriend.LoggedMainPages
 {
@@ -34,6 +36,8 @@ namespace WhereIsMyFriend.LoggedMainPages
         {
             
             InitializeComponent();
+            // Código de ejemplo para traducir ApplicationBar
+            BuildLocalizedApplicationBar();
             // timer interval specified as 1 second
             newTimer.Interval = TimeSpan.FromSeconds(5);
             // Sub-routine OnTimerTick will be called at every 1 second
@@ -416,6 +420,28 @@ namespace WhereIsMyFriend.LoggedMainPages
                 System.Diagnostics.Debug.WriteLine("update friend positions!");
                 updateFriendsPosition();            
             }
-        }  
+        }
+        private void BuildLocalizedApplicationBar()
+        {
+            ApplicationBar = new ApplicationBar();
+
+            // Create a new button and set the text value to the localized string from AppResources.
+            ApplicationBarIconButton appBarButton =
+                new ApplicationBarIconButton(new
+                Uri("/Toolkit.Content/ApplicationBar.Add.png", UriKind.Relative));
+            appBarButton.Text = AppResources.AppBarAddButtonText;
+            ApplicationBar.Buttons.Add(appBarButton);
+            ApplicationBar.BackgroundColor = Color.FromArgb(255, 0, 175, 240);
+            ApplicationBar.IsMenuEnabled = false;
+            ApplicationBar.IsVisible = true;
+            ApplicationBar.Opacity = (double)(.99);
+            ApplicationBar.Mode = ApplicationBarMode.Default;
+
+
+            // Create a new menu item with the localized string from AppResources.
+            ApplicationBarMenuItem appBarMenuItem =
+                new ApplicationBarMenuItem(AppResources.AppBarMenuItemText);
+            ApplicationBar.MenuItems.Add(appBarMenuItem);
+        }
     }
 }
