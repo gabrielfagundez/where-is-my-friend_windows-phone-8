@@ -68,7 +68,7 @@
                                  Margin="10"
                                  HorizontalAlignment="Left" 
                                  VerticalAlignment="Center" 
-                                 Source="/Assets/Images/friendspic.png"  
+                                 Source="/Assets/Images/avatar.jpg"  
                                  />
                             </Grid>
                             <Grid x:Name="Button1"  Grid.Row="0" Grid.Column="2"  >

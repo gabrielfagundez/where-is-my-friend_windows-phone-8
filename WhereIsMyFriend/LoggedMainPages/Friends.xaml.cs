@@ -20,14 +20,22 @@ namespace WhereIsMyFriend.LoggedMainPages
 {
     public partial class Friends : PhoneApplicationPage
     {
+        DispatcherTimer newTimer = new DispatcherTimer();
         
         public Friends()
         {
             InitializeComponent();
-            LoggedUser luser = LoggedUser.Instance;
-            FriendsList.ItemsSource = luser.getFriends();
+            newTimer.Interval = TimeSpan.FromSeconds(5);
+            // Sub-routine OnTimerTick will be called at every 1 second
+            newTimer.Tick += OnTimerTick;
+            // starting the timer
+            newTimer.Start();
+            //LoggedUser luser = LoggedUser.Instance;
+
+            //FriendsList.ItemsSource = luser.getFriends();
             // Código de ejemplo para traducir ApplicationBar
             BuildLocalizedApplicationBar();
+
 
           
         }
@@ -36,7 +44,23 @@ namespace WhereIsMyFriend.LoggedMainPages
             base.OnNavigatedTo(e);
 
         }
-      
+        void OnTimerTick(Object sender, EventArgs args)
+        {
+            // text box property is set to current system date.
+            // ToString() converts the datetime value into text
+            System.Diagnostics.Debug.WriteLine("Friends Update en f!");
+            WebClient webClient = new WebClient();
+            webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompleted);
+            LoggedUser user = LoggedUser.Instance;
+            UserData luser = user.GetLoggedUser();
+            Uri LoggedUserFriends = new Uri(App.webService + "/api/Friends/GetAllFriends/" + luser.Id);
+            webClient.DownloadStringAsync(LoggedUserFriends);
+        }
+        void webClient_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+        {
+            List<UserData> friendsList = JsonConvert.DeserializeObject<List<UserData>>(e.Result);
+            FriendsList.ItemsSource = friendsList;
+        }
 
         private void Select(object sender, SelectionChangedEventArgs e)
         {
@@ -99,6 +123,15 @@ namespace WhereIsMyFriend.LoggedMainPages
                 new ApplicationBarMenuItem(AppResources.AppBarMenuItemText);
             ApplicationBar.MenuItems.Add(appBarMenuItem);
         }
+
+           protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
+           {
+
+               newTimer.Stop();
+
+               System.Diagnostics.Debug.WriteLine("Me fui de la pagina");
+
+           }
        
         
     }
