@@ -33,8 +33,6 @@ namespace WhereIsMyFriend
 
             InitializeComponent();
             Loaded += MainPage_Loaded;
-            MailIngresado.Text = "prueba@mail.com";
-            PassIngresado.Password = "password";
 
 
             // Try to find the push channel.
