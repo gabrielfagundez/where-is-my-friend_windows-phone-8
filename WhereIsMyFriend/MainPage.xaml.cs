@@ -33,7 +33,7 @@ namespace WhereIsMyFriend
 
             InitializeComponent();
             Loaded += MainPage_Loaded;
-            MailIngresado.Text= "prueba@mordecki.com";
+            MailIngresado.Text = "prueba@mail.com";
             PassIngresado.Password = "password";
 
 

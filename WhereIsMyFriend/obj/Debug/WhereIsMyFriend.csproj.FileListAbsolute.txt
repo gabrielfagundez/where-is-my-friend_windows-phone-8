@@ -461,7 +461,6 @@ C:\Users\Carmela\Documents\GitHub\wmf_wp\WhereIsMyFriend\Bin\Debug\uz-Latn-UZ\Mi
 C:\Users\Carmela\Documents\GitHub\wmf_wp\WhereIsMyFriend\Bin\Debug\vi-VN\Microsoft.Phone.Controls.Toolkit.resources.dll
 C:\Users\Carmela\Documents\GitHub\wmf_wp\WhereIsMyFriend\Bin\Debug\zh-CN\Microsoft.Phone.Controls.Toolkit.resources.dll
 C:\Users\Carmela\Documents\GitHub\wmf_wp\WhereIsMyFriend\Bin\Debug\zh-TW\Microsoft.Phone.Controls.Toolkit.resources.dll
-C:\Users\Carmela\Documents\GitHub\wmf_wp\WhereIsMyFriend\obj\Debug\WhereIsMyFriend.csprojResolveAssemblyReference.cache
 C:\Users\Carmela\Documents\GitHub\wmf_wp\WhereIsMyFriend\obj\Debug\App.g.cs
 C:\Users\Carmela\Documents\GitHub\wmf_wp\WhereIsMyFriend\obj\Debug\LoggedMainPages\Friends.g.cs
 C:\Users\Carmela\Documents\GitHub\wmf_wp\WhereIsMyFriend\obj\Debug\LoggedMainPages\Map.g.cs

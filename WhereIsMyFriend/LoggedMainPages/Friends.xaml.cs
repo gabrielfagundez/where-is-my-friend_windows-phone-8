@@ -25,6 +25,8 @@ namespace WhereIsMyFriend.LoggedMainPages
         public Friends()
         {
             InitializeComponent();
+            LoggedUser luser = LoggedUser.Instance;
+            FriendsList.ItemsSource = luser.getFriends();
             newTimer.Interval = TimeSpan.FromSeconds(5);
             // Sub-routine OnTimerTick will be called at every 1 second
             newTimer.Tick += OnTimerTick;
@@ -59,12 +61,15 @@ namespace WhereIsMyFriend.LoggedMainPages
         void webClient_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
             List<UserData> friendsList = JsonConvert.DeserializeObject<List<UserData>>(e.Result);
-            FriendsList.ItemsSource = friendsList;
+            LoggedUser luser = LoggedUser.Instance;
+            luser.setFriends(friendsList);
+            FriendsList.ItemsSource =luser.getFriends();
         }
 
         private void Select(object sender, SelectionChangedEventArgs e)
         {
             var selectedUser = FriendsList.SelectedItem as UserData;
+            if (selectedUser != null) { 
             SolidColorBrush mybrush = new SolidColorBrush(Color.FromArgb(255, 0, 175, 240));            
            
 
@@ -99,6 +104,7 @@ namespace WhereIsMyFriend.LoggedMainPages
 
             messageBox.Show();
 
+        }
         }
        
            private void BuildLocalizedApplicationBar()
