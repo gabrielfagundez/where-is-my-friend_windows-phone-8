@@ -27,8 +27,17 @@ namespace WhereIsMyFriend.LoggedMainPages
             
         }
 
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            ProgressB.IsIndeterminate = false;
+            Connecting.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
         private void HubTile_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
+            ProgressB.IsIndeterminate = true;
+            Connecting.Visibility = System.Windows.Visibility.Visible;
+
             WebClient webClient = new WebClient();
             webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompleted);
             LoggedUser user = LoggedUser.Instance;
@@ -50,6 +59,8 @@ namespace WhereIsMyFriend.LoggedMainPages
 
         private void HubTile_Tap_1(object sender, System.Windows.Input.GestureEventArgs e)
         {
+            ProgressB.IsIndeterminate = true;
+            Connecting.Visibility = System.Windows.Visibility.Visible;
             NavigationService.Navigate(new Uri("/LoggedMainPages/Mapa.xaml", UriKind.Relative));
             App.Mapa = true;
         }
@@ -61,6 +72,10 @@ namespace WhereIsMyFriend.LoggedMainPages
 
         private void Requests_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
+            ProgressB.IsIndeterminate = true;
+            Connecting.Visibility = System.Windows.Visibility.Visible;
+
+
             LoggedUser user = LoggedUser.Instance;
             List<UserData> requests = new List<UserData>();
             UserData usuario1 = new UserData();
