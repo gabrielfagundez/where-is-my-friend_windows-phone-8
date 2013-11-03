@@ -421,6 +421,12 @@ namespace WhereIsMyFriend.LoggedMainPages
                 updateFriendsPosition();            
             }
         }
+        private void Add_Click(object sender, EventArgs e)
+        {
+
+            NavigationService.Navigate(new Uri("/LoggedMainPages/Friends.xaml", UriKind.Relative));
+
+        }
         private void BuildLocalizedApplicationBar()
         {
             ApplicationBar = new ApplicationBar();
@@ -430,6 +436,7 @@ namespace WhereIsMyFriend.LoggedMainPages
                 new ApplicationBarIconButton(new
                 Uri("/Toolkit.Content/ApplicationBar.Add.png", UriKind.Relative));
             appBarButton.Text = AppResources.AppBarAddButtonText;
+            appBarButton.Click += this.Add_Click;
             ApplicationBar.Buttons.Add(appBarButton);
             ApplicationBar.BackgroundColor = Color.FromArgb(255, 0, 175, 240);
             ApplicationBar.IsMenuEnabled = false;
