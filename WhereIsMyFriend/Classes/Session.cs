@@ -59,7 +59,42 @@ namespace WhereIsMyFriend.Classes
                 }            
             }
         }
+        public void SaveListObject(string key, object data)
+        {
+            var settings = IsolatedStorageSettings.ApplicationSettings;
+            if (settings.Contains(key))
+            {
+                    settings[key] = data;
+            }
+            else
+            {
 
+                    settings.Add(key, data);
+            }
+        }
+        public void RemoveListObject(string key)
+        {
+            var settings = IsolatedStorageSettings.ApplicationSettings;
+
+            if (settings.Contains(key))
+            {
+                settings.Remove(key);
+            }
+
+        }
+        public object GetListObject(string key)
+        {
+            //Retrieve email Data
+            var settings = IsolatedStorageSettings.ApplicationSettings;
+            if (settings.Contains(key))
+            {
+                    return settings[key];
+            }
+            else
+            {
+                return null;
+            }
+        }
 
 
         public bool Contains(string key)

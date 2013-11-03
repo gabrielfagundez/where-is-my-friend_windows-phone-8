@@ -206,4 +206,10 @@
   <data name="ConnectingToServer" xml:space="preserve">
     <value>Connecting to server</value>
   </data>
+  <data name="NoInternetConnection" xml:space="preserve">
+    <value>No internet connection</value>
+  </data>
+  <data name="NoInternetConnectionMessage" xml:space="preserve">
+    <value>Please check your WIFI or cellular data network and try again</value>
+  </data>
 </root>

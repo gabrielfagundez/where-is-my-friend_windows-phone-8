@@ -206,4 +206,10 @@
   <data name="ConnectingToServer" xml:space="preserve">
     <value>Conectándose con el servidor</value>
   </data>
+  <data name="NoInternetConnection" xml:space="preserve">
+    <value>No hay conexión a internet</value>
+  </data>
+  <data name="NoInternetConnectionMessage" xml:space="preserve">
+    <value>Por favor chequee su WIFI o la red de datos de su celular e inténtelo de nuevo.</value>
+  </data>
 </root>

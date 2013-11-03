@@ -58,7 +58,7 @@
         </Grid.RowDefinitions>
 
         <Grid x:Name="SearchPanel" Grid.Row="0" Margin="0,0,0,0" Background="#FFF">
-            <toolkit:PhoneTextBox x:Name="txtSearch" InputScope="PersonalFullName" FontFamily="Segoe WP Light" TextChanged="txtSearch_TextChanged" BorderBrush="#00aff0" Text=""  Foreground="Black" Margin="-13,0" ActionIcon="/Toolkit.Content/cancel.png" ActionIconTapped="Search_ActionIconTapped" ></toolkit:PhoneTextBox>
+            <toolkit:PhoneTextBox x:Name="txtSearch" InputScope="PersonalFullName" FontFamily="Segoe WP Light" Foreground="Black" TextChanged="txtSearch_TextChanged" BorderBrush="#00aff0" Text=""   Margin="-13,0" ActionIcon="/Toolkit.Content/cancel.png" ActionIconTapped="Search_ActionIconTapped" ></toolkit:PhoneTextBox>
         </Grid>
 
         <!--TitlePanel contains the name of frame-->

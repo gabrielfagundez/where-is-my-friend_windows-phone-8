@@ -22,7 +22,6 @@ using System.Windows.Threading;
 using WhereIsMyFriend.Classes;
 using Windows.Devices.Geolocation;
 using WhereIsMyFriend.Resources;
-using System.Windows.Media;
 
 namespace WhereIsMyFriend.LoggedMainPages
 {
@@ -56,6 +55,8 @@ namespace WhereIsMyFriend.LoggedMainPages
            // GetCoordinate();
 
         }
+
+    
 
         void OnTimerTick(Object sender, EventArgs args)
         {

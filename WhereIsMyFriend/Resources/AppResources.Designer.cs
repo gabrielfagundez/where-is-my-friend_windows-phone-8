@@ -205,6 +205,24 @@ namespace WhereIsMyFriend.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No internet connection.
+        /// </summary>
+        public static string NoInternetConnection {
+            get {
+                return ResourceManager.GetString("NoInternetConnection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please check your WIFI or cellular data network and try again.
+        /// </summary>
+        public static string NoInternetConnectionMessage {
+            get {
+                return ResourceManager.GetString("NoInternetConnectionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No.
         /// </summary>
         public static string NoTitle {

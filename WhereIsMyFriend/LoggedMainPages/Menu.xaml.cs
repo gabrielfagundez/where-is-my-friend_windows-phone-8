@@ -11,6 +11,7 @@ using WhereIsMyFriend.Classes;
 using Newtonsoft.Json;
 using WhereIsMyFriend.Resources;
 using System.Windows.Media;
+using Microsoft.Phone.Net.NetworkInformation;
 
 namespace WhereIsMyFriend.LoggedMainPages
 {
@@ -27,31 +28,48 @@ namespace WhereIsMyFriend.LoggedMainPages
             
         }
 
-        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
-        {
 
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            while ((this.NavigationService.BackStack != null) && (this.NavigationService.BackStack.Any()))
+            {
+                this.NavigationService.RemoveBackEntry();
+            }
         }
 
         private void HubTile_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-
-            WebClient webClient = new WebClient();
-            webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompletedFriends);
-            LoggedUser user = LoggedUser.Instance;
-            UserData luser = user.GetLoggedUser();
-            Uri LoggedUserFriends = new Uri(App.webService + "/api/Friends/GetAllFriends/" + luser.Id);
-            webClient.DownloadStringAsync(LoggedUserFriends);
+            //LoggedUser user = LoggedUser.Instance;
+            //if (IsNetworkAvailable())
+            //{
+            //    WebClient webClient = new WebClient();
+            //    webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompletedFriends);
+            //    UserData luser = user.GetLoggedUser();
+            //    Uri LoggedUserFriends = new Uri(App.webService + "/api/Friends/GetAllFriends/" + luser.Id);
+            //    webClient.DownloadStringAsync(LoggedUserFriends);
+            //}
+            //else 
+            NavigationService.Navigate(new Uri("/LoggedMainPages/Friends.xaml", UriKind.Relative));
+  
 
         }
-        void webClient_DownloadStringCompletedFriends(object sender, DownloadStringCompletedEventArgs e)
+        //void webClient_DownloadStringCompletedFriends(object sender, DownloadStringCompletedEventArgs e)
+        //{
+        //    List<UserData> friendsList = JsonConvert.DeserializeObject<List<UserData>>(e.Result);
+        //    LoggedUser luser = LoggedUser.Instance;
+        //    luser.setFriends(friendsList);
+        //    NavigationService.Navigate(new Uri("/LoggedMainPages/Friends.xaml", UriKind.Relative));
+
+
+
+        //}
+        private bool IsNetworkAvailable()
         {
-            List<UserData> friendsList = JsonConvert.DeserializeObject<List<UserData>>(e.Result);
-            LoggedUser luser = LoggedUser.Instance;
-            luser.setFriends(friendsList);    
-
-
-            NavigationService.Navigate(new Uri("/LoggedMainPages/Friends.xaml", UriKind.Relative));
-
+            if (Microsoft.Phone.Net.NetworkInformation.NetworkInterface.NetworkInterfaceType == NetworkInterfaceType.None)
+                return false;
+            else
+                return true;
         }
 
         private void HubTile_Tap_1(object sender, System.Windows.Input.GestureEventArgs e)
@@ -67,22 +85,23 @@ namespace WhereIsMyFriend.LoggedMainPages
 
         private void Requests_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            WebClient webClient = new WebClient();
-            webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompletedRequests);
-            LoggedUser user = LoggedUser.Instance;
-            UserData luser = user.GetLoggedUser();
-            Uri LoggedUserRequests = new Uri(App.webService + "/api/Solicitudes/GetAll/" + luser.Id);
-            webClient.DownloadStringAsync(LoggedUserRequests);
+            //WebClient webClient = new WebClient();
+            //webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompletedRequests);
+            //LoggedUser user = LoggedUser.Instance;
+            //UserData luser = user.GetLoggedUser();
+            //Uri LoggedUserRequests = new Uri(App.webService + "/api/Solicitudes/GetAll/" + luser.Id);
+            //webClient.DownloadStringAsync(LoggedUserRequests);
+            NavigationService.Navigate(new Uri("/LoggedMainPages/Requests.xaml", UriKind.Relative));
           
         }
-        void webClient_DownloadStringCompletedRequests(object sender, DownloadStringCompletedEventArgs e)
-        {
-            List<RequestData> requestsList = JsonConvert.DeserializeObject<List<RequestData>>(e.Result);
-            LoggedUser luser = LoggedUser.Instance;
-            luser.setRequests(requestsList);
-            NavigationService.Navigate(new Uri("/LoggedMainPages/Requests.xaml", UriKind.Relative));
+        //void webClient_DownloadStringCompletedRequests(object sender, DownloadStringCompletedEventArgs e)
+        //{
+        //    List<RequestData> requestsList = JsonConvert.DeserializeObject<List<RequestData>>(e.Result);
+        //    LoggedUser luser = LoggedUser.Instance;
+        //    luser.setRequests(requestsList);
+        //    NavigationService.Navigate(new Uri("/LoggedMainPages/Requests.xaml", UriKind.Relative));
 
-        }
+        //}
 
         private void Logout_Click(object sender, EventArgs e)
         {

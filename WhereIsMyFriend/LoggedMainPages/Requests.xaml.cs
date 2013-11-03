@@ -10,6 +10,9 @@ using Microsoft.Phone.Shell;
 using WhereIsMyFriend.Classes;
 using Newtonsoft.Json;
 using System.Windows.Threading;
+using WhereIsMyFriend.Resources;
+using System.Windows.Media;
+using Microsoft.Phone.Net.NetworkInformation;
 
 namespace WhereIsMyFriend.LoggedMainPages
 {
@@ -30,15 +33,16 @@ namespace WhereIsMyFriend.LoggedMainPages
 
         void OnTimerTick(Object sender, EventArgs args)
         {
-            //text box property is set to current system date.
-            //ToString() converts the datetime value into text
-            System.Diagnostics.Debug.WriteLine("Requests Update en f!");
-            WebClient webClient = new WebClient();
-            webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompleted);
-            LoggedUser user = LoggedUser.Instance;
-            UserData luser = user.GetLoggedUser();
-            Uri LoggedUserFriends = new Uri(App.webService + "/api/Solicitudes/GetAll/" + luser.Id);
-            webClient.DownloadStringAsync(LoggedUserFriends);
+            if (IsNetworkAvailable())
+            {
+                System.Diagnostics.Debug.WriteLine("Requests Update en f!");
+                WebClient webClient = new WebClient();
+                webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompleted);
+                LoggedUser user = LoggedUser.Instance;
+                UserData luser = user.GetLoggedUser();
+                Uri LoggedUserFriends = new Uri(App.webService + "/api/Solicitudes/GetAll/" + luser.Id);
+                webClient.DownloadStringAsync(LoggedUserFriends);
+            }
         }
 
         void webClient_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
@@ -51,16 +55,51 @@ namespace WhereIsMyFriend.LoggedMainPages
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            Button cmd = (Button)sender;
-            var deleteme = cmd.DataContext as RequestData;
-            var webClient = new WebClient();
-            webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
-            webClient.UploadStringCompleted += this.sendPostCompletedCancel;
+            if (IsNetworkAvailable())
+            {
+                Button cmd = (Button)sender;
+                var deleteme = cmd.DataContext as RequestData;
+                var webClient = new WebClient();
+                webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
+                webClient.UploadStringCompleted += this.sendPostCompletedCancel;
 
-            string json = "{\"IdUser\":\"" + LoggedUser.Instance.GetLoggedUser().Id +"\"," +
-                              "\"IdSolicitud\":\"" + deleteme.SolicitudId + "\"}";
+                string json = "{\"IdUser\":\"" + LoggedUser.Instance.GetLoggedUser().Id + "\"," +
+                                  "\"IdSolicitud\":\"" + deleteme.SolicitudId + "\"}";
 
-            webClient.UploadStringAsync((new Uri(App.webService + "/api/Solicitudes/Reject")), "POST", json);
+                webClient.UploadStringAsync((new Uri(App.webService + "/api/Solicitudes/Reject")), "POST", json);
+            }
+            else
+            {
+                SolidColorBrush mybrush = new SolidColorBrush(Color.FromArgb(255, 0, 175, 240));
+                CustomMessageBox messageBox = new CustomMessageBox()
+                {
+                    Caption = AppResources.NoInternetConnection,
+                    Message = AppResources.NoInternetConnectionMessage,
+                    LeftButtonContent = AppResources.OkTitle,
+                    Background = mybrush,
+                    IsFullScreen = false,
+                };
+
+
+                messageBox.Dismissed += (s1, e1) =>
+                {
+                    switch (e1.Result)
+                    {
+                        case CustomMessageBoxResult.LeftButton:
+                            break;
+                        case CustomMessageBoxResult.None:
+                            // Acción.
+                            break;
+                        default:
+                            break;
+                    }
+                };
+
+                messageBox.Show();
+
+
+            }
+
 
         }
         private void sendPostCompletedCancel(object sender, UploadStringCompletedEventArgs e)
@@ -97,19 +136,61 @@ namespace WhereIsMyFriend.LoggedMainPages
             System.Diagnostics.Debug.WriteLine("Me fui de la pagina");
 
         }
+        private bool IsNetworkAvailable()
+        {
+            if (Microsoft.Phone.Net.NetworkInformation.NetworkInterface.NetworkInterfaceType == NetworkInterfaceType.None)
+                return false;
+            else
+                return true;
+        }
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
-            Button cmd = (Button)sender;
-            var deleteme = cmd.DataContext as RequestData;
-             var webClient = new WebClient();
-            webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
-            webClient.UploadStringCompleted += this.sendPostCompletedAccept;
 
-            string json = "{\"IdUser\":\"" + LoggedUser.Instance.GetLoggedUser().Id +"\"," +
-                              "\"IdSolicitud\":\"" + deleteme.SolicitudId + "\"}";
+            if (IsNetworkAvailable())
+            {
+                Button cmd = (Button)sender;
+                var deleteme = cmd.DataContext as RequestData;
+                var webClient = new WebClient();
+                webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
+                webClient.UploadStringCompleted += this.sendPostCompletedAccept;
 
-            webClient.UploadStringAsync((new Uri(App.webService + "/api/Solicitudes/Accept")), "POST", json);
+                string json = "{\"IdUser\":\"" + LoggedUser.Instance.GetLoggedUser().Id + "\"," +
+                                  "\"IdSolicitud\":\"" + deleteme.SolicitudId + "\"}";
+
+                webClient.UploadStringAsync((new Uri(App.webService + "/api/Solicitudes/Accept")), "POST", json);
+            }
+            else
+            {
+                SolidColorBrush mybrush = new SolidColorBrush(Color.FromArgb(255, 0, 175, 240));
+                CustomMessageBox messageBox = new CustomMessageBox()
+                {
+                    Caption = AppResources.NoInternetConnection,
+                    Message = AppResources.NoInternetConnectionMessage,
+                    LeftButtonContent = AppResources.OkTitle,
+                    Background = mybrush,
+                    IsFullScreen = false,
+                };
+
+
+                messageBox.Dismissed += (s1, e1) =>
+                {
+                    switch (e1.Result)
+                    {
+                        case CustomMessageBoxResult.LeftButton:
+                            break;
+                        case CustomMessageBoxResult.None:
+                            // Acción.
+                            break;
+                        default:
+                            break;
+                    }
+                };
+
+                messageBox.Show();
+
+
+            }
         }
 
         private void sendPostCompletedAccept(object sender, UploadStringCompletedEventArgs e)

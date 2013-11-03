@@ -34,12 +34,15 @@ namespace WhereIsMyFriend.Classes
                         instance.user.LinkedInId = (string)s.GetStringObject("LinkedInId");
                         instance.user.Name = (string)s.GetStringObject("Name");
                         instance.user.Password = (string)s.GetStringObject("Password");
-                        instance.Friends = new List<UserData>();
-                        instance.Requests = new List<RequestData>();
+                        instance.Friends = (List<UserData>)s.GetListObject("Friends");
+                        instance.Friends = (List<UserData>)s.GetListObject("Requests");
+
                     }
                     else
                     {
                         instance.user = null;
+                        instance.Friends = new List<UserData>();
+                        instance.Requests = new List<RequestData>();
                     }
                 }
                 return instance;
@@ -82,7 +85,9 @@ namespace WhereIsMyFriend.Classes
 
         public void setFriends(List<UserData> f)
         {
-            this.Friends= f;
+            this.Friends = f;
+            Session session = new Session();
+            session.SaveListObject("Friends", f);
         }
         public List<UserData> getFriends()
         {
@@ -92,9 +97,11 @@ namespace WhereIsMyFriend.Classes
         {
             this.Requests.Remove(u);
         }
-        public void setRequests(List<RequestData> f)
+        public void setRequests(List<RequestData> r)
         {
-            this.Requests = f;
+            this.Requests = r;
+            Session session = new Session();
+            session.SaveListObject("Requests", r);
         }
         public List<RequestData> getRequests()
         {
@@ -118,7 +125,8 @@ namespace WhereIsMyFriend.Classes
             session.RemoveStringObject("Password");
             session.RemoveStringObject("AccessToken");
             session.RemoveStringObject("FacebookId");
-
+            session.RemoveListObject("Friends");
+            session.RemoveListObject("Requests");
         }
 
         

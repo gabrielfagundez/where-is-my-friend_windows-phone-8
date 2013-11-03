@@ -12,7 +12,8 @@ using System.IO;
 using System.Windows.Threading;
 using Newtonsoft.Json;
 using WhereIsMyFriend.Classes;
-using System.Windows.Media; 
+using System.Windows.Media;
+using Microsoft.Phone.Net.NetworkInformation; 
 
 
 
@@ -20,7 +21,7 @@ namespace WhereIsMyFriend.LoggedMainPages
 {
     public partial class Friends : PhoneApplicationPage
     {
-        //DispatcherTimer newTimer = new DispatcherTimer();
+        DispatcherTimer newTimer = new DispatcherTimer();
         
         public Friends()
         {
@@ -28,13 +29,13 @@ namespace WhereIsMyFriend.LoggedMainPages
             LoggedUser luser = LoggedUser.Instance;
             FriendsList.ItemsSource = luser.getFriends();
             txtSearch.Visibility = System.Windows.Visibility.Collapsed;
-            
-            //newTimer.Interval = TimeSpan.FromSeconds(5);
+
+            newTimer.Interval = TimeSpan.FromSeconds(5);
             // Sub-routine OnTimerTick will be called at every 1 second
-            //newTimer.Tick += OnTimerTick;
+            newTimer.Tick += OnTimerTick;
             // starting the timer
-            //newTimer.Start();
-             //Código de ejemplo para traducir ApplicationBar
+            newTimer.Start();
+            //Código de ejemplo para traducir ApplicationBar
             BuildLocalizedApplicationBar();
 
 
@@ -45,18 +46,27 @@ namespace WhereIsMyFriend.LoggedMainPages
             base.OnNavigatedTo(e);
 
         }
-        //void OnTimerTick(Object sender, EventArgs args)
-        //{
-        //     text box property is set to current system date.
-        //     ToString() converts the datetime value into text
-        //    System.Diagnostics.Debug.WriteLine("Friends Update en f!");
-        //    WebClient webClient = new WebClient();
-        //    webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompleted);
-        //    LoggedUser user = LoggedUser.Instance;
-        //    UserData luser = user.GetLoggedUser();
-        //    Uri LoggedUserFriends = new Uri(App.webService + "/api/Friends/GetAllFriends/" + luser.Id);
-        //    webClient.DownloadStringAsync(LoggedUserFriends);
-        //}
+
+        private bool IsNetworkAvailable()
+        {
+            if (Microsoft.Phone.Net.NetworkInformation.NetworkInterface.NetworkInterfaceType == NetworkInterfaceType.None)
+                return false;
+            else
+                return true;
+        }
+        void OnTimerTick(Object sender, EventArgs args)
+        {
+            if (IsNetworkAvailable())
+            {
+                System.Diagnostics.Debug.WriteLine("Friends Update en f!");
+                WebClient webClient = new WebClient();
+                webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompleted);
+                LoggedUser user = LoggedUser.Instance;
+                UserData luser = user.GetLoggedUser();
+                Uri LoggedUserFriends = new Uri(App.webService + "/api/Friends/GetAllFriends/" + luser.Id);
+                webClient.DownloadStringAsync(LoggedUserFriends);
+            }
+        }
         void webClient_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
             List<UserData> friendsList = JsonConvert.DeserializeObject<List<UserData>>(e.Result);
@@ -89,12 +99,43 @@ namespace WhereIsMyFriend.LoggedMainPages
                 switch (e1.Result)
                 {
                     case CustomMessageBoxResult.LeftButton:
-                        LoggedUser lu = LoggedUser.Instance;
-                        var webClient = new WebClient();
-                        webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
-                        webClient.UploadStringCompleted += this.sendPostCompleted;
-                        string json = "{\"IdFrom\":\"" + lu.GetLoggedUser().Id + "\"," + "\"IdTo\":\"" + selectedUser.Id + "\"}";
-                        webClient.UploadStringAsync((new Uri(App.webService + "/api/Solicitudes/Send")), "POST", json);
+                        if (IsNetworkAvailable()){
+                            LoggedUser lu = LoggedUser.Instance;
+                            var webClient = new WebClient();
+                            webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
+                            webClient.UploadStringCompleted += this.sendPostCompleted;
+                            string json = "{\"IdFrom\":\"" + lu.GetLoggedUser().Id + "\"," + "\"IdTo\":\"" + selectedUser.Id + "\"}";
+                            webClient.UploadStringAsync((new Uri(App.webService + "/api/Solicitudes/Send")), "POST", json);
+                        }
+                        else
+                        {
+                            SolidColorBrush mybrush2 = new SolidColorBrush(Color.FromArgb(255, 0, 175, 240));
+                             CustomMessageBox messageBox2 = new CustomMessageBox()
+                            {
+                                Caption = AppResources.NoInternetConnection,
+                                Message = AppResources.NoInternetConnectionMessage,
+                                LeftButtonContent = AppResources.OkTitle,
+                                Background = mybrush2,
+                                IsFullScreen = false,
+                            };
+
+
+                            messageBox2.Dismissed += (s2, e2) =>
+                            {
+                                switch (e2.Result)
+                                {
+                                    case CustomMessageBoxResult.LeftButton:
+                                        break;
+                                    case CustomMessageBoxResult.None:
+                                        // Acción.
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            };
+
+                            messageBox2.Show();
+                        }
                         break;
                     case CustomMessageBoxResult.RightButton:
                         // Acción.
@@ -151,6 +192,7 @@ namespace WhereIsMyFriend.LoggedMainPages
             txtSearch.Focus();
             //FriendTitle.Visibility = System.Windows.Visibility.Collapsed;
             ApplicationBar.IsVisible = false;
+            newTimer.Stop();
 
 
         }
@@ -162,6 +204,7 @@ namespace WhereIsMyFriend.LoggedMainPages
             txtSearch.Text = "";
             //FriendTitle.Visibility = System.Windows.Visibility.Visible;
             ApplicationBar.IsVisible = true;
+            newTimer.Start();
 
 
             
@@ -194,7 +237,7 @@ namespace WhereIsMyFriend.LoggedMainPages
            protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
            {
 
-               //newTimer.Stop();
+               newTimer.Stop();
 
                System.Diagnostics.Debug.WriteLine("Me fui de la pagina");
 
