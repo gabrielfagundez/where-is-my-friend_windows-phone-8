@@ -15,6 +15,7 @@ using System.Text;
 using System.Windows.Media;
 using WhereIsMyFriend.Classes;
 using System.IO.IsolatedStorage;
+using Microsoft.Phone.Net.NetworkInformation;
 
 namespace WhereIsMyFriend
 {
@@ -93,34 +94,69 @@ namespace WhereIsMyFriend
         }
         private void Click_check(object sender, EventArgs e)
         {
-
-            if (MailIngresado.Text == "")
+            if (IsNetworkAvailable())
             {
-                ErrorBlock.Text = AppResources.invalidMail;
-                ErrorBlock.Visibility = System.Windows.Visibility.Visible;
-            }
-            else
-                if (PassIngresado.Password == "")
+                if (MailIngresado.Text == "")
                 {
-                    ErrorBlock.Text = AppResources.invalidPassword;
+                    ErrorBlock.Text = AppResources.invalidMail;
                     ErrorBlock.Visibility = System.Windows.Visibility.Visible;
                 }
                 else
+                    if (PassIngresado.Password == "")
+                    {
+                        ErrorBlock.Text = AppResources.invalidPassword;
+                        ErrorBlock.Visibility = System.Windows.Visibility.Visible;
+                    }
+                    else
+                    {
+
+                        ProgressB.IsIndeterminate = true;
+                        Connecting.Visibility = System.Windows.Visibility.Visible;
+                        ErrorBlock.Visibility = System.Windows.Visibility.Collapsed;
+                        var webClient = new WebClient();
+                        webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
+                        webClient.UploadStringCompleted += this.sendPostCompleted;
+
+                        string json = "{\"Mail\":\"" + MailIngresado.Text + "\"," +
+                                          "\"Password\":\"" + PassIngresado.Password + "\"," + "\"DeviceId\":\"" + "" + "\"," + "\"Platform\":\"" + "wp" + "\"}";
+                        //string json = "{\"Mail\":\"" + MailIngresado.Text + "\"," +
+                        //                          "\"Password\":\"" + PassIngresado.Password + "\"}";
+
+                        webClient.UploadStringAsync((new Uri(App.webService + "/api/Users/LoginWhere")), "POST", json);
+
+                    }
+            }
+            else
+            {
+                SolidColorBrush mybrush = new SolidColorBrush(Color.FromArgb(255, 0, 175, 240));
+                CustomMessageBox messageBox = new CustomMessageBox()
                 {
-                    ProgressB.IsIndeterminate = true;
-                    Connecting.Visibility = System.Windows.Visibility.Visible;
-                    ErrorBlock.Visibility = System.Windows.Visibility.Collapsed;
-                    var webClient = new WebClient();
-                    webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
-                    webClient.UploadStringCompleted += this.sendPostCompleted;
+                    Caption = AppResources.NoInternetConnection,
+                    Message = AppResources.NoInternetConnectionMessage,
+                    LeftButtonContent = AppResources.OkTitle,
+                    Background = mybrush,
+                    IsFullScreen = false,
+                };
 
-                    string json = "{\"Mail\":\"" + MailIngresado.Text + "\"," +
-                                      "\"Password\":\"" + PassIngresado.Password + "\"," + "\"DeviceId\":\"" + "" + "\"," + "\"Platform\":\"" + "wp" + "\"}";
-                    //string json = "{\"Mail\":\"" + MailIngresado.Text + "\"," +
-                    //                          "\"Password\":\"" + PassIngresado.Password + "\"}";
 
-                    webClient.UploadStringAsync((new Uri(App.webService + "/api/Users/LoginWhere")), "POST", json);
-                }
+                messageBox.Dismissed += (s1, e1) =>
+                {
+                    switch (e1.Result)
+                    {
+                        case CustomMessageBoxResult.LeftButton:
+                            break;
+                        case CustomMessageBoxResult.None:
+                            // Acción.
+                            break;
+                        default:
+                            break;
+                    }
+                };
+
+                messageBox.Show();
+
+
+            }
         }
 
 
@@ -151,18 +187,45 @@ namespace WhereIsMyFriend
             }
             else
             {
+                ErrorBlock.Visibility = System.Windows.Visibility.Collapsed;
                 LoggedUser user = LoggedUser.Instance;
                 user.SetLoggedUser(JsonConvert.DeserializeObject<UserData>(e.Result));
-                ErrorBlock.Visibility = System.Windows.Visibility.Collapsed;
-                NavigationService.Navigate(new Uri("/LoggedMainPages/Menu.xaml", UriKind.Relative));
+                WebClient webClientFriend = new WebClient();
+                webClientFriend.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompletedFriends);
+                Uri LoggedUserFriends = new Uri(App.webService + "/api/Friends/GetAllFriends/" + user.GetLoggedUser().Id);
+                webClientFriend.DownloadStringAsync(LoggedUserFriends);
 
             }
         }
-
-        private void c1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        void webClient_DownloadStringCompletedFriends(object sender, DownloadStringCompletedEventArgs e)
         {
+            List<UserData> friendsList = JsonConvert.DeserializeObject<List<UserData>>(e.Result);
+            LoggedUser luser = LoggedUser.Instance;
+            luser.setFriends(friendsList);
+            WebClient webClient = new WebClient();
+            webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompletedRequests);
+            Uri LoggedUserRequests = new Uri(App.webService + "/api/Solicitudes/GetAll/" + luser.GetLoggedUser().Id);
+            webClient.DownloadStringAsync(LoggedUserRequests);
+          
+        }
+        void webClient_DownloadStringCompletedRequests(object sender, DownloadStringCompletedEventArgs e)
+        {
+            List<RequestData> requestsList = JsonConvert.DeserializeObject<List<RequestData>>(e.Result);
+            LoggedUser luser = LoggedUser.Instance;
+            luser.setRequests(requestsList);
+            NavigationService.Navigate(new Uri("/LoggedMainPages/Menu.xaml", UriKind.Relative));
 
         }
+
+        private bool IsNetworkAvailable()
+        {
+            if (Microsoft.Phone.Net.NetworkInformation.NetworkInterface.NetworkInterfaceType == NetworkInterfaceType.None)
+                return false;
+            else
+                return true;
+        }
+
+      
 
         void PushChannel_ChannelUriUpdated(object sender, NotificationChannelUriEventArgs e)
         {
