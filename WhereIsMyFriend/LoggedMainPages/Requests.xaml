@@ -29,6 +29,8 @@
                        VerticalAlignment="Center"
                        Margin="0,0,0,0" 
                        Foreground="#00aff0"
+                       FontSize="90"
+                       FontFamily="Segoe WP Light"
                        Style="{StaticResource PhoneTextTitle1Style}"/>
         </Grid>
 
@@ -60,7 +62,7 @@
                                  Foreground ="Black" 
                                  HorizontalAlignment="Left" 
                                  VerticalAlignment="Center" 
-                                 Text="{Binding Name}"
+                                 Text="{Binding SolicitudFromNombre}"
                                  FontSize="35" />
                             </Grid>
                             <Grid x:Name="Image" Grid.Column="0">

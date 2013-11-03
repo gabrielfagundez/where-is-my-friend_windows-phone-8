@@ -106,11 +106,29 @@ namespace WhereIsMyFriend.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to logout?.
+        /// </summary>
+        public static string AreYouSureLogoutTitle {
+            get {
+                return ResourceManager.GetString("AreYouSureLogoutTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string CancelTitle {
             get {
                 return ResourceManager.GetString("CancelTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connecting to server.
+        /// </summary>
+        public static string ConnectingToServer {
+            get {
+                return ResourceManager.GetString("ConnectingToServer", resourceCulture);
             }
         }
         

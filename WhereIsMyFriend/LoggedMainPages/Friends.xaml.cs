@@ -20,22 +20,21 @@ namespace WhereIsMyFriend.LoggedMainPages
 {
     public partial class Friends : PhoneApplicationPage
     {
-        DispatcherTimer newTimer = new DispatcherTimer();
+        //DispatcherTimer newTimer = new DispatcherTimer();
         
         public Friends()
         {
             InitializeComponent();
             LoggedUser luser = LoggedUser.Instance;
             FriendsList.ItemsSource = luser.getFriends();
-            newTimer.Interval = TimeSpan.FromSeconds(5);
+            txtSearch.Visibility = System.Windows.Visibility.Collapsed;
+            
+            //newTimer.Interval = TimeSpan.FromSeconds(5);
             // Sub-routine OnTimerTick will be called at every 1 second
-            newTimer.Tick += OnTimerTick;
+            //newTimer.Tick += OnTimerTick;
             // starting the timer
-            newTimer.Start();
-            //LoggedUser luser = LoggedUser.Instance;
-
-            //FriendsList.ItemsSource = luser.getFriends();
-            // Código de ejemplo para traducir ApplicationBar
+            //newTimer.Start();
+             //Código de ejemplo para traducir ApplicationBar
             BuildLocalizedApplicationBar();
 
 
@@ -46,18 +45,18 @@ namespace WhereIsMyFriend.LoggedMainPages
             base.OnNavigatedTo(e);
 
         }
-        void OnTimerTick(Object sender, EventArgs args)
-        {
-            // text box property is set to current system date.
-            // ToString() converts the datetime value into text
-            System.Diagnostics.Debug.WriteLine("Friends Update en f!");
-            WebClient webClient = new WebClient();
-            webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompleted);
-            LoggedUser user = LoggedUser.Instance;
-            UserData luser = user.GetLoggedUser();
-            Uri LoggedUserFriends = new Uri(App.webService + "/api/Friends/GetAllFriends/" + luser.Id);
-            webClient.DownloadStringAsync(LoggedUserFriends);
-        }
+        //void OnTimerTick(Object sender, EventArgs args)
+        //{
+        //     text box property is set to current system date.
+        //     ToString() converts the datetime value into text
+        //    System.Diagnostics.Debug.WriteLine("Friends Update en f!");
+        //    WebClient webClient = new WebClient();
+        //    webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompleted);
+        //    LoggedUser user = LoggedUser.Instance;
+        //    UserData luser = user.GetLoggedUser();
+        //    Uri LoggedUserFriends = new Uri(App.webService + "/api/Friends/GetAllFriends/" + luser.Id);
+        //    webClient.DownloadStringAsync(LoggedUserFriends);
+        //}
         void webClient_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
             List<UserData> friendsList = JsonConvert.DeserializeObject<List<UserData>>(e.Result);
@@ -90,6 +89,12 @@ namespace WhereIsMyFriend.LoggedMainPages
                 switch (e1.Result)
                 {
                     case CustomMessageBoxResult.LeftButton:
+                        LoggedUser lu = LoggedUser.Instance;
+                        var webClient = new WebClient();
+                        webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
+                        webClient.UploadStringCompleted += this.sendPostCompleted;
+                        string json = "{\"IdFrom\":\"" + lu.GetLoggedUser().Id + "\"," + "\"IdTo\":\"" + selectedUser.Id + "\"}";
+                        webClient.UploadStringAsync((new Uri(App.webService + "/api/Solicitudes/Send")), "POST", json);
                         break;
                     case CustomMessageBoxResult.RightButton:
                         // Acción.
@@ -106,8 +111,63 @@ namespace WhereIsMyFriend.LoggedMainPages
 
         }
         }
+
+        private void sendPostCompleted(object sender, UploadStringCompletedEventArgs e)
+        {
+            if ((e.Error != null) && (e.Error.GetType().Name == "WebException"))
+            {
+                WebException we = (WebException)e.Error;
+                HttpWebResponse response = (System.Net.HttpWebResponse)we.Response;
+
+                switch (response.StatusCode)
+                {
+
+                    case HttpStatusCode.NotFound: // 404
+                        System.Diagnostics.Debug.WriteLine("Not found!");
+                        break;
+                    case HttpStatusCode.Unauthorized: // 401
+                        System.Diagnostics.Debug.WriteLine("Not authorized!");
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+
+            }
+        }
+        private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            List<UserData> fl = LoggedUser.Instance.getFriends();
+            if ( fl != null)
+            {
+                this.FriendsList.ItemsSource = fl.Where(w => w.Name.ToUpper().Contains(txtSearch.Text.ToUpper()));
+            }
+        }
+        private void Search_Click(object sender, EventArgs e)
+        {
+            txtSearch.Visibility = System.Windows.Visibility.Visible;
+            txtSearch.Focus();
+            //FriendTitle.Visibility = System.Windows.Visibility.Collapsed;
+            ApplicationBar.IsVisible = false;
+
+
+        }
+        private void Search_ActionIconTapped(object sender, EventArgs e)
+        {
+            txtSearch.Visibility = System.Windows.Visibility.Collapsed;
+            LoggedUser luser = LoggedUser.Instance;
+            FriendsList.ItemsSource = luser.getFriends();
+            txtSearch.Text = "";
+            //FriendTitle.Visibility = System.Windows.Visibility.Visible;
+            ApplicationBar.IsVisible = true;
+
+
+            
+        }
        
-           private void BuildLocalizedApplicationBar()
+        private void BuildLocalizedApplicationBar()
         {
             ApplicationBar = new ApplicationBar();
 
@@ -116,6 +176,7 @@ namespace WhereIsMyFriend.LoggedMainPages
                 new ApplicationBarIconButton(new
                 Uri("/Toolkit.Content/feature.search.png", UriKind.Relative));
             appBarButton.Text = AppResources.AppBarSearchButtonText;
+            appBarButton.Click += this.Search_Click;
             ApplicationBar.Buttons.Add(appBarButton);
             ApplicationBar.BackgroundColor = Color.FromArgb(255, 0, 175, 240);
             ApplicationBar.IsMenuEnabled = false;
@@ -133,7 +194,7 @@ namespace WhereIsMyFriend.LoggedMainPages
            protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
            {
 
-               newTimer.Stop();
+               //newTimer.Stop();
 
                System.Diagnostics.Debug.WriteLine("Me fui de la pagina");
 

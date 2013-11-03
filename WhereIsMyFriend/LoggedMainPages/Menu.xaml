@@ -83,7 +83,29 @@
                 <TextBlock Name="requestsImage" Grid.Column="0" Text=" 5"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="47,42,51,77" Width="100" Height="100" FontFamily="Segoe UI" FontSize="90" Foreground ="White" />
                 <TextBlock Name="requests" Text="{Binding Path=LocalizedResources.RequestsTitleTile, Source={StaticResource LocalizedStrings}}" Margin="10, 0, 5, 10"  Width="130" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontFamily="Segoe UI" FontSize="26" Foreground ="White"/>
             </Grid>
-       
+        </Grid>
+        <Grid Margin="50,1,50,0" x:Name="ProgressBar" Grid.Row="2" Background="Transparent" RenderTransformOrigin="0.5,0.5">
+
+            <ProgressBar
+        		x:Name="ProgressB"
+        		IsIndeterminate="False"
+        		HorizontalAlignment="Stretch"
+        		Height="Auto"
+        		Margin="0,0,0,0"
+        		VerticalAlignment="Stretch"
+        		Width="Auto"
+        		Foreground="#FF00AFF0"/>
+
+            <TextBlock
+        		x:Name="Connecting"
+        		HorizontalAlignment="Center"
+        		Height="Auto" Margin="0,0,0,0"
+        		Grid.Row="2" Visibility="Collapsed"
+        		TextWrapping="Wrap"
+        		Text="{Binding LocalizedResources.loading, Source={StaticResource LocalizedStrings}}"
+        		VerticalAlignment="Bottom"
+        		Width="Auto"
+        		Foreground="#FF00AFF0"/>
         </Grid>
 
     </Grid>

@@ -27,8 +27,14 @@ namespace WhereIsMyFriend.LoggedMainPages
             
         }
 
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+
+        }
+
         private void HubTile_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
+
             WebClient webClient = new WebClient();
             webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompletedFriends);
             LoggedUser user = LoggedUser.Instance;
@@ -78,9 +84,9 @@ namespace WhereIsMyFriend.LoggedMainPages
 
         }
 
-        private void Settings_Click(object sender, EventArgs e)
+        private void Logout_Click(object sender, EventArgs e)
         {
-            NavigationService.Navigate(new Uri("/LoggedMainPages/Settings.xaml", UriKind.Relative));
+            NavigationService.Navigate(new Uri("/LoggedMainPages/LogoutConfirmation.xaml", UriKind.Relative));
 
         }
 
@@ -93,7 +99,7 @@ namespace WhereIsMyFriend.LoggedMainPages
                 new ApplicationBarIconButton(new
                 Uri("/Assets/Images/Logout-32.png", UriKind.Relative));
             appBarButton.Text = AppResources.AppBarLogoutButtonText;
-            appBarButton.Click += this.Settings_Click;
+            appBarButton.Click += this.Logout_Click;
             ApplicationBar.Buttons.Add(appBarButton);
             ApplicationBar.BackgroundColor = Color.FromArgb(255, 0, 175, 240);
             ApplicationBar.IsMenuEnabled = false;

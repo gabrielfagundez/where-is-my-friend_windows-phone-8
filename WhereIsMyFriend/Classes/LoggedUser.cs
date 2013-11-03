@@ -14,7 +14,7 @@ namespace WhereIsMyFriend.Classes
         private LoggedUser() { }
         private UserData user;
         private List<UserData> Friends;
-        private List<UserData> Requests;
+        private List<RequestData> Requests;
 
         public static LoggedUser Instance
         {
@@ -35,6 +35,7 @@ namespace WhereIsMyFriend.Classes
                         instance.user.Name = (string)s.GetStringObject("Name");
                         instance.user.Password = (string)s.GetStringObject("Password");
                         instance.Friends = new List<UserData>();
+                        instance.Requests = new List<RequestData>();
                     }
                     else
                     {
@@ -87,15 +88,15 @@ namespace WhereIsMyFriend.Classes
         {
             return this.Friends;
         }
-        public void  deleteUserRequests(UserData u)
+        public void  deleteUserRequests(RequestData u)
         {
             this.Requests.Remove(u);
         }
-        public void setRequests(List<UserData> f)
+        public void setRequests(List<RequestData> f)
         {
             this.Requests = f;
         }
-        public List<UserData> getRequests()
+        public List<RequestData> getRequests()
         {
             return this.Requests;
         }
