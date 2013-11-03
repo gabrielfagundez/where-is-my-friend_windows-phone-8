@@ -96,11 +96,15 @@
     <Compile Include="Classes\ListaAmigos.cs" />
     <Compile Include="Classes\LoggedUser.cs" />
     <Compile Include="Classes\PointsHandler.cs" />
+    <Compile Include="Classes\RequestData.cs" />
     <Compile Include="Classes\Session.cs" />
     <Compile Include="Classes\UserData.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="LoggedMainPages\Friends.xaml.cs">
       <DependentUpon>Friends.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LoggedMainPages\LogoutConfirmation.xaml.cs">
+      <DependentUpon>LogoutConfirmation.xaml</DependentUpon>
     </Compile>
     <Compile Include="LoggedMainPages\Map.xaml.cs">
       <DependentUpon>Map.xaml</DependentUpon>
@@ -136,6 +140,10 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Page Include="LoggedMainPages\Friends.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoggedMainPages\LogoutConfirmation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -185,6 +193,7 @@
     <Content Include="Assets\images\imap.png" />
     <Content Include="Assets\images\LogoCeleste.png" />
     <Content Include="Assets\images\Logout-32.png" />
+    <Content Include="Assets\images\logout.png" />
     <Content Include="Assets\images\profilepic.png" />
     <Content Include="Assets\Tiles\FlipCycleTileLarge.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -209,6 +218,8 @@
     <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Delete.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Select.png" />
+    <Content Include="Toolkit.Content\cancel.png" />
+    <Content Include="Toolkit.Content\close.png" />
     <Content Include="Toolkit.Content\feature.search.png" />
     <Content Include="Toolkit.Content\feature.settings.png" />
   </ItemGroup>

@@ -200,4 +200,10 @@
   <data name="YesTitle" xml:space="preserve">
     <value>Yes</value>
   </data>
+  <data name="AreYouSureLogoutTitle" xml:space="preserve">
+    <value>Are you sure you want to logout?</value>
+  </data>
+  <data name="ConnectingToServer" xml:space="preserve">
+    <value>Connecting to server</value>
+  </data>
 </root>

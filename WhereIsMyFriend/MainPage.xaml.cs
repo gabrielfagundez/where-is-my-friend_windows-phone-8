@@ -25,35 +25,40 @@ namespace WhereIsMyFriend
         // Constructor
         public MainPage()
         {
-            ///// Holds the push channel that is created or found.
+            /// Holds the push channel that is created or found.
 
 
-            //// The name of our push channel.
+            // The name of our push channel.
             //string channelName = "ToastSampleChannel";
 
             InitializeComponent();
             Loaded += MainPage_Loaded;
+            MailIngresado.Text = "carme@mail.com";
+            PassIngresado.Password = "password";
+            if (PageTitle.Text == "iniciar sesión"){
+                PageTitle.FontSize = 83;
+            }
 
 
             // Try to find the push channel.
             //pushChannel = HttpNotificationChannel.Find(channelName);
 
-            // If the channel was not found, then create a new connection to the push service.
+            // //If the channel was not found, then create a new connection to the push service.
             //if (pushChannel == null)
             //{
-            //    pushChannel = new HttpNotificationChannel(channelName);
+                //pushChannel = new HttpNotificationChannel(channelName);
 
-            //    // Register for all the events before attempting to open the channel.
-            //    pushChannel.ChannelUriUpdated += new EventHandler<NotificationChannelUriEventArgs>(PushChannel_ChannelUriUpdated);
-            //    pushChannel.ErrorOccurred += new EventHandler<NotificationChannelErrorEventArgs>(PushChannel_ErrorOccurred);
+                // Register for all the events before attempting to open the channel.
+                //pushChannel.ChannelUriUpdated += new EventHandler<NotificationChannelUriEventArgs>(PushChannel_ChannelUriUpdated);
+                //pushChannel.ErrorOccurred += new EventHandler<NotificationChannelErrorEventArgs>(PushChannel_ErrorOccurred);
 
-            //    // Register for this notification only if you need to receive the notifications while your application is running.
-            //    pushChannel.ShellToastNotificationReceived += new EventHandler<NotificationEventArgs>(PushChannel_ShellToastNotificationReceived);
+                // Register for this notification only if you need to receive the notifications while your application is running.
+                //pushChannel.ShellToastNotificationReceived += new EventHandler<NotificationEventArgs>(PushChannel_ShellToastNotificationReceived);
 
-            //    pushChannel.Open();
+                //pushChannel.Open();
 
-            //    // Bind this new channel for toast events.
-            //    pushChannel.BindToShellToast();
+                // Bind this new channel for toast events.
+                //pushChannel.BindToShellToast();
             //}
             //else
             //{
@@ -102,17 +107,19 @@ namespace WhereIsMyFriend
                 }
                 else
                 {
+                    ProgressB.IsIndeterminate = true;
+                    Connecting.Visibility = System.Windows.Visibility.Visible;
                     ErrorBlock.Visibility = System.Windows.Visibility.Collapsed;
                     var webClient = new WebClient();
                     webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
                     webClient.UploadStringCompleted += this.sendPostCompleted;
 
-                    //string json = "{\"Mail\":\"" + MailIngresado.Text + "\"," +
-                    //                  "\"Password\":\"" + PassIngresado.Password + "\"," + "\"DeviceId\":\"" + pushChannel.ChannelUri.ToString() + "\"," + "\"Platform\":\"" + "winphone" + "\"}";
                     string json = "{\"Mail\":\"" + MailIngresado.Text + "\"," +
-                                              "\"Password\":\"" + PassIngresado.Password + "\"}";
+                                      "\"Password\":\"" + PassIngresado.Password + "\"," + "\"DeviceId\":\"" + "" + "\"," + "\"Platform\":\"" + "wp" + "\"}";
+                    //string json = "{\"Mail\":\"" + MailIngresado.Text + "\"," +
+                    //                          "\"Password\":\"" + PassIngresado.Password + "\"}";
 
-                    webClient.UploadStringAsync((new Uri(App.webService + "/api/Users/Login")), "POST", json);
+                    webClient.UploadStringAsync((new Uri(App.webService + "/api/Users/LoginWhere")), "POST", json);
                 }
         }
 

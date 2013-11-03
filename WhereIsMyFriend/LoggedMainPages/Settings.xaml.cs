@@ -27,9 +27,45 @@ namespace WhereIsMyFriend.LoggedMainPages
         private async void ApplicationBarIconButton_Click(object sender, EventArgs e)
         {
             LoggedUser l = LoggedUser.Instance;
+            //await l.LogOut();
+            var webClient = new WebClient();
+            
+            webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
+            webClient.UploadStringCompleted += this.sendPostCompleted;
+
+            string json = "{\"Mail\":\"" + l.GetLoggedUser().Mail + "\"}";
+            webClient.UploadStringAsync((new Uri(App.webService + "/api/Users/LogoutWhere")), "POST", json);
             await l.LogOut();
             NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+          
 
+        }
+
+        private  void sendPostCompleted(object sender, UploadStringCompletedEventArgs e)
+        {
+            if ((e.Error != null) && (e.Error.GetType().Name == "WebException"))
+            {
+                WebException we = (WebException)e.Error;
+                HttpWebResponse response = (System.Net.HttpWebResponse)we.Response;
+
+                switch (response.StatusCode)
+                {
+
+                    case HttpStatusCode.NotFound: // 404
+                        System.Diagnostics.Debug.WriteLine("Not found!");
+                        break;
+                    case HttpStatusCode.Unauthorized: // 401
+                        System.Diagnostics.Debug.WriteLine("Not authorized!");
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+               
+
+            }
         }
         private void BuildLocalizedApplicationBar()
         {

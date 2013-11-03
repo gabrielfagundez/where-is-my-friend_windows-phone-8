@@ -200,4 +200,10 @@
   <data name="YesTitle" xml:space="preserve">
     <value>Si</value>
   </data>
+  <data name="AreYouSureLogoutTitle" xml:space="preserve">
+    <value>¿Esta seguro que desea cerrar sesión?</value>
+  </data>
+  <data name="ConnectingToServer" xml:space="preserve">
+    <value>Conectándose con el servidor</value>
+  </data>
 </root>
