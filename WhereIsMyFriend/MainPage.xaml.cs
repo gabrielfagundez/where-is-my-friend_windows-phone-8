@@ -96,12 +96,14 @@ namespace WhereIsMyFriend
 
             if (MailIngresado.Text == "")
             {
+                ProgressB.IsIndeterminate = false;
                 ErrorBlock.Text = AppResources.invalidMail;
                 ErrorBlock.Visibility = System.Windows.Visibility.Visible;
             }
             else
                 if (PassIngresado.Password == "")
                 {
+                    ProgressB.IsIndeterminate = false;
                     ErrorBlock.Text = AppResources.invalidPassword;
                     ErrorBlock.Visibility = System.Windows.Visibility.Visible;
                 }
@@ -137,12 +139,15 @@ namespace WhereIsMyFriend
                     case HttpStatusCode.NotFound: // 404
                         System.Diagnostics.Debug.WriteLine("Not found!");
                         ErrorBlock.Text = AppResources.WrongMailError;
+                        ProgressB.IsIndeterminate = false;
+                        Connecting.Visibility = System.Windows.Visibility.Collapsed;
                         ErrorBlock.Visibility = System.Windows.Visibility.Visible;
                         break;
                     case HttpStatusCode.Unauthorized: // 401
                         System.Diagnostics.Debug.WriteLine("Not authorized!");
                         ErrorBlock.Text = AppResources.WrongPasswordError;
-;
+                        Connecting.Visibility = System.Windows.Visibility.Collapsed;
+                        ProgressB.IsIndeterminate = false;
                         ErrorBlock.Visibility = System.Windows.Visibility.Visible;
                         break;
                     default:
