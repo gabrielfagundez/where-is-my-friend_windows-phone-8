@@ -51,12 +51,16 @@ namespace WhereIsMyFriend.LoggedMainPages
             LoggedUser luser = LoggedUser.Instance;
             luser.setRequests(requestsList);
             RequestsList.ItemsSource = luser.getRequests();
+            ProgressB.IsIndeterminate = false;
+            Connecting.Visibility = System.Windows.Visibility.Collapsed;
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             if (IsNetworkAvailable())
             {
+                ProgressB.IsIndeterminate = true;
+                Connecting.Visibility = System.Windows.Visibility.Visible;
                 Button cmd = (Button)sender;
                 var deleteme = cmd.DataContext as RequestData;
                 var webClient = new WebClient();
@@ -106,6 +110,7 @@ namespace WhereIsMyFriend.LoggedMainPages
         {
             if ((e.Error != null) && (e.Error.GetType().Name == "WebException"))
             {
+
                 WebException we = (WebException)e.Error;
                 HttpWebResponse response = (System.Net.HttpWebResponse)we.Response;
 
@@ -149,6 +154,8 @@ namespace WhereIsMyFriend.LoggedMainPages
 
             if (IsNetworkAvailable())
             {
+                ProgressB.IsIndeterminate = true;
+                Connecting.Visibility = System.Windows.Visibility.Visible;
                 Button cmd = (Button)sender;
                 var deleteme = cmd.DataContext as RequestData;
                 var webClient = new WebClient();
@@ -197,6 +204,7 @@ namespace WhereIsMyFriend.LoggedMainPages
         {
             if ((e.Error != null) && (e.Error.GetType().Name == "WebException"))
             {
+              
                 WebException we = (WebException)e.Error;
                 HttpWebResponse response = (System.Net.HttpWebResponse)we.Response;
 
@@ -215,7 +223,7 @@ namespace WhereIsMyFriend.LoggedMainPages
             }
             else
             {
-
+                
             }
         }
     }

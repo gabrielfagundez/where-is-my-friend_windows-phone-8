@@ -96,6 +96,30 @@
 
             </ListBox>
         </Grid>
+        <Grid x:Name="ProgressBar" Grid.Row="2" Background="Transparent">
+
+            <ProgressBar
+                x:Name="ProgressB"
+                IsIndeterminate="False"
+                HorizontalAlignment="Stretch"
+                Height="Auto"
+                Margin="0,0,0,0"
+                VerticalAlignment="Stretch"
+                Width="Auto"
+                Foreground="#FF00AFF0"/>
+
+            <TextBlock
+                    x:Name="Connecting"
+                    HorizontalAlignment="Center"
+                    Height="Auto" Margin="0,0,0,0"
+                    Grid.Row="2" Visibility="Collapsed"
+                    TextWrapping="Wrap"
+                    Text="{Binding Path=LocalizedResources.ConnectingToServer, Source={StaticResource LocalizedStrings}}" 
+                    VerticalAlignment="Bottom"
+                    Width="Auto"
+                    Foreground="#FF00AFF0"/>
+        </Grid>
+
 
 
 

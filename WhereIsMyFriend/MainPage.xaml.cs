@@ -204,21 +204,22 @@ namespace WhereIsMyFriend
         }
         void webClient_DownloadStringCompletedFriends(object sender, DownloadStringCompletedEventArgs e)
         {
-            List<UserData> friendsList = JsonConvert.DeserializeObject<List<UserData>>(e.Result);
-            LoggedUser luser = LoggedUser.Instance;
-            luser.setFriends(friendsList);
-            WebClient webClient = new WebClient();
-            webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompletedRequests);
-            Uri LoggedUserRequests = new Uri(App.webService + "/api/Solicitudes/GetAll/" + luser.GetLoggedUser().Id);
-            webClient.DownloadStringAsync(LoggedUserRequests);
+            
+                List<UserData> friendsList = JsonConvert.DeserializeObject<List<UserData>>(e.Result);
+                LoggedUser luser = LoggedUser.Instance;
+                luser.setFriends(friendsList);
+                WebClient webClient = new WebClient();
+                webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompletedRequests);
+                Uri LoggedUserRequests = new Uri(App.webService + "/api/Solicitudes/GetAll/" + luser.GetLoggedUser().Id);
+                webClient.DownloadStringAsync(LoggedUserRequests);
           
         }
         void webClient_DownloadStringCompletedRequests(object sender, DownloadStringCompletedEventArgs e)
         {
-            List<RequestData> requestsList = JsonConvert.DeserializeObject<List<RequestData>>(e.Result);
-            LoggedUser luser = LoggedUser.Instance;
-            luser.setRequests(requestsList);
-            NavigationService.Navigate(new Uri("/LoggedMainPages/Menu.xaml", UriKind.Relative));
+                List<RequestData> requestsList = JsonConvert.DeserializeObject<List<RequestData>>(e.Result);
+                LoggedUser luser = LoggedUser.Instance;
+                luser.setRequests(requestsList);
+                NavigationService.Navigate(new Uri("/LoggedMainPages/Menu.xaml", UriKind.Relative));
 
         }
 
