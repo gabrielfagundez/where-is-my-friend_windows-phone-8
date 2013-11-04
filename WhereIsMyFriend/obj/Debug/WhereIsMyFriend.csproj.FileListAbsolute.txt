@@ -480,5 +480,3 @@ C:\Users\Carmela\Documents\GitHub\wmf_wp\WhereIsMyFriend\Bin\Debug\es-ES\WhereIs
 C:\Users\Carmela\Documents\GitHub\wmf_wp\WhereIsMyFriend\obj\Debug\WhereIsMyFriend.Resources.AppResources.es-ES.resources
 C:\Users\Carmela\Documents\GitHub\wmf_wp\WhereIsMyFriend\obj\Debug\es-ES\WhereIsMyFriend.resources.dll
 C:\Users\Carmela\Documents\GitHub\wmf_wp\WhereIsMyFriend\obj\Debug\LoggedMainPages\LogoutConfirmation.g.cs
-C:\Users\Carmela\Documents\GitHub\wmf_wp\WhereIsMyFriend\Bin\Debug\WhereIsMyFriend.dll.CodeAnalysisLog.xml
-C:\Users\Carmela\Documents\GitHub\wmf_wp\WhereIsMyFriend\Bin\Debug\WhereIsMyFriend.dll.lastcodeanalysissucceeded
