@@ -73,5 +73,10 @@ namespace WhereIsMyFriend.Classes
 
             }
         }
+
+        public void clearPines()
+        {
+            pines.Clear();
+        }
     }
 }
