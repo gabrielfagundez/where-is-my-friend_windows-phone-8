@@ -33,6 +33,8 @@ namespace WhereIsMyFriend
             //string channelName = "ToastSampleChannel";
 
             InitializeComponent();
+            MailIngresado.Text = "geo2@mai.com";
+            PassIngresado.Password = "password";
             Loaded += MainPage_Loaded;
             if (PageTitle.Text == "iniciar sesión"){
                 PageTitle.FontSize = 83;

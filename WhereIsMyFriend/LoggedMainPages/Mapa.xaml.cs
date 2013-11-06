@@ -227,6 +227,7 @@ namespace WhereIsMyFriend.LoggedMainPages
         {
             App.Geolocator.PositionChanged -= geolocator_PositionChanged;
             App.Geolocator = null;
+
         }
 
         
@@ -409,6 +410,7 @@ namespace WhereIsMyFriend.LoggedMainPages
                 System.Diagnostics.Debug.WriteLine("{\"Amigos\":" + e.Result + "}");
                 var p = JsonConvert.DeserializeObject<ListaAmigos>("{\"Amigos\":" + e.Result + "}");
                 PointsHandler ph = PointsHandler.Instance;
+                ph.clearPines();
                 int i = 0;
                 foreach (var friend in p.Amigos)
                 {
@@ -424,7 +426,7 @@ namespace WhereIsMyFriend.LoggedMainPages
         }
         private void Add_Click(object sender, EventArgs e)
         {
-
+            App.VengoDeMapa = true;
             NavigationService.Navigate(new Uri("/LoggedMainPages/Friends.xaml", UriKind.Relative));
 
         }

@@ -50,6 +50,7 @@ namespace WhereIsMyFriend.LoggedMainPages
             //    webClient.DownloadStringAsync(LoggedUserFriends);
             //}
             //else 
+            App.VengoDeMapa = false;
             NavigationService.Navigate(new Uri("/LoggedMainPages/Friends.xaml", UriKind.Relative));
   
 

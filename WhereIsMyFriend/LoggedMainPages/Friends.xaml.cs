@@ -239,6 +239,14 @@ namespace WhereIsMyFriend.LoggedMainPages
 
                newTimer.Stop();
 
+               if(App.VengoDeMapa)
+               {
+                   NavigationService.Navigate(new Uri("/LoggedMainPages/Mapa.xaml", UriKind.Relative));
+               }
+               else
+               {
+                   NavigationService.Navigate(new Uri("/LoggedMainPages/Menu.xaml", UriKind.Relative));
+               }
                System.Diagnostics.Debug.WriteLine("Me fui de la pagina");
 
            }
