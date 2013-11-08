@@ -80,7 +80,7 @@
                 <TextBlock Name="friends" Margin="10, 0, 5, 10" Text="{Binding Path=LocalizedResources.FriendsTitleTile, Source={StaticResource LocalizedStrings}}" Width="100" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontFamily="Segoe UI" FontSize="26" Foreground ="White"/>
             </Grid>
             <Grid  Grid.Row="0" Grid.Column="1" toolkit:TiltEffect.IsTiltEnabled="True"  Background="#00aff0" Margin="10" Tap="Requests_Tap" >
-                <TextBlock Name="requestsImage" Grid.Column="0" Text=" 5"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="47,42,51,77" Width="100" Height="100" FontFamily="Segoe UI" FontSize="90" Foreground ="White" />
+                <TextBlock Name="requestsImage" Grid.Column="0" Text="5"  Margin="74,38,25,78"  Height="Auto" Width="Auto" FontFamily="Segoe UI" FontSize="90" Foreground ="White"  />
                 <TextBlock Name="requests" Text="{Binding Path=LocalizedResources.RequestsTitleTile, Source={StaticResource LocalizedStrings}}" Margin="10, 0, 5, 10"  Width="130" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontFamily="Segoe UI" FontSize="26" Foreground ="White"/>
             </Grid>
         </Grid>

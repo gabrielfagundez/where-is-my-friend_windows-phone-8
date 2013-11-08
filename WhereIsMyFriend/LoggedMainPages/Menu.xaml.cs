@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using WhereIsMyFriend.Resources;
 using System.Windows.Media;
 using Microsoft.Phone.Net.NetworkInformation;
+using WhereIsMyFriend.Classes;
 
 namespace WhereIsMyFriend.LoggedMainPages
 {
@@ -24,6 +25,7 @@ namespace WhereIsMyFriend.LoggedMainPages
             TiltEffect.TiltableItems.Add(typeof(Grid));
             // Código de ejemplo para traducir ApplicationBar
             BuildLocalizedApplicationBar();
+            requestsImage.Text = LoggedUser.Instance.getRequests().Count<RequestData>().ToString();
             
             
         }
