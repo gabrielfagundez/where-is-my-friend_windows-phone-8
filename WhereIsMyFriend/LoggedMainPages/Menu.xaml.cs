@@ -49,6 +49,7 @@ namespace WhereIsMyFriend.LoggedMainPages
 
         public void geolocator_PositionChanged2(Geolocator sender, PositionChangedEventArgs args)
         {
+            App.isGpsEnabled = true;
 
             if (!App.RunningInBackground)
             {

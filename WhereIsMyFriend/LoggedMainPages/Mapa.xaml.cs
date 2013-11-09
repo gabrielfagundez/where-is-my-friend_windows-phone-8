@@ -30,32 +30,42 @@ namespace WhereIsMyFriend.LoggedMainPages
 
         private GeoCoordinate myOldPosition;
         DispatcherTimer newTimer = new DispatcherTimer();
-
+        DispatcherTimer gpsTimer = new DispatcherTimer();
         public Mapa()
         {
             
             InitializeComponent();
             // Código de ejemplo para traducir ApplicationBar
             BuildLocalizedApplicationBar();
-            // timer interval specified as 1 second
             newTimer.Interval = TimeSpan.FromSeconds(5);
-            // Sub-routine OnTimerTick will be called at every 1 second
             newTimer.Tick += OnTimerTick;
-            // starting the timer
             newTimer.Start();
-            //CustomMessageBox messageBox = new CustomMessageBox()
-           // {
-            //    Caption = "",
-            //    LeftButtonContent = "Ok",
-                //Message = "Instrucciones:\n*desplegar simulador de posicionamiento para ver como cambia tu pos. actual(puntito azul)\n* el boton de test agrega algunos puntos, si apretetas varias veces el boton, se simula el movimiento de tus amigos\n*para agregar o actualizar posiciones de amigos usar la funcion  public void insert(string id, string nom, GeoCoordinate geo) q esta en la clase PointsHandler q es un singleton\n*para dejar de seguir a un amigo en el mapa esta la funcion deleteFriend(string id)",
 
 
-          //  };
-         //   messageBox.Show();
-           // GetCoordinate();
+            gpsTimer.Interval = TimeSpan.FromSeconds(10);
+            gpsTimer.Tick += OngpsTimerTick;
+            gpsTimer.Start();
 
         }
 
+        private async void OngpsTimerTick(object sender, EventArgs e)
+        {
+            try
+            {
+                var pos = await App.Geolocator.GetGeopositionAsync();
+                var pos2 = ConvertGeocoordinate(pos.Coordinate);
+                PointsHandler ph = PointsHandler.Instance;
+                ph.myPosition = pos2;
+                App.isGpsEnabled = true;
+            }
+            catch (Exception)
+            {
+
+                App.isGpsEnabled = false;//no esta activado el gps
+            }
+
+
+        }
     
 
         void OnTimerTick(Object sender, EventArgs args)
@@ -88,32 +98,34 @@ namespace WhereIsMyFriend.LoggedMainPages
         //******************************************************************************************
         private void drawMyPosition()
         {
-
-            GeoCoordinate pos = PointsHandler.Instance.myPosition;
-
-            // Create a small circle to mark the current location.
-            Ellipse myCircle = new Ellipse();
-            myCircle.Fill = new SolidColorBrush(Colors.Blue);
-            myCircle.Height = 20;
-            myCircle.Width = 20;
-            myCircle.Opacity = 50;
-
-            // Create a MapOverlay to contain the circle.
-            MapOverlay myLocationOverlay = new MapOverlay();
-            myLocationOverlay.Content = myCircle;
-            myLocationOverlay.PositionOrigin = new Point(0.5, 0.5);
-            myLocationOverlay.GeoCoordinate = pos;
-
-            // Create a MapLayer to contain the MapOverlay.
-            MapLayer myLocationLayer = new MapLayer();
-            myLocationLayer.Add(myLocationOverlay);
-            // Add the MapLayer to the Map.            
-            this.mapWithMyLocation.Layers.Add(myLocationLayer);
-
-            if (PointsHandler.Instance.myPosition != myOldPosition)
+            if (App.isGpsEnabled)
             {
-                this.mapWithMyLocation.Center = PointsHandler.Instance.myPosition;
-                myOldPosition = PointsHandler.Instance.myPosition;
+                GeoCoordinate pos = PointsHandler.Instance.myPosition;
+
+                // Create a small circle to mark the current location.
+                Ellipse myCircle = new Ellipse();
+                myCircle.Fill = new SolidColorBrush(Colors.Blue);
+                myCircle.Height = 20;
+                myCircle.Width = 20;
+                myCircle.Opacity = 50;
+
+                // Create a MapOverlay to contain the circle.
+                MapOverlay myLocationOverlay = new MapOverlay();
+                myLocationOverlay.Content = myCircle;
+                myLocationOverlay.PositionOrigin = new Point(0.5, 0.5);
+                myLocationOverlay.GeoCoordinate = pos;
+
+                // Create a MapLayer to contain the MapOverlay.
+                MapLayer myLocationLayer = new MapLayer();
+                myLocationLayer.Add(myLocationOverlay);
+                // Add the MapLayer to the Map.            
+                this.mapWithMyLocation.Layers.Add(myLocationLayer);
+
+                if (PointsHandler.Instance.myPosition != myOldPosition)
+                {
+                    this.mapWithMyLocation.Center = PointsHandler.Instance.myPosition;
+                    myOldPosition = PointsHandler.Instance.myPosition;
+                }
             }
         }
 
@@ -202,17 +214,26 @@ namespace WhereIsMyFriend.LoggedMainPages
         // Inicializacion del mapa
 
         protected async override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
-        {           
-            // Graficar mi posicion y setearla en el singleton
-            var pos = await App.Geolocator.GetGeopositionAsync(); 
-            var pos2 = ConvertGeocoordinate(pos.Coordinate);
-            PointsHandler ph = PointsHandler.Instance;
-            ph.myPosition = pos2;
-            // Make my current location the center of the Map.            
-            this.mapWithMyLocation.Center = pos2;
-            clearMap();
-            drawMyPosition();
-            drawFriends();
+        {
+            
+
+            try
+            {
+                // Graficar mi posicion y setearla en el singleton
+                var pos = await App.Geolocator.GetGeopositionAsync();
+                var pos2 = ConvertGeocoordinate(pos.Coordinate);
+                PointsHandler ph = PointsHandler.Instance;
+                ph.myPosition = pos2;
+                // Make my current location the center of the Map.     
+                App.isGpsEnabled = true;
+                
+            }
+            catch (Exception)
+            {
+
+                App.isGpsEnabled = false;//no esta activado el gps
+            }
+            updateFriendsPosition();
             DibujarAmigos();
         }
         
