@@ -280,6 +280,7 @@ namespace WhereIsMyFriend.LoggedMainPages
         {
             
             newTimer.Stop();
+            gpsTimer.Stop();
            
             System.Diagnostics.Debug.WriteLine("Me fui de la pagina");
 
