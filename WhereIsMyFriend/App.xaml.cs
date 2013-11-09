@@ -25,7 +25,7 @@ namespace WhereIsMyFriend
         public static bool RunningInBackground { get; set; }
         public static bool Mapa = false;
         public static bool VengoDeMapa = false;
-        public static string webService = "http://serverdevelopmentpis.azurewebsites.net";
+        public static string webService = "http://developmentpis.azurewebsites.net";
         public static bool isGpsEnabled = false;
         /// <summary>
         /// Constructor para el objeto Application.
