@@ -41,6 +41,10 @@ namespace WhereIsMyFriend.LoggedMainPages
                 string json = "{\"Mail\":\"" + l.GetLoggedUser().Mail + "\"}";
                 webClient.UploadStringAsync((new Uri(App.webService + "/api/Users/LogoutWhere")), "POST", json);
                 await l.LogOut();
+                //mapa*******************
+                //App.Geolocator.PositionChanged -= geolocator_PositionChanged2;
+                App.Geolocator = null;
+                //mapa*******************
                 NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
             } 
             else

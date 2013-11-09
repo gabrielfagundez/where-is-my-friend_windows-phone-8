@@ -28,7 +28,7 @@ namespace WhereIsMyFriend.LoggedMainPages
     public partial class Mapa : PhoneApplicationPage
     {
 
-        string latitud, longitud = string.Empty;
+        private GeoCoordinate myOldPosition;
         DispatcherTimer newTimer = new DispatcherTimer();
 
         public Mapa()
@@ -109,6 +109,12 @@ namespace WhereIsMyFriend.LoggedMainPages
             myLocationLayer.Add(myLocationOverlay);
             // Add the MapLayer to the Map.            
             this.mapWithMyLocation.Layers.Add(myLocationLayer);
+
+            if (PointsHandler.Instance.myPosition != myOldPosition)
+            {
+                this.mapWithMyLocation.Center = PointsHandler.Instance.myPosition;
+                myOldPosition = PointsHandler.Instance.myPosition;
+            }
         }
 
 
@@ -196,16 +202,7 @@ namespace WhereIsMyFriend.LoggedMainPages
         // Inicializacion del mapa
 
         protected async override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
-        {
-            if (App.Geolocator == null)
-            {
-                //Si nunca se inicializo
-                App.Geolocator = new Geolocator();
-                App.Geolocator.DesiredAccuracy = PositionAccuracy.High;
-                App.Geolocator.MovementThreshold = 15; // The units are meters.
-                App.Geolocator.PositionChanged += geolocator_PositionChanged;
-            }
-            
+        {           
             // Graficar mi posicion y setearla en el singleton
             var pos = await App.Geolocator.GetGeopositionAsync(); 
             var pos2 = ConvertGeocoordinate(pos.Coordinate);
@@ -217,20 +214,9 @@ namespace WhereIsMyFriend.LoggedMainPages
             drawMyPosition();
             drawFriends();
             DibujarAmigos();
-            //Funcion que inicia el thread
-           // Dibujar();
         }
-
         
-
-        protected override void OnRemovedFromJournal(System.Windows.Navigation.JournalEntryRemovedEventArgs e)
-        {
-            App.Geolocator.PositionChanged -= geolocator_PositionChanged;
-            App.Geolocator = null;
-
-        }
-
-        
+                
         public static GeoCoordinate ConvertGeocoordinate(Geocoordinate geocoordinate)
         {
             return new GeoCoordinate
@@ -246,89 +232,8 @@ namespace WhereIsMyFriend.LoggedMainPages
         }
         
 
-        void geolocator_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
-        {
-
-            if (!App.RunningInBackground)
-            {
-                Dispatcher.BeginInvoke(() =>
-                {
-                    System.Diagnostics.Debug.WriteLine("Actualizamos en background");
-                    latitud = args.Position.Coordinate.Latitude.ToString("0.00000");
-                    longitud = args.Position.Coordinate.Longitude.ToString("0.00000");
-
-                    var pos = ConvertGeocoordinate(args.Position.Coordinate);
-                    PointsHandler ph = PointsHandler.Instance;
-                    ph.myPosition = pos;
-                    // Make my current location the center of the Map.
-                    this.mapWithMyLocation.Center = pos;
-                    clearMap();
-                    drawMyPosition();
-                    drawFriends();
-
-                    var webClient = new WebClient();
-                    webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
-                    webClient.UploadStringCompleted += this.sendPostCompleted1;
-                    LoggedUser user = LoggedUser.Instance;
-                    string json = "{\"Mail\":\"" + user.GetLoggedUser().Mail + "\"," +
-                                    "\"Latitude\":\"" + latitud + "\"," +
-                                      "\"Longitude\":\"" + longitud + "\"}";
-                    System.Diagnostics.Debug.WriteLine(json);
-
-                    webClient.UploadStringAsync((new Uri(App.webService + "/api/Geolocation/SetLocation/")), "POST", json);
-                });
-            }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine("Actualizamos en de frente");
-                latitud = args.Position.Coordinate.Latitude.ToString("0.00000");
-                longitud = args.Position.Coordinate.Longitude.ToString("0.00000");
-                var webClient = new WebClient();
-                webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
-                webClient.UploadStringCompleted += this.sendPostCompleted1;
-                LoggedUser user = LoggedUser.Instance;
-                string json = "{\"Mail\":\"" + user.GetLoggedUser().Mail + "\"," +
-                                "\"Latitude\":\"" + latitud + "\"," +
-                                  "\"Longitude\":\"" + longitud + "\"}";
-                System.Diagnostics.Debug.WriteLine(json);
-
-                webClient.UploadStringAsync((new Uri(App.webService + "/api/Geolocation/SetLocation/")), "POST", json);
 
 
-                Microsoft.Phone.Shell.ShellToast toast = new Microsoft.Phone.Shell.ShellToast();
-                toast.Content = latitud + longitud;
-                toast.Title = "Location: ";
-                toast.NavigationUri = new Uri("/LoggedMainPages/Mapa.xaml", UriKind.Relative);
-                toast.Show();
-
-            }
-        }
-
-        private void sendPostCompleted1(object sender, UploadStringCompletedEventArgs e)
-        {
-            if ((e.Error != null) && (e.Error.GetType().Name == "WebException"))
-            {
-                WebException we = (WebException)e.Error;
-                HttpWebResponse response = (System.Net.HttpWebResponse)we.Response;
-
-                switch (response.StatusCode)
-                {
-
-                    case HttpStatusCode.NotFound: // 404
-                        System.Diagnostics.Debug.WriteLine("Not found!");
-                        break;
-                    case HttpStatusCode.Unauthorized: // 401
-                        System.Diagnostics.Debug.WriteLine("Not authorized!");
-                        break;
-                    default:
-                        break;
-                }
-            }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine(e.Result.ToString());
-            }
-        }
 
         private void PhoneApplicationPage_OrientationChanged_1(object sender, OrientationChangedEventArgs e)
         {   

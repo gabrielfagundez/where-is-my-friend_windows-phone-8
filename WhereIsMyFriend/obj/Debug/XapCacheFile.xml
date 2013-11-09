@@ -1,44 +1,44 @@
-﻿<xapCache source="C:\wmf_wp\WhereIsMyFriend\Bin\Debug\WhereIsMyFriend_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="11/6/2013 10:56:50 AM">
-  <file source="C:\wmf_wp\WhereIsMyFriend\obj\Debug\WhereIsMyFriend.dll" archivePath="WhereIsMyFriend.dll" lastWriteTime="11/6/2013 10:56:48 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\obj\Debug\es-ES\WhereIsMyFriend.resources.dll" archivePath="es-ES\WhereIsMyFriend.resources.dll" lastWriteTime="11/6/2013 10:56:49 AM" />
-  <file source="C:\wmf_wp\packages\WPtoolkit.4.2013.08.16\lib\wp8\es-ES\Microsoft.Phone.Controls.Toolkit.resources.dll" archivePath="es-ES\Microsoft.Phone.Controls.Toolkit.resources.dll" lastWriteTime="11/6/2013 9:26:17 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Assets\AlignmentGrid.png" archivePath="Assets\AlignmentGrid.png" lastWriteTime="11/6/2013 9:26:15 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Assets\images\avatar.jpg" archivePath="Assets\images\avatar.jpg" lastWriteTime="11/6/2013 9:26:15 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Assets\images\friendspic.png" archivePath="Assets\images\friendspic.png" lastWriteTime="11/6/2013 9:26:15 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Assets\images\imap.png" archivePath="Assets\images\imap.png" lastWriteTime="11/6/2013 9:26:15 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Assets\images\LogoCeleste.png" archivePath="Assets\images\LogoCeleste.png" lastWriteTime="11/6/2013 9:26:15 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Assets\images\logout.png" archivePath="Assets\images\logout.png" lastWriteTime="11/6/2013 9:26:15 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Assets\images\LogoWIMFBlanco.png" archivePath="Assets\images\LogoWIMFBlanco.png" lastWriteTime="11/6/2013 9:26:15 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Assets\images\Logout-32.png" archivePath="Assets\images\Logout-32.png" lastWriteTime="11/6/2013 9:26:15 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Assets\images\profilepic.png" archivePath="Assets\images\profilepic.png" lastWriteTime="11/6/2013 9:26:15 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Assets\Tiles\FlipCycleTileLarge.png" archivePath="Assets\Tiles\FlipCycleTileLarge.png" lastWriteTime="11/6/2013 9:26:15 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Assets\Tiles\FlipCycleTileSmall.png" archivePath="Assets\Tiles\FlipCycleTileSmall.png" lastWriteTime="11/6/2013 9:26:15 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Assets\Tiles\IconicTileMediumLarge.png" archivePath="Assets\Tiles\IconicTileMediumLarge.png" lastWriteTime="11/6/2013 9:26:15 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Assets\Tiles\IconicTileSmall.png" archivePath="Assets\Tiles\IconicTileSmall.png" lastWriteTime="11/6/2013 9:26:15 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Assets\images\friends.png" archivePath="Assets\images\friends.png" lastWriteTime="11/6/2013 9:26:15 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Assets\images\map.png" archivePath="Assets\images\map.png" lastWriteTime="11/6/2013 9:26:15 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\README_FIRST.txt" archivePath="README_FIRST.txt" lastWriteTime="11/6/2013 9:26:16 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Toolkit.Content\ApplicationBar.Add.png" archivePath="Toolkit.Content\ApplicationBar.Add.png" lastWriteTime="11/6/2013 9:26:16 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Toolkit.Content\ApplicationBar.Cancel.png" archivePath="Toolkit.Content\ApplicationBar.Cancel.png" lastWriteTime="11/6/2013 9:26:16 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Toolkit.Content\ApplicationBar.Check.png" archivePath="Toolkit.Content\ApplicationBar.Check.png" lastWriteTime="11/6/2013 9:26:16 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Toolkit.Content\ApplicationBar.Delete.png" archivePath="Toolkit.Content\ApplicationBar.Delete.png" lastWriteTime="11/6/2013 9:26:16 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Toolkit.Content\ApplicationBar.Select.png" archivePath="Toolkit.Content\ApplicationBar.Select.png" lastWriteTime="11/6/2013 9:26:16 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Toolkit.Content\cancel.png" archivePath="Toolkit.Content\cancel.png" lastWriteTime="11/6/2013 9:26:16 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Toolkit.Content\close.png" archivePath="Toolkit.Content\close.png" lastWriteTime="11/6/2013 9:26:16 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Toolkit.Content\feature.search.png" archivePath="Toolkit.Content\feature.search.png" lastWriteTime="11/6/2013 9:26:16 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Toolkit.Content\feature.settings.png" archivePath="Toolkit.Content\feature.settings.png" lastWriteTime="11/6/2013 9:26:16 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="11/6/2013 10:15:43 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Bin\Debug\Assets\ApplicationIcon.png" archivePath="Assets\ApplicationIcon.png" lastWriteTime="11/6/2013 9:26:15 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Bin\Debug\Assets\Tiles\FlipCycleTileLarge.png" archivePath="Assets\Tiles\FlipCycleTileLarge.png" lastWriteTime="11/6/2013 9:26:15 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Bin\Debug\Assets\Tiles\FlipCycleTileMedium.png" archivePath="Assets\Tiles\FlipCycleTileMedium.png" lastWriteTime="11/6/2013 9:26:15 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Bin\Debug\Assets\Tiles\FlipCycleTileSmall.png" archivePath="Assets\Tiles\FlipCycleTileSmall.png" lastWriteTime="11/6/2013 9:26:15 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Bin\Debug\Assets\Tiles\IconicTileMediumLarge.png" archivePath="Assets\Tiles\IconicTileMediumLarge.png" lastWriteTime="11/6/2013 9:26:15 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Bin\Debug\Assets\Tiles\IconicTileSmall.png" archivePath="Assets\Tiles\IconicTileSmall.png" lastWriteTime="11/6/2013 9:26:15 AM" />
+﻿<xapCache source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Bin\Debug\WhereIsMyFriend_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="11/9/2013 4:01:41 PM">
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\obj\Debug\WhereIsMyFriend.dll" archivePath="WhereIsMyFriend.dll" lastWriteTime="11/9/2013 4:01:40 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\obj\Debug\es-ES\WhereIsMyFriend.resources.dll" archivePath="es-ES\WhereIsMyFriend.resources.dll" lastWriteTime="11/9/2013 4:01:40 PM" />
+  <file source="C:\wmf nueva\wmf_wp\packages\WPtoolkit.4.2013.08.16\lib\wp8\es-ES\Microsoft.Phone.Controls.Toolkit.resources.dll" archivePath="es-ES\Microsoft.Phone.Controls.Toolkit.resources.dll" lastWriteTime="11/9/2013 3:37:51 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Assets\AlignmentGrid.png" archivePath="Assets\AlignmentGrid.png" lastWriteTime="11/9/2013 3:37:50 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Assets\images\avatar.jpg" archivePath="Assets\images\avatar.jpg" lastWriteTime="11/9/2013 3:37:50 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Assets\images\friendspic.png" archivePath="Assets\images\friendspic.png" lastWriteTime="11/9/2013 3:37:50 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Assets\images\imap.png" archivePath="Assets\images\imap.png" lastWriteTime="11/9/2013 3:37:50 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Assets\images\LogoCeleste.png" archivePath="Assets\images\LogoCeleste.png" lastWriteTime="11/9/2013 3:37:50 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Assets\images\logout.png" archivePath="Assets\images\logout.png" lastWriteTime="11/9/2013 3:37:50 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Assets\images\LogoWIMFBlanco.png" archivePath="Assets\images\LogoWIMFBlanco.png" lastWriteTime="11/9/2013 3:37:50 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Assets\images\Logout-32.png" archivePath="Assets\images\Logout-32.png" lastWriteTime="11/9/2013 3:37:50 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Assets\images\profilepic.png" archivePath="Assets\images\profilepic.png" lastWriteTime="11/9/2013 3:37:50 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Assets\Tiles\FlipCycleTileLarge.png" archivePath="Assets\Tiles\FlipCycleTileLarge.png" lastWriteTime="11/9/2013 3:37:50 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Assets\Tiles\FlipCycleTileSmall.png" archivePath="Assets\Tiles\FlipCycleTileSmall.png" lastWriteTime="11/9/2013 3:37:50 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Assets\Tiles\IconicTileMediumLarge.png" archivePath="Assets\Tiles\IconicTileMediumLarge.png" lastWriteTime="11/9/2013 3:37:50 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Assets\Tiles\IconicTileSmall.png" archivePath="Assets\Tiles\IconicTileSmall.png" lastWriteTime="11/9/2013 3:37:50 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Assets\images\friends.png" archivePath="Assets\images\friends.png" lastWriteTime="11/9/2013 3:37:50 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Assets\images\map.png" archivePath="Assets\images\map.png" lastWriteTime="11/9/2013 3:37:50 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\README_FIRST.txt" archivePath="README_FIRST.txt" lastWriteTime="11/9/2013 3:37:51 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Toolkit.Content\ApplicationBar.Add.png" archivePath="Toolkit.Content\ApplicationBar.Add.png" lastWriteTime="11/9/2013 3:37:51 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Toolkit.Content\ApplicationBar.Cancel.png" archivePath="Toolkit.Content\ApplicationBar.Cancel.png" lastWriteTime="11/9/2013 3:37:51 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Toolkit.Content\ApplicationBar.Check.png" archivePath="Toolkit.Content\ApplicationBar.Check.png" lastWriteTime="11/9/2013 3:37:51 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Toolkit.Content\ApplicationBar.Delete.png" archivePath="Toolkit.Content\ApplicationBar.Delete.png" lastWriteTime="11/9/2013 3:37:51 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Toolkit.Content\ApplicationBar.Select.png" archivePath="Toolkit.Content\ApplicationBar.Select.png" lastWriteTime="11/9/2013 3:37:51 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Toolkit.Content\cancel.png" archivePath="Toolkit.Content\cancel.png" lastWriteTime="11/9/2013 3:37:51 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Toolkit.Content\close.png" archivePath="Toolkit.Content\close.png" lastWriteTime="11/9/2013 3:37:51 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Toolkit.Content\feature.search.png" archivePath="Toolkit.Content\feature.search.png" lastWriteTime="11/9/2013 3:37:51 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Toolkit.Content\feature.settings.png" archivePath="Toolkit.Content\feature.settings.png" lastWriteTime="11/9/2013 3:37:51 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="11/9/2013 3:44:07 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Bin\Debug\Assets\ApplicationIcon.png" archivePath="Assets\ApplicationIcon.png" lastWriteTime="11/9/2013 3:37:50 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Bin\Debug\Assets\Tiles\FlipCycleTileLarge.png" archivePath="Assets\Tiles\FlipCycleTileLarge.png" lastWriteTime="11/9/2013 3:37:50 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Bin\Debug\Assets\Tiles\FlipCycleTileMedium.png" archivePath="Assets\Tiles\FlipCycleTileMedium.png" lastWriteTime="11/9/2013 3:37:50 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Bin\Debug\Assets\Tiles\FlipCycleTileSmall.png" archivePath="Assets\Tiles\FlipCycleTileSmall.png" lastWriteTime="11/9/2013 3:37:50 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Bin\Debug\Assets\Tiles\IconicTileMediumLarge.png" archivePath="Assets\Tiles\IconicTileMediumLarge.png" lastWriteTime="11/9/2013 3:37:50 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Bin\Debug\Assets\Tiles\IconicTileSmall.png" archivePath="Assets\Tiles\IconicTileSmall.png" lastWriteTime="11/9/2013 3:37:50 PM" />
   <file source="C:\Program Files (x86)\Microsoft SDKs\Windows Phone\v8.0\Libraries\Microsoft.Phone.Controls.dll" archivePath="Microsoft.Phone.Controls.dll" lastWriteTime="12/31/2012 5:04:52 AM" />
-  <file source="C:\wmf_wp\packages\WPtoolkit.4.2013.08.16\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll" archivePath="Microsoft.Phone.Controls.Toolkit.dll" lastWriteTime="11/6/2013 9:26:17 AM" />
-  <file source="C:\wmf_wp\packages\Newtonsoft.Json.5.0.6\lib\portable-net45+wp80+win8\Newtonsoft.Json.dll" archivePath="Newtonsoft.Json.dll" lastWriteTime="11/6/2013 9:26:16 AM" />
-  <file source="C:\wmf_wp\packages\Newtonsoft.Json.5.0.6\lib\portable-net45+wp80+win8\Newtonsoft.Json.xml" archivePath="Newtonsoft.Json.xml" lastWriteTime="11/6/2013 9:26:16 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Assets\ApplicationIcon.png" archivePath="Assets\ApplicationIcon.png" lastWriteTime="11/6/2013 9:26:15 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Assets\Tiles\FlipCycleTileMedium.png" archivePath="Assets\Tiles\FlipCycleTileMedium.png" lastWriteTime="11/6/2013 9:26:15 AM" />
-  <file source="C:\wmf_wp\WhereIsMyFriend\Bin\Debug\Properties\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="11/6/2013 9:26:15 AM" />
+  <file source="C:\wmf nueva\wmf_wp\packages\WPtoolkit.4.2013.08.16\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll" archivePath="Microsoft.Phone.Controls.Toolkit.dll" lastWriteTime="11/9/2013 3:37:51 PM" />
+  <file source="C:\wmf nueva\wmf_wp\packages\Newtonsoft.Json.5.0.6\lib\portable-net45+wp80+win8\Newtonsoft.Json.dll" archivePath="Newtonsoft.Json.dll" lastWriteTime="11/9/2013 3:37:51 PM" />
+  <file source="C:\wmf nueva\wmf_wp\packages\Newtonsoft.Json.5.0.6\lib\portable-net45+wp80+win8\Newtonsoft.Json.xml" archivePath="Newtonsoft.Json.xml" lastWriteTime="11/9/2013 3:37:51 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Assets\ApplicationIcon.png" archivePath="Assets\ApplicationIcon.png" lastWriteTime="11/9/2013 3:37:50 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Assets\Tiles\FlipCycleTileMedium.png" archivePath="Assets\Tiles\FlipCycleTileMedium.png" lastWriteTime="11/9/2013 3:37:50 PM" />
+  <file source="C:\wmf nueva\wmf_wp\WhereIsMyFriend\Bin\Debug\Properties\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="11/9/2013 3:37:50 PM" />
 </xapCache>

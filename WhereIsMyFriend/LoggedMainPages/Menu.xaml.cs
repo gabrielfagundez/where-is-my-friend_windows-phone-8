@@ -13,12 +13,14 @@ using WhereIsMyFriend.Resources;
 using System.Windows.Media;
 using Microsoft.Phone.Net.NetworkInformation;
 using WhereIsMyFriend.Classes;
+using System.Device.Location;
+using Windows.Devices.Geolocation;
 
 namespace WhereIsMyFriend.LoggedMainPages
 {
     public partial class Menu : PhoneApplicationPage
     {
-        
+        string latitud, longitud = string.Empty;//viene del mapa (es para mandar pos siempre)
         public Menu()
         {
             InitializeComponent();
@@ -26,8 +28,114 @@ namespace WhereIsMyFriend.LoggedMainPages
             // Código de ejemplo para traducir ApplicationBar
             BuildLocalizedApplicationBar();
             requestsImage.Text = LoggedUser.Instance.getRequests().Count<RequestData>().ToString();
-            
-            
+
+            iniMap();
+        }
+
+        private void iniMap()
+        {
+            App.Geolocator = null;//mapa
+
+            if (App.Geolocator == null)
+            {
+                //Si nunca se inicializo
+                App.Geolocator = new Geolocator();
+                App.Geolocator.DesiredAccuracy = PositionAccuracy.High;
+                App.Geolocator.MovementThreshold = 15; // The units are meters.
+                App.Geolocator.PositionChanged += geolocator_PositionChanged2;
+            }
+
+        }
+
+        public void geolocator_PositionChanged2(Geolocator sender, PositionChangedEventArgs args)
+        {
+
+            if (!App.RunningInBackground)
+            {
+                Dispatcher.BeginInvoke(() =>
+                {
+                    System.Diagnostics.Debug.WriteLine("Actualizamos en background");
+                    latitud = args.Position.Coordinate.Latitude.ToString("0.00000");
+                    longitud = args.Position.Coordinate.Longitude.ToString("0.00000");
+
+                    var pos = ConvertGeocoordinate(args.Position.Coordinate);
+                    PointsHandler ph = PointsHandler.Instance;
+                    ph.myPosition = pos;
+
+                    var webClient = new WebClient();
+                    webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
+                    webClient.UploadStringCompleted += this.sendPostCompleted1;
+                    LoggedUser user = LoggedUser.Instance;
+                    string json = "{\"Mail\":\"" + user.GetLoggedUser().Mail + "\"," +
+                                    "\"Latitude\":\"" + latitud + "\"," +
+                                      "\"Longitude\":\"" + longitud + "\"}";
+                    System.Diagnostics.Debug.WriteLine(json);
+
+                    webClient.UploadStringAsync((new Uri(App.webService + "/api/Geolocation/SetLocation/")), "POST", json);
+                });
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("Actualizamos en de frente");
+                latitud = args.Position.Coordinate.Latitude.ToString("0.00000");
+                longitud = args.Position.Coordinate.Longitude.ToString("0.00000");
+                var webClient = new WebClient();
+                webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
+                webClient.UploadStringCompleted += this.sendPostCompleted1;
+                LoggedUser user = LoggedUser.Instance;
+                string json = "{\"Mail\":\"" + user.GetLoggedUser().Mail + "\"," +
+                                "\"Latitude\":\"" + latitud + "\"," +
+                                  "\"Longitude\":\"" + longitud + "\"}";
+                System.Diagnostics.Debug.WriteLine(json);
+
+                webClient.UploadStringAsync((new Uri(App.webService + "/api/Geolocation/SetLocation/")), "POST", json);
+
+
+
+
+            }
+        }
+
+
+        private void sendPostCompleted1(object sender, UploadStringCompletedEventArgs e)
+        {
+            if ((e.Error != null) && (e.Error.GetType().Name == "WebException"))
+            {
+                WebException we = (WebException)e.Error;
+                HttpWebResponse response = (System.Net.HttpWebResponse)we.Response;
+
+                switch (response.StatusCode)
+                {
+
+                    case HttpStatusCode.NotFound: // 404
+                        System.Diagnostics.Debug.WriteLine("Not found!");
+                        break;
+                    case HttpStatusCode.Unauthorized: // 401
+                        System.Diagnostics.Debug.WriteLine("Not authorized!");
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine(e.Result.ToString());
+            }
+        }
+
+
+        public static GeoCoordinate ConvertGeocoordinate(Geocoordinate geocoordinate)
+        {
+            return new GeoCoordinate
+                (
+                geocoordinate.Latitude,
+                geocoordinate.Longitude,
+                geocoordinate.Altitude ?? Double.NaN,
+                geocoordinate.Accuracy,
+                geocoordinate.AltitudeAccuracy ?? Double.NaN,
+                geocoordinate.Speed ?? Double.NaN,
+                geocoordinate.Heading ?? Double.NaN
+                );
         }
 
 

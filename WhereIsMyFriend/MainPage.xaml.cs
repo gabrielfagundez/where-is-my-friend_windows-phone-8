@@ -33,7 +33,7 @@ namespace WhereIsMyFriend
             //string channelName = "ToastSampleChannel";
 
             InitializeComponent();
-            MailIngresado.Text = "geo2@mai.com";
+            MailIngresado.Text = "marcio@mail.com";
             PassIngresado.Password = "password";
             Loaded += MainPage_Loaded;
             if (PageTitle.Text == "iniciar sesión"){
