@@ -58,21 +58,59 @@ namespace WhereIsMyFriend.LoggedMainPages
         {
             if (IsNetworkAvailable())
             {
-                System.Diagnostics.Debug.WriteLine("Friends Update en f!");
-                WebClient webClient = new WebClient();
-                webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompleted);
-                LoggedUser user = LoggedUser.Instance;
-                UserData luser = user.GetLoggedUser();
-                Uri LoggedUserFriends = new Uri(App.webService + "/api/Friends/GetAllFriends/" + luser.Id);
-                webClient.DownloadStringAsync(LoggedUserFriends);
+                try
+                {
+                    System.Diagnostics.Debug.WriteLine("Friends Update en f!");
+                    WebClient webClient = new WebClient();
+                    webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompleted);
+                    LoggedUser user = LoggedUser.Instance;
+                    UserData luser = user.GetLoggedUser();
+                    Uri LoggedUserFriends = new Uri(App.webService + "/api/Friends/GetAllFriends/" + luser.Id);
+                    webClient.DownloadStringAsync(LoggedUserFriends);
+                }
+                catch (WebException webex)
+                {
+                    HttpWebResponse webResp = (HttpWebResponse)webex.Response;
+
+                    switch (webResp.StatusCode)
+                    {
+                        case HttpStatusCode.NotFound: // 404
+                            break;
+                        case HttpStatusCode.InternalServerError: // 500
+                            break;
+                        default:
+                            break;
+                    }
+                }
             }
         }
         void webClient_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
-            List<UserData> friendsList = JsonConvert.DeserializeObject<List<UserData>>(e.Result);
-            LoggedUser luser = LoggedUser.Instance;
-            luser.setFriends(friendsList);
-            FriendsList.ItemsSource =luser.getFriends();
+            if ((e.Error != null) && (e.Error.GetType().Name == "WebException"))
+            {
+                WebException we = (WebException)e.Error;
+                HttpWebResponse response = (System.Net.HttpWebResponse)we.Response;
+
+                switch (response.StatusCode)
+                {
+
+                    case HttpStatusCode.NotFound: // 404
+                        System.Diagnostics.Debug.WriteLine("Not found!");
+                        break;
+                    case HttpStatusCode.Unauthorized: // 401
+                        System.Diagnostics.Debug.WriteLine("Not authorized!");
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                List<UserData> friendsList = JsonConvert.DeserializeObject<List<UserData>>(e.Result);
+                LoggedUser luser = LoggedUser.Instance;
+                luser.setFriends(friendsList);
+                FriendsList.ItemsSource = luser.getFriends();
+            }
         }
 
         private void Select(object sender, SelectionChangedEventArgs e)
@@ -99,13 +137,31 @@ namespace WhereIsMyFriend.LoggedMainPages
                 switch (e1.Result)
                 {
                     case CustomMessageBoxResult.LeftButton:
-                        if (IsNetworkAvailable()){
-                            LoggedUser lu = LoggedUser.Instance;
-                            var webClient = new WebClient();
-                            webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
-                            webClient.UploadStringCompleted += this.sendPostCompleted;
-                            string json = "{\"IdFrom\":\"" + lu.GetLoggedUser().Id + "\"," + "\"IdTo\":\"" + selectedUser.Id + "\"}";
-                            webClient.UploadStringAsync((new Uri(App.webService + "/api/Solicitudes/Send")), "POST", json);
+                        if (IsNetworkAvailable())
+                        {
+                            try
+                            {
+                                LoggedUser lu = LoggedUser.Instance;
+                                var webClient = new WebClient();
+                                webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
+                                webClient.UploadStringCompleted += this.sendPostCompleted;
+                                string json = "{\"IdFrom\":\"" + lu.GetLoggedUser().Id + "\"," + "\"IdTo\":\"" + selectedUser.Id + "\"}";
+                                webClient.UploadStringAsync((new Uri(App.webService + "/api/Solicitudes/Send")), "POST", json);
+                            }
+                            catch (WebException webex)
+                            {
+                                HttpWebResponse webResp = (HttpWebResponse)webex.Response;
+
+                                switch (webResp.StatusCode)
+                                {
+                                    case HttpStatusCode.NotFound: // 404
+                                        break;
+                                    case HttpStatusCode.InternalServerError: // 500
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
                         }
                         else
                         {
