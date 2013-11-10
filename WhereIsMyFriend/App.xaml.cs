@@ -143,7 +143,7 @@ namespace WhereIsMyFriend
 
             // Crear el marco pero no establecerlo como RootVisual todavía; esto permite que
             // la pantalla de presentación permanezca activa hasta que la aplicación esté lista para la presentación.
-            RootFrame = new PhoneApplicationFrame();
+            RootFrame = new TransitionFrame();
             RootFrame.Background = new SolidColorBrush(Colors.White);
             RootFrame.Navigated += CompleteInitializePhoneApplication;
 
