@@ -35,42 +35,102 @@ namespace WhereIsMyFriend.LoggedMainPages
         {
             if (IsNetworkAvailable())
             {
-                System.Diagnostics.Debug.WriteLine("Requests Update en f!");
-                WebClient webClient = new WebClient();
-                webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompleted);
-                LoggedUser user = LoggedUser.Instance;
-                UserData luser = user.GetLoggedUser();
-                Uri LoggedUserFriends = new Uri(App.webService + "/api/Solicitudes/GetAll/" + luser.Id);
-                webClient.DownloadStringAsync(LoggedUserFriends);
+                try
+                {
+                    System.Diagnostics.Debug.WriteLine("Requests Update en f!");
+                    WebClient webClient = new WebClient();
+                    webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompleted);
+                    LoggedUser user = LoggedUser.Instance;
+                    UserData luser = user.GetLoggedUser();
+                    Uri LoggedUserFriends = new Uri(App.webService + "/api/Solicitudes/GetAll/" + luser.Id);
+                    webClient.DownloadStringAsync(LoggedUserFriends);
+                }
+                catch (WebException webex)
+                {
+                    HttpWebResponse webResp = (HttpWebResponse)webex.Response;
+
+                    switch (webResp.StatusCode)
+                    {
+                        case HttpStatusCode.NotFound: // 404
+                            break;
+                        case HttpStatusCode.InternalServerError: // 500
+                            break;
+                        default:
+                            break;
+                    }
+                }
             }
         }
 
         void webClient_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
-            List<RequestData> requestsList = JsonConvert.DeserializeObject<List<RequestData>>(e.Result);
-            LoggedUser luser = LoggedUser.Instance;
-            luser.setRequests(requestsList);
-            RequestsList.ItemsSource = luser.getRequests();
-            ProgressB.IsIndeterminate = false;
-            Connecting.Visibility = System.Windows.Visibility.Collapsed;
+            if ((e.Error != null) && (e.Error.GetType().Name == "WebException"))
+            {
+                WebException we = (WebException)e.Error;
+                HttpWebResponse response = (System.Net.HttpWebResponse)we.Response;
+
+                switch (response.StatusCode)
+                {
+
+                    case HttpStatusCode.NotFound: // 404
+                        System.Diagnostics.Debug.WriteLine("Not found!");
+                        ProgressB.IsIndeterminate = false;
+                        Connecting.Visibility = System.Windows.Visibility.Collapsed;
+                        break;
+                    case HttpStatusCode.Unauthorized: // 401
+                        System.Diagnostics.Debug.WriteLine("Not authorized!");
+                        ProgressB.IsIndeterminate = false;
+                        Connecting.Visibility = System.Windows.Visibility.Collapsed;
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                List<RequestData> requestsList = JsonConvert.DeserializeObject<List<RequestData>>(e.Result);
+                LoggedUser luser = LoggedUser.Instance;
+                luser.setRequests(requestsList);
+                RequestsList.ItemsSource = luser.getRequests();
+                ProgressB.IsIndeterminate = false;
+                Connecting.Visibility = System.Windows.Visibility.Collapsed;
+            }
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             if (IsNetworkAvailable())
             {
-                ProgressB.IsIndeterminate = true;
-                Connecting.Visibility = System.Windows.Visibility.Visible;
-                Button cmd = (Button)sender;
-                var deleteme = cmd.DataContext as RequestData;
-                var webClient = new WebClient();
-                webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
-                webClient.UploadStringCompleted += this.sendPostCompletedCancel;
+                try
+                {
+                    ProgressB.IsIndeterminate = true;
+                    Connecting.Visibility = System.Windows.Visibility.Visible;
+                    Button cmd = (Button)sender;
+                    var deleteme = cmd.DataContext as RequestData;
+                    var webClient = new WebClient();
+                    webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
+                    webClient.UploadStringCompleted += this.sendPostCompletedCancel;
 
-                string json = "{\"IdUser\":\"" + LoggedUser.Instance.GetLoggedUser().Id + "\"," +
-                                  "\"IdSolicitud\":\"" + deleteme.SolicitudId + "\"}";
+                    string json = "{\"IdUser\":\"" + LoggedUser.Instance.GetLoggedUser().Id + "\"," +
+                                      "\"IdSolicitud\":\"" + deleteme.SolicitudId + "\"}";
 
-                webClient.UploadStringAsync((new Uri(App.webService + "/api/Solicitudes/Reject")), "POST", json);
+                    webClient.UploadStringAsync((new Uri(App.webService + "/api/Solicitudes/Reject")), "POST", json);
+                }
+                catch (WebException webex)
+                {
+                    HttpWebResponse webResp = (HttpWebResponse)webex.Response;
+
+                    switch (webResp.StatusCode)
+                    {
+                        case HttpStatusCode.NotFound: // 404
+                            break;
+                        case HttpStatusCode.InternalServerError: // 500
+                            break;
+                        default:
+                            break;
+                    }
+                }
             }
             else
             {
@@ -154,18 +214,35 @@ namespace WhereIsMyFriend.LoggedMainPages
 
             if (IsNetworkAvailable())
             {
-                ProgressB.IsIndeterminate = true;
-                Connecting.Visibility = System.Windows.Visibility.Visible;
-                Button cmd = (Button)sender;
-                var deleteme = cmd.DataContext as RequestData;
-                var webClient = new WebClient();
-                webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
-                webClient.UploadStringCompleted += this.sendPostCompletedAccept;
+                try
+                {
+                    ProgressB.IsIndeterminate = true;
+                    Connecting.Visibility = System.Windows.Visibility.Visible;
+                    Button cmd = (Button)sender;
+                    var deleteme = cmd.DataContext as RequestData;
+                    var webClient = new WebClient();
+                    webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
+                    webClient.UploadStringCompleted += this.sendPostCompletedAccept;
 
-                string json = "{\"IdUser\":\"" + LoggedUser.Instance.GetLoggedUser().Id + "\"," +
-                                  "\"IdSolicitud\":\"" + deleteme.SolicitudId + "\"}";
+                    string json = "{\"IdUser\":\"" + LoggedUser.Instance.GetLoggedUser().Id + "\"," +
+                                      "\"IdSolicitud\":\"" + deleteme.SolicitudId + "\"}";
 
-                webClient.UploadStringAsync((new Uri(App.webService + "/api/Solicitudes/Accept")), "POST", json);
+                    webClient.UploadStringAsync((new Uri(App.webService + "/api/Solicitudes/Accept")), "POST", json);
+                }
+                catch (WebException webex)
+                {
+                    HttpWebResponse webResp = (HttpWebResponse)webex.Response;
+
+                    switch (webResp.StatusCode)
+                    {
+                        case HttpStatusCode.NotFound: // 404
+                            break;
+                        case HttpStatusCode.InternalServerError: // 500
+                            break;
+                        default:
+                            break;
+                    }
+                }
             }
             else
             {
