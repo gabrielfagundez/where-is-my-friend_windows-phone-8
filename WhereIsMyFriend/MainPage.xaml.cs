@@ -33,7 +33,7 @@ namespace WhereIsMyFriend
             //string channelName = "ToastSampleChannel";
 
             InitializeComponent();
-            MailIngresado.Text = "marcio@mail.com";
+            MailIngresado.Text = "Prueba1@mail.com";
             PassIngresado.Password = "password";
             Loaded += MainPage_Loaded;
             if (PageTitle.Text == "iniciar sesión"){
@@ -96,37 +96,54 @@ namespace WhereIsMyFriend
         {
             if (IsNetworkAvailable())
             {
-                if (MailIngresado.Text == "")
+                try
                 {
-                    ProgressB.IsIndeterminate = false;
-                    ErrorBlock.Text = AppResources.invalidMail;
-                    ErrorBlock.Visibility = System.Windows.Visibility.Visible;
-                }
-                else
-                    if (PassIngresado.Password == "")
+                    if (MailIngresado.Text == "")
                     {
                         ProgressB.IsIndeterminate = false;
-                        ErrorBlock.Text = AppResources.invalidPassword;
+                        ErrorBlock.Text = AppResources.invalidMail;
                         ErrorBlock.Visibility = System.Windows.Visibility.Visible;
                     }
                     else
+                        if (PassIngresado.Password == "")
+                        {
+                            ProgressB.IsIndeterminate = false;
+                            ErrorBlock.Text = AppResources.invalidPassword;
+                            ErrorBlock.Visibility = System.Windows.Visibility.Visible;
+                        }
+                        else
+                        {
+
+                            ProgressB.IsIndeterminate = true;
+                            Connecting.Visibility = System.Windows.Visibility.Visible;
+                            ErrorBlock.Visibility = System.Windows.Visibility.Collapsed;
+                            var webClient = new WebClient();
+                            webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
+                            webClient.UploadStringCompleted += this.sendPostCompleted;
+
+                            string json = "{\"Mail\":\"" + MailIngresado.Text + "\"," +
+                                              "\"Password\":\"" + PassIngresado.Password + "\"," + "\"DeviceId\":\"" + "" + "\"," + "\"Platform\":\"" + "wp" + "\"}";
+                            //string json = "{\"Mail\":\"" + MailIngresado.Text + "\"," +
+                            //                          "\"Password\":\"" + PassIngresado.Password + "\"}";
+
+                            webClient.UploadStringAsync((new Uri(App.webService + "/api/Users/LoginWhere")), "POST", json);
+
+                        }
+                }
+                catch (WebException webex)
+                {
+                    HttpWebResponse webResp = (HttpWebResponse)webex.Response;
+
+                    switch (webResp.StatusCode)
                     {
-
-                        ProgressB.IsIndeterminate = true;
-                        Connecting.Visibility = System.Windows.Visibility.Visible;
-                        ErrorBlock.Visibility = System.Windows.Visibility.Collapsed;
-                        var webClient = new WebClient();
-                        webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
-                        webClient.UploadStringCompleted += this.sendPostCompleted;
-
-                        string json = "{\"Mail\":\"" + MailIngresado.Text + "\"," +
-                                          "\"Password\":\"" + PassIngresado.Password + "\"," + "\"DeviceId\":\"" + "" + "\"," + "\"Platform\":\"" + "wp" + "\"}";
-                        //string json = "{\"Mail\":\"" + MailIngresado.Text + "\"," +
-                        //                          "\"Password\":\"" + PassIngresado.Password + "\"}";
-
-                        webClient.UploadStringAsync((new Uri(App.webService + "/api/Users/LoginWhere")), "POST", json);
-
+                        case HttpStatusCode.NotFound: // 404
+                            break;
+                        case HttpStatusCode.InternalServerError: // 500
+                            break;
+                        default:
+                            break;
                     }
+                }
             }
             else
             {
