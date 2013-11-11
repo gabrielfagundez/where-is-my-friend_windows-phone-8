@@ -29,7 +29,7 @@ namespace WhereIsMyFriend.LoggedMainPages
             LoggedUser luser = LoggedUser.Instance;
             FriendsList.ItemsSource = luser.getFriends();
             txtSearch.Visibility = System.Windows.Visibility.Collapsed;
-
+            func();
             newTimer.Interval = TimeSpan.FromSeconds(5);
             // Sub-routine OnTimerTick will be called at every 1 second
             newTimer.Tick += OnTimerTick;
@@ -41,20 +41,8 @@ namespace WhereIsMyFriend.LoggedMainPages
 
           
         }
-        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
 
-        }
-
-        private bool IsNetworkAvailable()
-        {
-            if (Microsoft.Phone.Net.NetworkInformation.NetworkInterface.NetworkInterfaceType == NetworkInterfaceType.None)
-                return false;
-            else
-                return true;
-        }
-        void OnTimerTick(Object sender, EventArgs args)
+        private void func()
         {
             if (IsNetworkAvailable())
             {
@@ -83,6 +71,23 @@ namespace WhereIsMyFriend.LoggedMainPages
                     }
                 }
             }
+        }
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+        }
+
+        private bool IsNetworkAvailable()
+        {
+            if (Microsoft.Phone.Net.NetworkInformation.NetworkInterface.NetworkInterfaceType == NetworkInterfaceType.None)
+                return false;
+            else
+                return true;
+        }
+        void OnTimerTick(Object sender, EventArgs args)
+        {
+            func();
         }
         void webClient_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
