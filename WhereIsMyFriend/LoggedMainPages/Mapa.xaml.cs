@@ -121,11 +121,11 @@ namespace WhereIsMyFriend.LoggedMainPages
                 // Add the MapLayer to the Map.            
                 this.mapWithMyLocation.Layers.Add(myLocationLayer);
 
-                if (PointsHandler.Instance.myPosition != myOldPosition)
+                /*if (PointsHandler.Instance.myPosition != myOldPosition) //centrar en mapa 
                 {
                     this.mapWithMyLocation.Center = PointsHandler.Instance.myPosition;
                     myOldPosition = PointsHandler.Instance.myPosition;
-                }
+                }*/
             }
         }
 
@@ -220,6 +220,7 @@ namespace WhereIsMyFriend.LoggedMainPages
             try
             {
                 // Graficar mi posicion y setearla en el singleton
+                this.mapWithMyLocation.Center = PointsHandler.Instance.myPosition;
                 var pos = await App.Geolocator.GetGeopositionAsync();
                 var pos2 = ConvertGeocoordinate(pos.Coordinate);
                 PointsHandler ph = PointsHandler.Instance;
@@ -357,6 +358,12 @@ namespace WhereIsMyFriend.LoggedMainPages
             NavigationService.Navigate(new Uri("/LoggedMainPages/Friends.xaml", UriKind.Relative));
 
         }
+
+        private void centerMe(object sender, EventArgs e)
+        {
+            this.mapWithMyLocation.Center = PointsHandler.Instance.myPosition;
+        }
+
         private void BuildLocalizedApplicationBar()
         {
             ApplicationBar = new ApplicationBar();
@@ -365,9 +372,15 @@ namespace WhereIsMyFriend.LoggedMainPages
             ApplicationBarIconButton appBarButton =
                 new ApplicationBarIconButton(new
                 Uri("/Toolkit.Content/ApplicationBar.Add.png", UriKind.Relative));
+            ApplicationBarIconButton centerButton =
+                new ApplicationBarIconButton(new
+                Uri("/Assets/Images/map.centerme.png", UriKind.Relative));
             appBarButton.Text = AppResources.AppBarAddButtonText;
+            centerButton.Text = AppResources.me;
             appBarButton.Click += this.Add_Click;
+            centerButton.Click += this.centerMe;
             ApplicationBar.Buttons.Add(appBarButton);
+            ApplicationBar.Buttons.Add(centerButton);
             ApplicationBar.BackgroundColor = Color.FromArgb(255, 0, 175, 240);
             ApplicationBar.IsMenuEnabled = false;
             ApplicationBar.IsVisible = true;
