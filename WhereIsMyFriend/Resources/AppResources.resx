@@ -215,4 +215,7 @@
   <data name="ViewTitle" xml:space="preserve">
     <value>View</value>
   </data>
+  <data name="me" xml:space="preserve">
+    <value>me</value>
+  </data>
 </root>
