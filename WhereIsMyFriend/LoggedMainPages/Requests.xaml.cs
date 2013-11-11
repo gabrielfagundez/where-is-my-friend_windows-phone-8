@@ -29,9 +29,9 @@ namespace WhereIsMyFriend.LoggedMainPages
             newTimer.Tick += OnTimerTick;
              //starting the timer
             newTimer.Start();
+            func();
         }
-
-        void OnTimerTick(Object sender, EventArgs args)
+        private void func()
         {
             if (IsNetworkAvailable())
             {
@@ -60,6 +60,11 @@ namespace WhereIsMyFriend.LoggedMainPages
                     }
                 }
             }
+        }
+
+        void OnTimerTick(Object sender, EventArgs args)
+        {
+            func();  
         }
 
         void webClient_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
