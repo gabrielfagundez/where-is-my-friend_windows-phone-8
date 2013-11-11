@@ -22,7 +22,9 @@ namespace WhereIsMyFriend
     public partial class MainPage : PhoneApplicationPage
     {
         private UserData UsuarioLogin;
-        //private HttpNotificationChannel pushChannel;
+        private HttpNotificationChannel pushChannel;
+        public string mail;
+        public string password;
         // Constructor
         public MainPage()
         {
@@ -41,41 +43,6 @@ namespace WhereIsMyFriend
             }
 
 
-            // Try to find the push channel.
-            //pushChannel = HttpNotificationChannel.Find(channelName);
-
-            // //If the channel was not found, then create a new connection to the push service.
-            //if (pushChannel == null)
-            //{
-                //pushChannel = new HttpNotificationChannel(channelName);
-
-                // Register for all the events before attempting to open the channel.
-                //pushChannel.ChannelUriUpdated += new EventHandler<NotificationChannelUriEventArgs>(PushChannel_ChannelUriUpdated);
-                //pushChannel.ErrorOccurred += new EventHandler<NotificationChannelErrorEventArgs>(PushChannel_ErrorOccurred);
-
-                // Register for this notification only if you need to receive the notifications while your application is running.
-                //pushChannel.ShellToastNotificationReceived += new EventHandler<NotificationEventArgs>(PushChannel_ShellToastNotificationReceived);
-
-                //pushChannel.Open();
-
-                // Bind this new channel for toast events.
-                //pushChannel.BindToShellToast();
-            //}
-            //else
-            //{
-            //    //// The channel was already open, so just register for all the events.
-            //    //pushChannel.ChannelUriUpdated += new EventHandler<NotificationChannelUriEventArgs>(PushChannel_ChannelUriUpdated);
-            //    //pushChannel.ErrorOccurred += new EventHandler<NotificationChannelErrorEventArgs>(PushChannel_ErrorOccurred);
-
-            //    //// Register for this notification only if you need to receive the notifications while your application is running.
-            //    //pushChannel.ShellToastNotificationReceived += new EventHandler<NotificationEventArgs>(PushChannel_ShellToastNotificationReceived);
-
-            //    //// Display the URI for testing purposes. Normally, the URI would be passed back to your web service at this point.
-            //    //System.Diagnostics.Debug.WriteLine(pushChannel.ChannelUri.ToString());
-            //    //MessageBox.Show(String.Format("Channel Uri is {0}",
-            //    //    pushChannel.ChannelUri.ToString()));
-              
-            //}
 
 
             // Código de ejemplo para traducir ApplicationBar
@@ -94,6 +61,8 @@ namespace WhereIsMyFriend
         }
         private void Click_check(object sender, EventArgs e)
         {
+            mail = MailIngresado.Text;
+            password = PassIngresado.Password;
             if (IsNetworkAvailable())
             {
                 try
@@ -113,20 +82,53 @@ namespace WhereIsMyFriend
                         }
                         else
                         {
+                            string channelName = "ToastSampleChannel";
 
                             ProgressB.IsIndeterminate = true;
                             Connecting.Visibility = System.Windows.Visibility.Visible;
                             ErrorBlock.Visibility = System.Windows.Visibility.Collapsed;
-                            var webClient = new WebClient();
-                            webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
-                            webClient.UploadStringCompleted += this.sendPostCompleted;
+                             //Try to find the push channel.
+                            pushChannel = HttpNotificationChannel.Find(channelName);
 
-                            string json = "{\"Mail\":\"" + MailIngresado.Text + "\"," +
-                                              "\"Password\":\"" + PassIngresado.Password + "\"," + "\"DeviceId\":\"" + "" + "\"," + "\"Platform\":\"" + "wp" + "\"}";
-                            //string json = "{\"Mail\":\"" + MailIngresado.Text + "\"," +
-                            //                          "\"Password\":\"" + PassIngresado.Password + "\"}";
+                             //If the channel was not found, then create a new connection to the push service.
+                            if (pushChannel == null)
+                            {
+                            pushChannel = new HttpNotificationChannel(channelName);
 
-                            webClient.UploadStringAsync((new Uri(App.webService + "/api/Users/LoginWhere")), "POST", json);
+                             //Register for all the events before attempting to open the channel.
+                            pushChannel.ChannelUriUpdated += new EventHandler<NotificationChannelUriEventArgs>(PushChannel_ChannelUriUpdated);
+                            pushChannel.ErrorOccurred += new EventHandler<NotificationChannelErrorEventArgs>(PushChannel_ErrorOccurred);
+
+                             //Register for this notification only if you need to receive the notifications while your application is running.
+                            pushChannel.ShellToastNotificationReceived += new EventHandler<NotificationEventArgs>(PushChannel_ShellToastNotificationReceived);
+
+                            pushChannel.Open();
+
+                             //Bind this new channel for toast events.
+                            pushChannel.BindToShellToast();
+                            }
+                            else
+                            {
+                                // The channel was already open, so just register for all the events.
+                                pushChannel.ChannelUriUpdated += new EventHandler<NotificationChannelUriEventArgs>(PushChannel_ChannelUriUpdated);
+                                pushChannel.ErrorOccurred += new EventHandler<NotificationChannelErrorEventArgs>(PushChannel_ErrorOccurred);
+
+                                // Register for this notification only if you need to receive the notifications while your application is running.
+                                pushChannel.ShellToastNotificationReceived += new EventHandler<NotificationEventArgs>(PushChannel_ShellToastNotificationReceived);
+
+                                var webClient = new WebClient();
+                                webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
+                                webClient.UploadStringCompleted += this.sendPostCompleted;
+
+                                string json = "{\"Mail\":\"" + MailIngresado.Text + "\"," +
+                                                  "\"Password\":\"" + PassIngresado.Password + "\"," + "\"DeviceId\":\"" + pushChannel.ChannelUri.ToString() + "\"," + "\"Platform\":\"" + "wp" + "\"}";
+           
+
+                                webClient.UploadStringAsync((new Uri(App.webService + "/api/Users/LoginWhere")), "POST", json);
+
+                            }
+
+                           
 
                         }
                 }
@@ -253,13 +255,17 @@ namespace WhereIsMyFriend
         void PushChannel_ChannelUriUpdated(object sender, NotificationChannelUriEventArgs e)
         {
 
+            var webClient = new WebClient();
+            webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
+            webClient.UploadStringCompleted += this.sendPostCompleted;
+            string json = "{\"Mail\":\"" + mail + "\"," +
+                                           "\"Password\":\"" + password + "\"," + "\"DeviceId\":\"" + pushChannel.ChannelUri.ToString() + "\"," + "\"Platform\":\"" + "wp" + "\"}";
+            webClient.UploadStringAsync((new Uri(App.webService + "/api/Users/LoginWhere")), "POST", json);
             Dispatcher.BeginInvoke(() =>
             {
-                // Display the new URI for testing purposes.   Normally, the URI would be passed back to your web service at this point.
-                System.Diagnostics.Debug.WriteLine(e.ChannelUri.ToString());
+                System.Diagnostics.Debug.WriteLine(pushChannel.ChannelUri.ToString());
                 MessageBox.Show(String.Format("Channel Uri is {0}",
-                    e.ChannelUri.ToString()));
-
+                    pushChannel.ChannelUri.ToString()));
             });
         }
         void PushChannel_ErrorOccurred(object sender, NotificationChannelErrorEventArgs e)
@@ -272,31 +278,29 @@ namespace WhereIsMyFriend
         }
         void PushChannel_ShellToastNotificationReceived(object sender, NotificationEventArgs e)
         {
-            StringBuilder message = new StringBuilder();
+            RequestsCounter rc = RequestsCounter.Instance;
+            rc.Add();
+            string caption;
+            string message;
             string relativeUri = string.Empty;
-
-            message.AppendFormat("Received Toast {0}:\n", DateTime.Now.ToShortTimeString());
-
-            // Parse out the information that was part of the message.
-            foreach (string key in e.Collection.Keys)
+            if (e.Collection.ContainsKey("wp:Text1"))
             {
-                message.AppendFormat("{0}: {1}\n", key, e.Collection[key]);
-
-                if (string.Compare(
-                    key,
-                    "wp:Param",
-                    System.Globalization.CultureInfo.InvariantCulture,
-                    System.Globalization.CompareOptions.IgnoreCase) == 0)
-                {
-                    relativeUri = e.Collection[key];
-                }
+                caption = e.Collection["wp:Text1"];
             }
+            else caption = "";
+            if (e.Collection.ContainsKey("wp:Text2"))
+            {
+                message = e.Collection["wp:Text2"];
+            }
+            else message = "";
+
 
 
 
 
             // Display a dialog of all the fields in the toast.
-            Dispatcher.BeginInvoke(() => {
+            Dispatcher.BeginInvoke(() =>
+            {
 
 
 
@@ -304,10 +308,10 @@ namespace WhereIsMyFriend
                 SolidColorBrush mybrush = new SolidColorBrush(Color.FromArgb(255, 0, 175, 240));
                 CustomMessageBox messageBox = new CustomMessageBox()
                 {
-                    Caption = "",
-                    Message = " Tom Jones wants to knnow where you are",
-                    LeftButtonContent = "Accept",
-                    RightButtonContent = "Cancel",
+                    Caption = caption,
+                    Message = message.ToString(),
+                    LeftButtonContent = AppResources.ViewTitle,
+                    RightButtonContent = AppResources.CancelTitle,
                     Background = mybrush,
                     IsFullScreen = false
                 };
@@ -318,7 +322,7 @@ namespace WhereIsMyFriend
                     switch (e1.Result)
                     {
                         case CustomMessageBoxResult.LeftButton:
-                            // Acción.
+                            NavigationService.Navigate(new Uri(e.Collection["wp:Param"], UriKind.Relative));
                             break;
                         case CustomMessageBoxResult.RightButton:
                             // Acción.
@@ -332,11 +336,11 @@ namespace WhereIsMyFriend
                 };
 
                 messageBox.Show();
-            
-            
-            
-            
-            
+
+
+
+
+
             });
 
         }

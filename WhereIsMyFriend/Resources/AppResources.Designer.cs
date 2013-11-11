@@ -313,6 +313,15 @@ namespace WhereIsMyFriend.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to View.
+        /// </summary>
+        public static string ViewTitle {
+            get {
+                return ResourceManager.GetString("ViewTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The email you entered is not correct.
         /// </summary>
         public static string WrongMailError {

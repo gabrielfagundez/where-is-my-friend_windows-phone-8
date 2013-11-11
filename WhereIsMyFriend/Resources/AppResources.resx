@@ -212,4 +212,7 @@
   <data name="NoInternetConnectionMessage" xml:space="preserve">
     <value>Please check your WIFI or cellular data network and try again</value>
   </data>
+  <data name="ViewTitle" xml:space="preserve">
+    <value>View</value>
+  </data>
 </root>

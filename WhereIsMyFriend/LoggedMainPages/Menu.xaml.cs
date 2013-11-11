@@ -27,9 +27,19 @@ namespace WhereIsMyFriend.LoggedMainPages
             TiltEffect.TiltableItems.Add(typeof(Grid));
             // Código de ejemplo para traducir ApplicationBar
             BuildLocalizedApplicationBar();
+            RequestsCounter rc = RequestsCounter.Instance;
+            rc.PushReached += rc_PushReached;
             requestsImage.Text = LoggedUser.Instance.getRequests().Count<RequestData>().ToString();
 
             iniMap();
+        }
+        private void rc_PushReached(object sender, EventArgs e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                requestsImage.Text = (LoggedUser.Instance.getRequests().Count<RequestData>() + 1).ToString();
+            });
+
         }
 
         private void iniMap()
