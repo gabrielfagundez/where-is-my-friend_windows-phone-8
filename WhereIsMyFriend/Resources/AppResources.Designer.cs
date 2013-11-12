@@ -205,6 +205,15 @@ namespace WhereIsMyFriend.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to me.
+        /// </summary>
+        public static string me {
+            get {
+                return ResourceManager.GetString("me", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No internet connection.
         /// </summary>
         public static string NoInternetConnection {
