@@ -206,7 +206,6 @@ namespace WhereIsMyFriend
                         Connecting.Visibility = System.Windows.Visibility.Collapsed;
                         ProgressB.IsIndeterminate = false;
                         ErrorBlock.Visibility = System.Windows.Visibility.Visible;
-                        ErrorBlock.Visibility = System.Windows.Visibility.Collapsed;
                         });
                         break;
                     default:
