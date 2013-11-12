@@ -15,12 +15,14 @@ using Microsoft.Phone.Net.NetworkInformation;
 using WhereIsMyFriend.Classes;
 using System.Device.Location;
 using Windows.Devices.Geolocation;
+using System.Windows.Threading;
 
 namespace WhereIsMyFriend.LoggedMainPages
 {
     public partial class Menu : PhoneApplicationPage
     {
         string latitud, longitud = string.Empty;//viene del mapa (es para mandar pos siempre)
+        //DispatcherTimer newTimer = new DispatcherTimer();
         public Menu()
         {
             InitializeComponent();
@@ -30,6 +32,11 @@ namespace WhereIsMyFriend.LoggedMainPages
             RequestsCounter rc = RequestsCounter.Instance;
             rc.PushReached += rc_PushReached;
             requestsImage.Text = LoggedUser.Instance.getRequests().Count<RequestData>().ToString();
+            //newTimer.Interval = TimeSpan.FromSeconds(5);
+            //Sub-routine OnTimerTick will be called at every 1 second
+            //newTimer.Tick += OnTimerTick;
+            //starting the timer
+            //newTimer.Start();
 
             iniMap();
         }
@@ -40,6 +47,66 @@ namespace WhereIsMyFriend.LoggedMainPages
                 requestsImage.Text = (LoggedUser.Instance.getRequests().Count<RequestData>() + 1).ToString();
             });
 
+        }
+
+        void OnTimerTick(Object sender, EventArgs args)
+        {
+            if (IsNetworkAvailable())
+            {
+                try
+                {
+                    System.Diagnostics.Debug.WriteLine("Requests Update en f!");
+                    WebClient webClient = new WebClient();
+                    webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompleted);
+                    LoggedUser user = LoggedUser.Instance;
+                    UserData luser = user.GetLoggedUser();
+                    Uri LoggedUserRequests = new Uri(App.webService + "/api/Solicitudes/GetAll/" + luser.Id);
+                    webClient.DownloadStringAsync(LoggedUserRequests);
+                }
+                catch (WebException webex)
+                {
+                    HttpWebResponse webResp = (HttpWebResponse)webex.Response;
+
+                    switch (webResp.StatusCode)
+                    {
+                        case HttpStatusCode.NotFound: // 404
+                            break;
+                        case HttpStatusCode.InternalServerError: // 500
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+        void webClient_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+        {
+            if ((e.Error != null) && (e.Error.GetType().Name == "WebException"))
+            {
+                WebException we = (WebException)e.Error;
+                HttpWebResponse response = (System.Net.HttpWebResponse)we.Response;
+
+                switch (response.StatusCode)
+                {
+
+                    case HttpStatusCode.NotFound: // 404
+                        System.Diagnostics.Debug.WriteLine("Not found!");
+                        break;
+                    case HttpStatusCode.Unauthorized: // 401
+                        System.Diagnostics.Debug.WriteLine("Not authorized!");
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                List<RequestData> requestsList = JsonConvert.DeserializeObject<List<RequestData>>(e.Result);
+                LoggedUser luser = LoggedUser.Instance;
+                luser.setRequests(requestsList);
+                requestsImage.Text = LoggedUser.Instance.getRequests().Count<RequestData>().ToString();
+            }
         }
 
         private void iniMap()
@@ -153,6 +220,7 @@ namespace WhereIsMyFriend.LoggedMainPages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            requestsImage.Text = LoggedUser.Instance.getRequests().Count<RequestData>().ToString();
             while ((this.NavigationService.BackStack != null) && (this.NavigationService.BackStack.Any()))
             {
                 this.NavigationService.RemoveBackEntry();
@@ -160,32 +228,13 @@ namespace WhereIsMyFriend.LoggedMainPages
         }
 
         private void HubTile_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            //LoggedUser user = LoggedUser.Instance;
-            //if (IsNetworkAvailable())
-            //{
-            //    WebClient webClient = new WebClient();
-            //    webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompletedFriends);
-            //    UserData luser = user.GetLoggedUser();
-            //    Uri LoggedUserFriends = new Uri(App.webService + "/api/Friends/GetAllFriends/" + luser.Id);
-            //    webClient.DownloadStringAsync(LoggedUserFriends);
-            //}
-            //else 
+        { 
             App.VengoDeMapa = false;
             NavigationService.Navigate(new Uri("/LoggedMainPages/Friends.xaml", UriKind.Relative));
   
 
         }
-        //void webClient_DownloadStringCompletedFriends(object sender, DownloadStringCompletedEventArgs e)
-        //{
-        //    List<UserData> friendsList = JsonConvert.DeserializeObject<List<UserData>>(e.Result);
-        //    LoggedUser luser = LoggedUser.Instance;
-        //    luser.setFriends(friendsList);
-        //    NavigationService.Navigate(new Uri("/LoggedMainPages/Friends.xaml", UriKind.Relative));
 
-
-
-        //}
         private bool IsNetworkAvailable()
         {
             if (Microsoft.Phone.Net.NetworkInformation.NetworkInterface.NetworkInterfaceType == NetworkInterfaceType.None)
@@ -207,28 +256,20 @@ namespace WhereIsMyFriend.LoggedMainPages
 
         private void Requests_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            //WebClient webClient = new WebClient();
-            //webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompletedRequests);
-            //LoggedUser user = LoggedUser.Instance;
-            //UserData luser = user.GetLoggedUser();
-            //Uri LoggedUserRequests = new Uri(App.webService + "/api/Solicitudes/GetAll/" + luser.Id);
-            //webClient.DownloadStringAsync(LoggedUserRequests);
+
             NavigationService.Navigate(new Uri("/LoggedMainPages/Requests.xaml", UriKind.Relative));
           
         }
-        //void webClient_DownloadStringCompletedRequests(object sender, DownloadStringCompletedEventArgs e)
-        //{
-        //    List<RequestData> requestsList = JsonConvert.DeserializeObject<List<RequestData>>(e.Result);
-        //    LoggedUser luser = LoggedUser.Instance;
-        //    luser.setRequests(requestsList);
-        //    NavigationService.Navigate(new Uri("/LoggedMainPages/Requests.xaml", UriKind.Relative));
-
-        //}
 
         private void Logout_Click(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/LoggedMainPages/LogoutConfirmation.xaml", UriKind.Relative));
 
+        }
+
+        protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            //newTimer.Stop();
         }
 
         private void BuildLocalizedApplicationBar()

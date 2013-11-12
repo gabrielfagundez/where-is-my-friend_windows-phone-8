@@ -35,8 +35,6 @@ namespace WhereIsMyFriend
             //string channelName = "ToastSampleChannel";
 
             InitializeComponent();
-            MailIngresado.Text = "Prueba1@mail.com";
-            PassIngresado.Password = "password";
             Loaded += MainPage_Loaded;
             if (PageTitle.Text == "iniciar sesión"){
                 PageTitle.FontSize = 83;
@@ -109,6 +107,7 @@ namespace WhereIsMyFriend
                             }
                             else
                             {
+
                                 // The channel was already open, so just register for all the events.
                                 pushChannel.ChannelUriUpdated += new EventHandler<NotificationChannelUriEventArgs>(PushChannel_ChannelUriUpdated);
                                 pushChannel.ErrorOccurred += new EventHandler<NotificationChannelErrorEventArgs>(PushChannel_ErrorOccurred);
@@ -193,17 +192,22 @@ namespace WhereIsMyFriend
 
                     case HttpStatusCode.NotFound: // 404
                         System.Diagnostics.Debug.WriteLine("Not found!");
+                         Dispatcher.BeginInvoke(() =>{
                         ErrorBlock.Text = AppResources.WrongMailError;
                         ProgressB.IsIndeterminate = false;
                         Connecting.Visibility = System.Windows.Visibility.Collapsed;
                         ErrorBlock.Visibility = System.Windows.Visibility.Visible;
+                        });
                         break;
                     case HttpStatusCode.Unauthorized: // 401
                         System.Diagnostics.Debug.WriteLine("Not authorized!");
+                        Dispatcher.BeginInvoke(() =>{
                         ErrorBlock.Text = AppResources.WrongPasswordError;
                         Connecting.Visibility = System.Windows.Visibility.Collapsed;
                         ProgressB.IsIndeterminate = false;
                         ErrorBlock.Visibility = System.Windows.Visibility.Visible;
+                        ErrorBlock.Visibility = System.Windows.Visibility.Collapsed;
+                        });
                         break;
                     default:
                         break;
@@ -211,7 +215,9 @@ namespace WhereIsMyFriend
             }
             else
             {
+                Dispatcher.BeginInvoke(() =>{
                 ErrorBlock.Visibility = System.Windows.Visibility.Collapsed;
+                });
                 LoggedUser user = LoggedUser.Instance;
                 user.SetLoggedUser(JsonConvert.DeserializeObject<UserData>(e.Result));
                 WebClient webClientFriend = new WebClient();
@@ -238,8 +244,9 @@ namespace WhereIsMyFriend
                 List<RequestData> requestsList = JsonConvert.DeserializeObject<List<RequestData>>(e.Result);
                 LoggedUser luser = LoggedUser.Instance;
                 luser.setRequests(requestsList);
+                Dispatcher.BeginInvoke(() =>{
                 NavigationService.Navigate(new Uri("/LoggedMainPages/Menu.xaml", UriKind.Relative));
-
+                });
         }
 
         private bool IsNetworkAvailable()
@@ -261,12 +268,6 @@ namespace WhereIsMyFriend
             string json = "{\"Mail\":\"" + mail + "\"," +
                                            "\"Password\":\"" + password + "\"," + "\"DeviceId\":\"" + pushChannel.ChannelUri.ToString() + "\"," + "\"Platform\":\"" + "wp" + "\"}";
             webClient.UploadStringAsync((new Uri(App.webService + "/api/Users/LoginWhere")), "POST", json);
-            Dispatcher.BeginInvoke(() =>
-            {
-                System.Diagnostics.Debug.WriteLine(pushChannel.ChannelUri.ToString());
-                MessageBox.Show(String.Format("Channel Uri is {0}",
-                    pushChannel.ChannelUri.ToString()));
-            });
         }
         void PushChannel_ErrorOccurred(object sender, NotificationChannelErrorEventArgs e)
         {
@@ -278,8 +279,7 @@ namespace WhereIsMyFriend
         }
         void PushChannel_ShellToastNotificationReceived(object sender, NotificationEventArgs e)
         {
-            RequestsCounter rc = RequestsCounter.Instance;
-            rc.Add();
+            
             string caption;
             string message;
             string relativeUri = string.Empty;
@@ -293,9 +293,11 @@ namespace WhereIsMyFriend
                 message = e.Collection["wp:Text2"];
             }
             else message = "";
-
-
-
+            
+            if (e.Collection["wp:Param"].Equals("/LoggedMainPages/Requests.xaml")){
+            RequestsCounter rc = RequestsCounter.Instance;
+            rc.Add();
+            }
 
 
             // Display a dialog of all the fields in the toast.

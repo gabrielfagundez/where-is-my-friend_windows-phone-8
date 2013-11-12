@@ -195,11 +195,7 @@ namespace WhereIsMyFriend.LoggedMainPages
         
         protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
         {
-
             newTimer.Stop();
-
-            System.Diagnostics.Debug.WriteLine("Me fui de la pagina");
-
         }
         private bool IsNetworkAvailable()
         {
