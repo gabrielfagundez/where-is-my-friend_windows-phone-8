@@ -8,7 +8,7 @@ namespace WhereIsMyFriend.Classes
 {
     public class ListaAmigos
     {
-        public List<FriendData> Amigos { get; set; }        
+        public List<FriendDataMap> Amigos { get; set; }        
     }
 
 }

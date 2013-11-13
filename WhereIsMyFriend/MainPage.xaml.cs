@@ -23,6 +23,8 @@ namespace WhereIsMyFriend
     {
         private UserData UsuarioLogin;
         private HttpNotificationChannel pushChannel;
+
+
         public string mail;
         public string password;
         // Constructor
@@ -39,7 +41,8 @@ namespace WhereIsMyFriend
             if (PageTitle.Text == "iniciar sesión"){
                 PageTitle.FontSize = 83;
             }
-
+            MailIngresado.Text = "carme@mail.com";
+            PassIngresado.Password = "password";
 
 
 
@@ -229,9 +232,11 @@ namespace WhereIsMyFriend
         void webClient_DownloadStringCompletedFriends(object sender, DownloadStringCompletedEventArgs e)
         {
             
-                List<UserData> friendsList = JsonConvert.DeserializeObject<List<UserData>>(e.Result);
+                List<FriendData> friendsList = JsonConvert.DeserializeObject<List<FriendData>>(e.Result);
                 LoggedUser luser = LoggedUser.Instance;
-                luser.setFriends(friendsList);
+                FriendsList f = new FriendsList();
+                f.Friends = friendsList;
+                luser.setFriends(f);
                 WebClient webClient = new WebClient();
                 webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(webClient_DownloadStringCompletedRequests);
                 Uri LoggedUserRequests = new Uri(App.webService + "/api/Solicitudes/GetAll/" + luser.GetLoggedUser().Id);
@@ -242,7 +247,9 @@ namespace WhereIsMyFriend
         {
                 List<RequestData> requestsList = JsonConvert.DeserializeObject<List<RequestData>>(e.Result);
                 LoggedUser luser = LoggedUser.Instance;
-                luser.setRequests(requestsList);
+                RequestsList r = new RequestsList();
+                r.Requests = requestsList;
+                luser.setRequests(r);
                 Dispatcher.BeginInvoke(() =>{
                 NavigationService.Navigate(new Uri("/LoggedMainPages/Menu.xaml", UriKind.Relative));
                 });

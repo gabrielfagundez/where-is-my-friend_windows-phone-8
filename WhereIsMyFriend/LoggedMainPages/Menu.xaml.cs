@@ -31,7 +31,7 @@ namespace WhereIsMyFriend.LoggedMainPages
             BuildLocalizedApplicationBar();
             RequestsCounter rc = RequestsCounter.Instance;
             rc.PushReached += rc_PushReached;
-            requestsImage.Text = LoggedUser.Instance.getRequests().Count<RequestData>().ToString();
+            requestsImage.Text = LoggedUser.Instance.getRequests().Requests.Count<RequestData>().ToString();
             //newTimer.Interval = TimeSpan.FromSeconds(5);
             //Sub-routine OnTimerTick will be called at every 1 second
             //newTimer.Tick += OnTimerTick;
@@ -44,7 +44,7 @@ namespace WhereIsMyFriend.LoggedMainPages
         {
             Dispatcher.BeginInvoke(() =>
             {
-                requestsImage.Text = (LoggedUser.Instance.getRequests().Count<RequestData>() + 1).ToString();
+                requestsImage.Text = (LoggedUser.Instance.getRequests().Requests.Count<RequestData>() + 1).ToString();
             });
 
         }
@@ -104,8 +104,10 @@ namespace WhereIsMyFriend.LoggedMainPages
             {
                 List<RequestData> requestsList = JsonConvert.DeserializeObject<List<RequestData>>(e.Result);
                 LoggedUser luser = LoggedUser.Instance;
-                luser.setRequests(requestsList);
-                requestsImage.Text = LoggedUser.Instance.getRequests().Count<RequestData>().ToString();
+                RequestsList r = new RequestsList();
+                r.Requests = requestsList;
+                luser.setRequests(r);
+                requestsImage.Text = LoggedUser.Instance.getRequests().Requests.Count<RequestData>().ToString();
             }
         }
 
@@ -220,7 +222,7 @@ namespace WhereIsMyFriend.LoggedMainPages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            requestsImage.Text = LoggedUser.Instance.getRequests().Count<RequestData>().ToString();
+            requestsImage.Text = LoggedUser.Instance.getRequests().Requests.Count<RequestData>().ToString();
             while ((this.NavigationService.BackStack != null) && (this.NavigationService.BackStack.Any()))
             {
                 this.NavigationService.RemoveBackEntry();

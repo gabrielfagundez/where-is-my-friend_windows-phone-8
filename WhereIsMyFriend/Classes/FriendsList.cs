@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace WhereIsMyFriend.Classes
 {
-    public class RequestData
+    public class FriendsList
     {
-        public string SolicitudFromNombre { get; set; }
-        public string SolicitudId { get; set; }
-
+        public List<FriendData> Friends { get; set; }
     }
+
 }

@@ -23,7 +23,7 @@ namespace WhereIsMyFriend.LoggedMainPages
         {
             InitializeComponent();
             LoggedUser luser = LoggedUser.Instance;
-            RequestsList.ItemsSource = luser.getRequests();
+            RequestsList.ItemsSource = luser.getRequests().Requests;
             newTimer.Interval = TimeSpan.FromSeconds(5);
              //Sub-routine OnTimerTick will be called at every 1 second
             newTimer.Tick += OnTimerTick;
@@ -96,8 +96,10 @@ namespace WhereIsMyFriend.LoggedMainPages
             {
                 List<RequestData> requestsList = JsonConvert.DeserializeObject<List<RequestData>>(e.Result);
                 LoggedUser luser = LoggedUser.Instance;
-                luser.setRequests(requestsList);
-                RequestsList.ItemsSource = luser.getRequests();
+                RequestsList r = new RequestsList();
+                r.Requests = requestsList;
+                luser.setRequests(r);
+                RequestsList.ItemsSource = luser.getRequests().Requests;
                 ProgressB.IsIndeterminate = false;
                 Connecting.Visibility = System.Windows.Visibility.Collapsed;
             }

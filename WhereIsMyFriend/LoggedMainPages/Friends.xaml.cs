@@ -27,7 +27,7 @@ namespace WhereIsMyFriend.LoggedMainPages
         {
             InitializeComponent();
             LoggedUser luser = LoggedUser.Instance;
-            FriendsList.ItemsSource = luser.getFriends();
+            FriendsList.ItemsSource = luser.getFriends().Friends;
             txtSearch.Visibility = System.Windows.Visibility.Collapsed;
             func();
             newTimer.Interval = TimeSpan.FromSeconds(5);
@@ -111,10 +111,12 @@ namespace WhereIsMyFriend.LoggedMainPages
             }
             else
             {
-                List<UserData> friendsList = JsonConvert.DeserializeObject<List<UserData>>(e.Result);
+                List<FriendData> friendsList = JsonConvert.DeserializeObject<List<FriendData>>(e.Result);
                 LoggedUser luser = LoggedUser.Instance;
-                luser.setFriends(friendsList);
-                FriendsList.ItemsSource = luser.getFriends();
+                FriendsList f = new FriendsList();
+                f.Friends = friendsList;
+                luser.setFriends(f);
+                FriendsList.ItemsSource = luser.getFriends().Friends;
             }
         }
 
@@ -241,7 +243,7 @@ namespace WhereIsMyFriend.LoggedMainPages
         }
         private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            List<UserData> fl = LoggedUser.Instance.getFriends();
+            List<FriendData> fl = LoggedUser.Instance.getFriends().Friends;
             if ( fl != null)
             {
                 this.FriendsList.ItemsSource = fl.Where(w => w.Name.ToUpper().Contains(txtSearch.Text.ToUpper()));
@@ -261,7 +263,7 @@ namespace WhereIsMyFriend.LoggedMainPages
         {
             txtSearch.Visibility = System.Windows.Visibility.Collapsed;
             LoggedUser luser = LoggedUser.Instance;
-            FriendsList.ItemsSource = luser.getFriends();
+            FriendsList.ItemsSource = luser.getFriends().Friends;
             txtSearch.Text = "";
             //FriendTitle.Visibility = System.Windows.Visibility.Visible;
             ApplicationBar.IsVisible = true;

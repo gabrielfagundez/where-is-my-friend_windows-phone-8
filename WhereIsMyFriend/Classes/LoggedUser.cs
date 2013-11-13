@@ -13,8 +13,8 @@ namespace WhereIsMyFriend.Classes
         private static LoggedUser instance;
         private LoggedUser() { }
         private UserData user;
-        private List<UserData> Friends;
-        private List<RequestData> Requests;
+        private FriendsList Friends;
+        private RequestsList Requests;
 
         public static LoggedUser Instance
         {
@@ -34,15 +34,15 @@ namespace WhereIsMyFriend.Classes
                         instance.user.LinkedInId = (string)s.GetStringObject("LinkedInId");
                         instance.user.Name = (string)s.GetStringObject("Name");
                         instance.user.Password = (string)s.GetStringObject("Password");
-                        instance.Friends = (List<UserData>)s.GetListObject("Friends");
-                        instance.Friends = (List<UserData>)s.GetListObject("Requests");
+                        instance.Friends = (FriendsList)s.GetListObject("Friends");
+                        instance.Requests = (RequestsList)s.GetListObject("Requests");
 
                     }
                     else
                     {
                         instance.user = null;
-                        instance.Friends = new List<UserData>();
-                        instance.Requests = new List<RequestData>();
+                        instance.Friends = new FriendsList();
+                        instance.Requests = new RequestsList();
                     }
                 }
                 return instance;
@@ -83,27 +83,24 @@ namespace WhereIsMyFriend.Classes
             return this.user;
         }
 
-        public void setFriends(List<UserData> f)
+        public void setFriends(FriendsList f)
         {
             this.Friends = f;
             Session session = new Session();
             session.SaveListObject("Friends", f);
         }
-        public List<UserData> getFriends()
+        public FriendsList getFriends()
         {
             return this.Friends;
         }
-        public void  deleteUserRequests(RequestData u)
-        {
-            this.Requests.Remove(u);
-        }
-        public void setRequests(List<RequestData> r)
+    
+        public void setRequests(RequestsList r)
         {
             this.Requests = r;
             Session session = new Session();
             session.SaveListObject("Requests", r);
         }
-        public List<RequestData> getRequests()
+        public RequestsList getRequests()
         {
             return this.Requests;
         }
