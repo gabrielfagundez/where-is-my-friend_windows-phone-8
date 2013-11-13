@@ -266,16 +266,17 @@ namespace WhereIsMyFriend.LoggedMainPages
 
         private void Logout_Click(object sender, EventArgs e)
         {
+                        //mapa*******************
+            App.Geolocator.PositionChanged -= geolocator_PositionChanged2;
+            App.Geolocator = null;
+            //mapa*******************
             NavigationService.Navigate(new Uri("/LoggedMainPages/LogoutConfirmation.xaml", UriKind.Relative));
 
         }
 
         protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
         {
-            //mapa*******************
-            App.Geolocator.PositionChanged -= geolocator_PositionChanged2;
-            App.Geolocator = null;
-            //mapa*******************
+
             //newTimer.Stop();
         }
 
