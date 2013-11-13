@@ -38,7 +38,7 @@ namespace WhereIsMyFriend.LoggedMainPages
             //starting the timer
             //newTimer.Start();
 
-            iniMap();
+            
         }
         private void rc_PushReached(object sender, EventArgs e)
         {
@@ -222,6 +222,7 @@ namespace WhereIsMyFriend.LoggedMainPages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            iniMap();
             requestsImage.Text = LoggedUser.Instance.getRequests().Requests.Count<RequestData>().ToString();
             while ((this.NavigationService.BackStack != null) && (this.NavigationService.BackStack.Any()))
             {
@@ -271,6 +272,10 @@ namespace WhereIsMyFriend.LoggedMainPages
 
         protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
         {
+            //mapa*******************
+            App.Geolocator.PositionChanged -= geolocator_PositionChanged2;
+            App.Geolocator = null;
+            //mapa*******************
             //newTimer.Stop();
         }
 
