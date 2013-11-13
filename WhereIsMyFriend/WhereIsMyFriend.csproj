@@ -93,11 +93,14 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Classes\FriendData.cs" />
+    <Compile Include="Classes\FriendDataMap.cs" />
+    <Compile Include="Classes\FriendsList.cs" />
     <Compile Include="Classes\ListaAmigos.cs" />
     <Compile Include="Classes\LoggedUser.cs" />
     <Compile Include="Classes\PointsHandler.cs" />
     <Compile Include="Classes\RequestData.cs" />
     <Compile Include="Classes\RequestsCounter.cs" />
+    <Compile Include="Classes\RequestsList.cs" />
     <Compile Include="Classes\Session.cs" />
     <Compile Include="Classes\UserData.cs" />
     <Compile Include="LocalizedStrings.cs" />
