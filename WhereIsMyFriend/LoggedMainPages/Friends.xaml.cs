@@ -122,7 +122,7 @@ namespace WhereIsMyFriend.LoggedMainPages
 
         private void Select(object sender, SelectionChangedEventArgs e)
         {
-            var selectedUser = FriendsList.SelectedItem as UserData;
+            var selectedUser = FriendsList.SelectedItem as FriendData;
             if (selectedUser != null) { 
             SolidColorBrush mybrush = new SolidColorBrush(Color.FromArgb(255, 0, 175, 240));            
            
