@@ -33,7 +33,7 @@ namespace WhereIsMyFriend.LoggedMainPages
         DispatcherTimer gpsTimer = new DispatcherTimer();
         public Mapa()
         {
-            
+
             InitializeComponent();
             // Código de ejemplo para traducir ApplicationBar
             BuildLocalizedApplicationBar();
@@ -66,7 +66,7 @@ namespace WhereIsMyFriend.LoggedMainPages
 
 
         }
-    
+
 
         void OnTimerTick(Object sender, EventArgs args)
         {
@@ -84,7 +84,7 @@ namespace WhereIsMyFriend.LoggedMainPages
             {
                 mapWithMyLocation.ZoomLevel--;
             }
-            
+
         }
 
         private void zoomIN_Click(object sender, RoutedEventArgs e)
@@ -104,10 +104,17 @@ namespace WhereIsMyFriend.LoggedMainPages
 
                 // Create a small circle to mark the current location.
                 Ellipse myCircle = new Ellipse();
-                myCircle.Fill = new SolidColorBrush(Colors.Blue);
-                myCircle.Height = 20;
-                myCircle.Width = 20;
+                myCircle.Stroke = new SolidColorBrush(Colors.Blue);
+                myCircle.Height = 30;
+                myCircle.Width = 30;
                 myCircle.Opacity = 50;
+
+                Ellipse myCircle2 = new Ellipse();
+                myCircle2.Fill = new SolidColorBrush(Colors.Blue);
+                myCircle2.Height = 20;
+                myCircle2.Width = 20;
+                myCircle2.Opacity = 50;
+
 
                 // Create a MapOverlay to contain the circle.
                 MapOverlay myLocationOverlay = new MapOverlay();
@@ -115,9 +122,15 @@ namespace WhereIsMyFriend.LoggedMainPages
                 myLocationOverlay.PositionOrigin = new Point(0.5, 0.5);
                 myLocationOverlay.GeoCoordinate = pos;
 
+                MapOverlay myLocationOverlay2 = new MapOverlay();
+                myLocationOverlay2.Content = myCircle2;
+                myLocationOverlay2.PositionOrigin = new Point(0.5, 0.5);
+                myLocationOverlay2.GeoCoordinate = pos;
+
                 // Create a MapLayer to contain the MapOverlay.
                 MapLayer myLocationLayer = new MapLayer();
                 myLocationLayer.Add(myLocationOverlay);
+                myLocationLayer.Add(myLocationOverlay2);
                 // Add the MapLayer to the Map.            
                 this.mapWithMyLocation.Layers.Add(myLocationLayer);
 
@@ -151,36 +164,49 @@ namespace WhereIsMyFriend.LoggedMainPages
                 GeoCoordinate geo = n_aux.Value.pos;
                 Color color = n_aux.Value.color;
 
-                Ellipse myCircle = new Ellipse();
-                myCircle.Fill = new SolidColorBrush(color);
-                myCircle.Height = 20;
-                myCircle.Width = 20;
-                myCircle.Opacity = 50;
+                Image img = new Image();
+                img.Source = new System.Windows.Media.Imaging.BitmapImage(new Uri("/Assets/Images/pin2.png", UriKind.Relative));
+                img.Name = n_aux.Value.name;
+                img.MouseEnter += img_MouseEnter;
 
-                Pushpin pin = new Pushpin();
-                pin.GeoCoordinate = geo;
-                //define it's graphic properties 
-                pin.Background = new SolidColorBrush(color);
-                pin.Foreground = new SolidColorBrush(Colors.Black);
-                //What to write on it
-                pin.Content = name;
+                /* Ellipse myCircle = new Ellipse();
+                 myCircle.Fill = new SolidColorBrush(color);
+                 myCircle.Height = 20;
+                 myCircle.Width = 20;
+                 myCircle.Opacity = 50;
 
-                // Create a MapOverlay to contain the circle.
-                MapOverlay myLocationOverlaycircle = new MapOverlay();
-                myLocationOverlaycircle.Content = myCircle;
-                myLocationOverlaycircle.PositionOrigin = new Point(0.30, 0.20);
-                myLocationOverlaycircle.GeoCoordinate = geo;
+                 Pushpin pin = new Pushpin();
+                 pin.GeoCoordinate = geo;
+                 //define it's graphic properties 
+                 pin.Background = new SolidColorBrush(color);
+                 pin.Foreground = new SolidColorBrush(Colors.Black);
+                 //What to write on it
+                 pin.Content = name;
+                
 
-                // Create a MapOverlay to contain the Pushpin.
-                MapOverlay myLocationOverlay2 = new MapOverlay();
-                myLocationOverlay2.Content = pin;
-                myLocationOverlay2.PositionOrigin = new Point(0, 1);
-                myLocationOverlay2.GeoCoordinate = geo;
+                 // Create a MapOverlay to contain the circle.
+                 MapOverlay myLocationOverlaycircle = new MapOverlay();
+                 myLocationOverlaycircle.Content = myCircle;
+                 myLocationOverlaycircle.PositionOrigin = new Point(0.30, 0.20);
+                 myLocationOverlaycircle.GeoCoordinate = geo;
+
+                 // Create a MapOverlay to contain the Pushpin.
+                 MapOverlay myLocationOverlay2 = new MapOverlay();
+                 myLocationOverlay2.Content = pin;
+                 myLocationOverlay2.PositionOrigin = new Point(0, 1);
+                 myLocationOverlay2.GeoCoordinate = geo;*/
+
+                // Create a MapOverlay to contain the img.
+                MapOverlay myLocationOverlay3 = new MapOverlay();
+                myLocationOverlay3.Content = img;
+                myLocationOverlay3.PositionOrigin = new Point(0.5, 1);
+                myLocationOverlay3.GeoCoordinate = geo;
 
                 // Create a MapLayer to contain the MapOverlay.
                 MapLayer friendsLayer = new MapLayer();
-                friendsLayer.Add(myLocationOverlaycircle);
-                friendsLayer.Add(myLocationOverlay2);
+                /*friendsLayer.Add(myLocationOverlaycircle);
+                friendsLayer.Add(myLocationOverlay2);*/
+                friendsLayer.Add(myLocationOverlay3);
 
                 mapWithMyLocation.Layers.Add(friendsLayer);
 
@@ -188,6 +214,28 @@ namespace WhereIsMyFriend.LoggedMainPages
             }
         }
 
+        //******************************************************************************************
+        private void img_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            Image im = (Image)sender;
+            TextBox txt = new TextBox();
+            txt.Text = im.Name;
+            txt.IsReadOnly = true;
+
+            MapOverlay myLocationOverlay = new MapOverlay();
+            myLocationOverlay.Content = txt;
+            //myLocationOverlay.PositionOrigin = new Point(0.5, 0.5);
+            Point point = e.GetPosition(mapWithMyLocation);
+            GeoCoordinate geo = mapWithMyLocation.ConvertViewportPointToGeoCoordinate(point);
+            myLocationOverlay.GeoCoordinate = geo;
+
+            // Create a MapLayer to contain the MapOverlay.
+            MapLayer myLocationLayer = new MapLayer();
+            myLocationLayer.Add(myLocationOverlay);
+            // Add the MapLayer to the Map.            
+            this.mapWithMyLocation.Layers.Add(myLocationLayer);
+
+        }
         //******************************************************************************************
         private void clearMap()
         {
@@ -198,7 +246,7 @@ namespace WhereIsMyFriend.LoggedMainPages
 
 
         private int i = 0;
-        private void testFR_Click(object sender, RoutedEventArgs e)
+        private void testFR_Click()
         {
 
             PointsHandler ph = PointsHandler.Instance;
@@ -208,37 +256,8 @@ namespace WhereIsMyFriend.LoggedMainPages
             ph.insert("3", "maria", new GeoCoordinate(-34.9398 + increment, -54.968837 + increment));
             ph.insert("4", "andrea", new GeoCoordinate(-34.9496 + increment, -54.9687 + increment));
             i++;
-            updateFriendsPosition();            
-        }
-
-        // Inicializacion del mapa
-
-        protected async override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
-        {
-            
-
-            try
-            {
-                // Graficar mi posicion y setearla en el singleton
-                this.mapWithMyLocation.Center = PointsHandler.Instance.myPosition;
-                var pos = await App.Geolocator.GetGeopositionAsync();
-                var pos2 = ConvertGeocoordinate(pos.Coordinate);
-                PointsHandler ph = PointsHandler.Instance;
-                ph.myPosition = pos2;
-                // Make my current location the center of the Map.     
-                App.isGpsEnabled = true;
-                
-            }
-            catch (Exception)
-            {
-
-                App.isGpsEnabled = false;//no esta activado el gps
-            }
             updateFriendsPosition();
-            DibujarAmigos();
         }
-        
-                
         public static GeoCoordinate ConvertGeocoordinate(Geocoordinate geocoordinate)
         {
             return new GeoCoordinate
@@ -252,40 +271,73 @@ namespace WhereIsMyFriend.LoggedMainPages
                 geocoordinate.Heading ?? Double.NaN
                 );
         }
-        
+        // Inicializacion del mapa
+
+        protected async override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+
+            newTimer.Start();
+            gpsTimer.Start();
+
+            try
+            {
+                // Graficar mi posicion y setearla en el singleton
+                clearMap();
+                var pos = await App.Geolocator.GetGeopositionAsync();
+                var pos2 = ConvertGeocoordinate(pos.Coordinate);
+                PointsHandler ph = PointsHandler.Instance;
+                ph.myPosition = pos2;
+                // Make my current location the center of the Map.     
+                App.isGpsEnabled = true;
+                this.mapWithMyLocation.Center = PointsHandler.Instance.myPosition;
+
+            }
+
+            catch (Exception)
+            {
+
+                App.isGpsEnabled = false;//no esta activado el gps
+            }
+            updateFriendsPosition();
+            DibujarAmigos();
+        }
 
 
 
+
+
+
+        protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
+        {
+
+            newTimer.Stop();
+            gpsTimer.Stop();
+
+            System.Diagnostics.Debug.WriteLine("Me fui de la pagina");
+
+        }
 
         private void PhoneApplicationPage_OrientationChanged_1(object sender, OrientationChangedEventArgs e)
-        {   
-            
-            if ( (e.Orientation == PageOrientation.PortraitUp) && !App.Mapa )
+        {
+
+            if ((e.Orientation == PageOrientation.PortraitUp) && !App.Mapa)
             {
                 App.Mapa = false;
                 NavigationService.Navigate(new Uri("/LoggedMainPages/Menu.xaml", UriKind.Relative));
-                
-            }        
-        
-        }       
+
+            }
+
+        }
 
         private void PhoneApplicationPage_BackKeyPress_1(object sender, CancelEventArgs e)
         {
-            App.Mapa = false;           
+            App.Mapa = false;
         }
 
 
 
         // Cuando me voy de la pagina apago el thread de actualizacion de puntos
-        protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
-        {
-            
-            newTimer.Stop();
-            gpsTimer.Stop();
-           
-            System.Diagnostics.Debug.WriteLine("Me fui de la pagina");
 
-        }
 
         public void DibujarAmigos()
         {
@@ -349,7 +401,7 @@ namespace WhereIsMyFriend.LoggedMainPages
                     i++;
                 }
                 System.Diagnostics.Debug.WriteLine("update friend positions!");
-                updateFriendsPosition();            
+                updateFriendsPosition();
             }
         }
         private void Add_Click(object sender, EventArgs e)
