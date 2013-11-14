@@ -22,6 +22,7 @@ using System.Windows.Threading;
 using WhereIsMyFriend.Classes;
 using Windows.Devices.Geolocation;
 using WhereIsMyFriend.Resources;
+using System.Reflection.Emit;
 
 namespace WhereIsMyFriend.LoggedMainPages
 {
@@ -222,6 +223,8 @@ namespace WhereIsMyFriend.LoggedMainPages
             TextBox txt = new TextBox();
             txt.Text = im.Name;
             txt.IsReadOnly = true;
+            txt.GotFocus += txt_GotFocus;
+           
 
             MapOverlay myLocationOverlay = new MapOverlay();
             myLocationOverlay.Content = txt;
@@ -236,6 +239,11 @@ namespace WhereIsMyFriend.LoggedMainPages
             // Add the MapLayer to the Map.            
             this.mapWithMyLocation.Layers.Add(myLocationLayer);
 
+        }
+
+        void txt_GotFocus(object sender, RoutedEventArgs e)
+        {
+            mapWithMyLocation.Focus();
         }
         //******************************************************************************************
         private void clearMap()
