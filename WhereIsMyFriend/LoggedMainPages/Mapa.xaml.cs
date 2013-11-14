@@ -424,8 +424,11 @@ namespace WhereIsMyFriend.LoggedMainPages
 
         private void centerMe(object sender, EventArgs e)
         {
-            testFR_Click();
-            this.mapWithMyLocation.Center = PointsHandler.Instance.myPosition;
+            if (App.isGpsEnabled)
+            {
+                this.mapWithMyLocation.Center = PointsHandler.Instance.myPosition;
+            }
+
         }
 
         private void BuildLocalizedApplicationBar()
