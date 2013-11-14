@@ -217,6 +217,7 @@ namespace WhereIsMyFriend.LoggedMainPages
         //******************************************************************************************
         private void img_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
+            updateFriendsPosition();
             Image im = (Image)sender;
             TextBox txt = new TextBox();
             txt.Text = im.Name;
@@ -302,6 +303,8 @@ namespace WhereIsMyFriend.LoggedMainPages
             DibujarAmigos();
         }
 
+     
+
 
 
 
@@ -309,7 +312,7 @@ namespace WhereIsMyFriend.LoggedMainPages
 
         protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
         {
-
+       
             newTimer.Stop();
             gpsTimer.Stop();
 
@@ -413,6 +416,7 @@ namespace WhereIsMyFriend.LoggedMainPages
 
         private void centerMe(object sender, EventArgs e)
         {
+            testFR_Click();
             this.mapWithMyLocation.Center = PointsHandler.Instance.myPosition;
         }
 
