@@ -133,6 +133,15 @@ namespace WhereIsMyFriend.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This user has a pending request.
+        /// </summary>
+        public static string doubleReq {
+            get {
+                return ResourceManager.GetString("doubleReq", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to friends.
         /// </summary>
         public static string FriendsTitle {

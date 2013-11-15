@@ -218,4 +218,7 @@
   <data name="me" xml:space="preserve">
     <value>me</value>
   </data>
+  <data name="doubleReq" xml:space="preserve">
+    <value>This user has a pending request</value>
+  </data>
 </root>
