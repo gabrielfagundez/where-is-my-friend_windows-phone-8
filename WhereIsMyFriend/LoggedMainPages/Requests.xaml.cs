@@ -196,7 +196,7 @@ namespace WhereIsMyFriend.LoggedMainPages
             }
             else
             {
-
+                func();
             }
         }
         
@@ -303,7 +303,7 @@ namespace WhereIsMyFriend.LoggedMainPages
             }
             else
             {
-                
+                func();
             }
         }
     }
