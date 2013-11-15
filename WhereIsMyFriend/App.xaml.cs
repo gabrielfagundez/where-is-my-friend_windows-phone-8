@@ -25,7 +25,7 @@ namespace WhereIsMyFriend
         public static bool RunningInBackground { get; set; }
         public static bool Mapa = false;
         public static bool VengoDeMapa = false;
-        public static string webService = "http://serverdevelopmentpis.azurewebsites.net";
+        public static string webService = "http://developmentpis.azurewebsites.net";
         public static bool isGpsEnabled = false;
         /// <summary>
         /// Constructor para el objeto Application.
@@ -83,6 +83,7 @@ namespace WhereIsMyFriend
         // Este código no se ejecutará cuando la aplicación se reactive
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            RunningInBackground = false;
         }
 
         private void Application_RunningInBackground(object sender, RunningInBackgroundEventArgs args)

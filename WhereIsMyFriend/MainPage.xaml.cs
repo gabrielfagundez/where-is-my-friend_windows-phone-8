@@ -41,8 +41,8 @@ namespace WhereIsMyFriend
             if (PageTitle.Text == "iniciar sesión"){
                 PageTitle.FontSize = 83;
             }
-            MailIngresado.Text = "carme@mail.com";
-            PassIngresado.Password = "password";
+            MailIngresado.Text = "dufy@mail.com";
+            PassIngresado.Password = "aaaaaa";
 
 
 
@@ -284,8 +284,13 @@ namespace WhereIsMyFriend
                     e.ErrorType, e.Message, e.ErrorCode, e.ErrorAdditionalData))
                     );
         }
+
         void PushChannel_ShellToastNotificationReceived(object sender, NotificationEventArgs e)
         {
+            //ShellToast toast = new ShellToast();
+            //toast.Title = "Background Agent Sample";
+            //toast.Content = "hola que carajo";
+            //toast.Show();
 
             string caption;
             string message;
@@ -302,11 +307,11 @@ namespace WhereIsMyFriend
             else message = "";
             if (App.RunningInBackground)
             {
-                ShellToast toast = new ShellToast();
-                toast.Title = caption;
-                toast.Content = message;
-                toast.NavigationUri = new Uri(e.Collection["wp:Param"], UriKind.Relative);
-                toast.Show();
+                ShellToast toast2 = new ShellToast(); 
+                toast2.Title = "WIMF";
+                toast2.Content = message;
+                toast2.NavigationUri = new Uri(e.Collection["wp:Param"], UriKind.Relative);
+                toast2.Show();
             }
             else
             {

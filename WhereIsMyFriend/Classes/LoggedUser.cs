@@ -28,7 +28,7 @@ namespace WhereIsMyFriend.Classes
                     {
                         //FacebookSession f = FacebookSessionCacheProvider.Current.GetSessionData();
                         instance.user = new UserData();
-                        instance.user.Mail = (string)s.GetStringObject("Email");
+                        instance.user.Mail = (string)s.GetStringObject("Mail");
                         instance.user.Id = (string)s.GetStringObject("Id");
                         instance.user.FacebookId = (string)s.GetStringObject("FacebookId");
                         instance.user.LinkedInId = (string)s.GetStringObject("LinkedInId");
@@ -115,7 +115,7 @@ namespace WhereIsMyFriend.Classes
         {
             this.user = null;
             Session session = new Session();
-            session.RemoveStringObject("Email");
+            session.RemoveStringObject("Mail");
             session.RemoveStringObject("Id");
             session.RemoveStringObject("LinkedInId");
             session.RemoveStringObject("Name");
