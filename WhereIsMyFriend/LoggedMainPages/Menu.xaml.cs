@@ -135,8 +135,8 @@ namespace WhereIsMyFriend.LoggedMainPages
                 Dispatcher.BeginInvoke(() =>
                 {
                     System.Diagnostics.Debug.WriteLine("Actualizamos en background");
-                    latitud = args.Position.Coordinate.Latitude.ToString("0.00000");
-                    longitud = args.Position.Coordinate.Longitude.ToString("0.00000");
+                    latitud = args.Position.Coordinate.Latitude.ToString("0.00000").Replace(",",".");
+                    longitud = args.Position.Coordinate.Longitude.ToString("0.00000").Replace(",", ".");
 
                     var pos = ConvertGeocoordinate(args.Position.Coordinate);
                     PointsHandler ph = PointsHandler.Instance;
