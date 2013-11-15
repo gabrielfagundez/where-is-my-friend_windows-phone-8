@@ -22,32 +22,25 @@ namespace WhereIsMyFriend.LoggedMainPages
     public partial class Menu : PhoneApplicationPage
     {
         string latitud, longitud = string.Empty;//viene del mapa (es para mandar pos siempre)
-        //DispatcherTimer newTimer = new DispatcherTimer();
+        DispatcherTimer newTimer = new DispatcherTimer();
         public Menu()
         {
             InitializeComponent();
             TiltEffect.TiltableItems.Add(typeof(Grid));
             // Código de ejemplo para traducir ApplicationBar
             BuildLocalizedApplicationBar();
-            RequestsCounter rc = RequestsCounter.Instance;
-            rc.PushReached += rc_PushReached;
-            requestsImage.Text = LoggedUser.Instance.getRequests().Requests.Count<RequestData>().ToString();
-            //newTimer.Interval = TimeSpan.FromSeconds(5);
-            //Sub-routine OnTimerTick will be called at every 1 second
-            //newTimer.Tick += OnTimerTick;
-            //starting the timer
-            //newTimer.Start();
+
 
             
         }
-        private void rc_PushReached(object sender, EventArgs e)
+        /*private void rc_PushReached(object sender, EventArgs e)
         {
             Dispatcher.BeginInvoke(() =>
             {
                 requestsImage.Text = (LoggedUser.Instance.getRequests().Requests.Count<RequestData>() + 1).ToString();
             });
 
-        }
+        }*/
 
         void OnTimerTick(Object sender, EventArgs args)
         {
@@ -223,6 +216,13 @@ namespace WhereIsMyFriend.LoggedMainPages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             iniMap();
+            //  RequestsCounter rc = RequestsCounter.Instance;
+            // rc.PushReached += rc_PushReached;
+            requestsImage.Text = LoggedUser.Instance.getRequests().Requests.Count<RequestData>().ToString();
+            newTimer.Interval = TimeSpan.FromSeconds(5);
+            newTimer.Tick += OnTimerTick;
+            newTimer.Start();
+
             requestsImage.Text = LoggedUser.Instance.getRequests().Requests.Count<RequestData>().ToString();
             while ((this.NavigationService.BackStack != null) && (this.NavigationService.BackStack.Any()))
             {
@@ -277,7 +277,7 @@ namespace WhereIsMyFriend.LoggedMainPages
         protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
         {
 
-            //newTimer.Stop();
+            newTimer.Stop();
         }
 
         private void BuildLocalizedApplicationBar()
