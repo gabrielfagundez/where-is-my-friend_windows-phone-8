@@ -10,6 +10,8 @@ namespace WhereIsMyFriend.Classes
     public class FriendDataMap
     {
         public string Mail { get; set; }
+
+        public string Name { get; set; }
         public string Latitude { get; set; }
         public string Longitude { get; set; }
     }    
