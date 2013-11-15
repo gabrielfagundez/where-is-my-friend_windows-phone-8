@@ -110,7 +110,7 @@ namespace WhereIsMyFriend
                             }
                             else
                             {
-
+                               
                                 // The channel was already open, so just register for all the events.
                                 pushChannel.ChannelUriUpdated += new EventHandler<NotificationChannelUriEventArgs>(PushChannel_ChannelUriUpdated);
                                 pushChannel.ErrorOccurred += new EventHandler<NotificationChannelErrorEventArgs>(PushChannel_ErrorOccurred);
@@ -128,6 +128,7 @@ namespace WhereIsMyFriend
 
                                 webClient.UploadStringAsync((new Uri(App.webService + "/api/Users/LoginWhere")), "POST", json);
 
+                                System.Diagnostics.Debug.WriteLine(pushChannel.ChannelUri.ToString());
                             }
 
                            
@@ -267,7 +268,7 @@ namespace WhereIsMyFriend
 
         void PushChannel_ChannelUriUpdated(object sender, NotificationChannelUriEventArgs e)
         {
-
+            System.Diagnostics.Debug.WriteLine(pushChannel.ChannelUri.ToString());
             var webClient = new WebClient();
             webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
             webClient.UploadStringCompleted += this.sendPostCompleted;
@@ -285,7 +286,7 @@ namespace WhereIsMyFriend
         }
         void PushChannel_ShellToastNotificationReceived(object sender, NotificationEventArgs e)
         {
-            
+
             string caption;
             string message;
             string relativeUri = string.Empty;
@@ -299,57 +300,70 @@ namespace WhereIsMyFriend
                 message = e.Collection["wp:Text2"];
             }
             else message = "";
-            
-            if (e.Collection["wp:Param"].Equals("/LoggedMainPages/Requests.xaml")){
-            RequestsCounter rc = RequestsCounter.Instance;
-            rc.Add();
-            }
-
-
-            // Display a dialog of all the fields in the toast.
-            Dispatcher.BeginInvoke(() =>
+            if (App.RunningInBackground)
             {
+                ShellToast toast = new ShellToast();
+                toast.Title = caption;
+                toast.Content = message;
+                toast.NavigationUri = new Uri(e.Collection["wp:Param"], UriKind.Relative);
+                toast.Show();
+            }
+            else
+            {
+                
 
-
-
-
-                SolidColorBrush mybrush = new SolidColorBrush(Color.FromArgb(255, 0, 175, 240));
-                CustomMessageBox messageBox = new CustomMessageBox()
+                if (e.Collection["wp:Param"].Equals("/LoggedMainPages/Requests.xaml"))
                 {
-                    Caption = caption,
-                    Message = message.ToString(),
-                    LeftButtonContent = AppResources.ViewTitle,
-                    RightButtonContent = AppResources.CancelTitle,
-                    Background = mybrush,
-                    IsFullScreen = false
-                };
+                    RequestsCounter rc = RequestsCounter.Instance;
+                    rc.Add();
+                }
 
 
-                messageBox.Dismissed += (s1, e1) =>
+                // Display a dialog of all the fields in the toast.
+                Dispatcher.BeginInvoke(() =>
                 {
-                    switch (e1.Result)
+
+
+
+
+                    SolidColorBrush mybrush = new SolidColorBrush(Color.FromArgb(255, 0, 175, 240));
+                    CustomMessageBox messageBox = new CustomMessageBox()
                     {
-                        case CustomMessageBoxResult.LeftButton:
-                            NavigationService.Navigate(new Uri(e.Collection["wp:Param"], UriKind.Relative));
-                            break;
-                        case CustomMessageBoxResult.RightButton:
-                            // Acción.
-                            break;
-                        case CustomMessageBoxResult.None:
-                            // Acción.
-                            break;
-                        default:
-                            break;
-                    }
-                };
-
-                messageBox.Show();
+                        Caption = caption,
+                        Message = message.ToString(),
+                        LeftButtonContent = AppResources.ViewTitle,
+                        RightButtonContent = AppResources.CancelTitle,
+                        Background = mybrush,
+                        IsFullScreen = false
+                    };
 
 
+                    messageBox.Dismissed += (s1, e1) =>
+                    {
+                        switch (e1.Result)
+                        {
+                            case CustomMessageBoxResult.LeftButton:
+                                NavigationService.Navigate(new Uri(e.Collection["wp:Param"], UriKind.Relative));
+                                break;
+                            case CustomMessageBoxResult.RightButton:
+                                // Acción.
+                                break;
+                            case CustomMessageBoxResult.None:
+                                // Acción.
+                                break;
+                            default:
+                                break;
+                        }
+                    };
+
+                    messageBox.Show();
 
 
 
-            });
+
+
+                });
+            }
 
         }
 
