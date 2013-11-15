@@ -232,6 +232,33 @@ namespace WhereIsMyFriend.LoggedMainPages
                     case HttpStatusCode.Unauthorized: // 401
                         System.Diagnostics.Debug.WriteLine("Not authorized!");
                         break;
+                    case HttpStatusCode.BadRequest:
+                        SolidColorBrush mybrush = new SolidColorBrush(Color.FromArgb(255, 0, 175, 240));
+                        CustomMessageBox messageBox = new CustomMessageBox()
+                        {
+                            Message = AppResources.doubleReq,
+                            LeftButtonContent = AppResources.OkTitle,
+                            Background = mybrush,
+                            IsFullScreen = false,
+                        };
+
+
+                        messageBox.Dismissed += (s1, e1) =>
+                        {
+                            switch (e1.Result)
+                            {
+                                case CustomMessageBoxResult.LeftButton:
+                                    break;
+                                case CustomMessageBoxResult.None:
+                                    // Acción.
+                                    break;
+                                default:
+                                    break;
+                            }
+                        };
+
+                        messageBox.Show();
+                        break;
                     default:
                         break;
                 }
