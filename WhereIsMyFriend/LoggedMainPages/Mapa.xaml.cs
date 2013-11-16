@@ -430,7 +430,8 @@ namespace WhereIsMyFriend.LoggedMainPages
         {
             if (App.isGpsEnabled)
             {
-                this.mapWithMyLocation.Center = PointsHandler.Instance.myPosition;
+                mapWithMyLocation.SetView(PointsHandler.Instance.myPosition, 15, MapAnimationKind.Parabolic);
+                //this.mapWithMyLocation.Center = PointsHandler.Instance.myPosition;
             }
 
         }
