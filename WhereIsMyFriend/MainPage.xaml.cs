@@ -27,6 +27,8 @@ namespace WhereIsMyFriend
 
         public string mail;
         public string password;
+        public string language;
+        public string firstTime;
         // Constructor
         public MainPage()
         {
@@ -41,7 +43,7 @@ namespace WhereIsMyFriend
             if (PageTitle.Text == "iniciar sesión"){
                 PageTitle.FontSize = 83;
             }
-            MailIngresado.Text = "dufy@mail.com";
+            MailIngresado.Text = "perro@mail.com";
             PassIngresado.Password = "aaaaaa";
 
 
@@ -107,12 +109,14 @@ namespace WhereIsMyFriend
 
                              //Bind this new channel for toast events.
                             pushChannel.BindToShellToast();
+
+                            pushChannel.BindToShellTile();
                             }
                             else
                             {
                                
                                 // The channel was already open, so just register for all the events.
-                                pushChannel.ChannelUriUpdated += new EventHandler<NotificationChannelUriEventArgs>(PushChannel_ChannelUriUpdated);
+                                pushChannel.ChannelUriUpdated += new EventHandler<NotificationChannelUriEventArgs>(PushChannel_ChannelUriUpdated2);
                                 pushChannel.ErrorOccurred += new EventHandler<NotificationChannelErrorEventArgs>(PushChannel_ErrorOccurred);
 
                                 // Register for this notification only if you need to receive the notifications while your application is running.
@@ -121,9 +125,23 @@ namespace WhereIsMyFriend
                                 var webClient = new WebClient();
                                 webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
                                 webClient.UploadStringCompleted += this.sendPostCompleted;
-
-                                string json = "{\"Mail\":\"" + MailIngresado.Text + "\"," +
-                                                  "\"Password\":\"" + PassIngresado.Password + "\"," + "\"DeviceId\":\"" + pushChannel.ChannelUri.ToString() + "\"," + "\"Platform\":\"" + "wp" + "\"}";
+                                if (AppResources.ResourceLanguage.Contains("es"))
+                                {
+                                    language = "esp";
+                                }
+                                else language = "eng";
+                                string json;
+                                if (pushChannel.ChannelUri == null)
+                                {
+                                    json = "{\"Mail\":\"" + MailIngresado.Text + "\"," +
+                                                       "\"Password\":\"" + PassIngresado.Password + "\"," + "\"DeviceId\":\"" + "no push" + "\"," + "\"Platform\":\"" + "wp" + "\"," + "\"Language\":\"" + language + "\"}";
+                                }
+                                else
+                                {
+                                    json = "{\"Mail\":\"" + MailIngresado.Text + "\"," +
+                                                      "\"Password\":\"" + PassIngresado.Password + "\"," + "\"DeviceId\":\"" + pushChannel.ChannelUri.ToString() + "\"," + "\"Platform\":\"" + "wp" + "\"," + "\"Language\":\"" + language + "\"}";
+                                }
+                                
            
 
                                 webClient.UploadStringAsync((new Uri(App.webService + "/api/Users/LoginWhere")), "POST", json);
@@ -251,9 +269,20 @@ namespace WhereIsMyFriend
                 RequestsList r = new RequestsList();
                 r.Requests = requestsList;
                 luser.setRequests(r);
-                Dispatcher.BeginInvoke(() =>{
-                NavigationService.Navigate(new Uri("/LoggedMainPages/Menu.xaml", UriKind.Relative));
+                Dispatcher.BeginInvoke(() =>
+                {
+                    NavigationService.Navigate(new Uri("/LoggedMainPages/Menu.xaml", UriKind.Relative));
                 });
+        }
+
+        void sendPostCompletedLanguage(object sender, UploadStringCompletedEventArgs e)
+        {
+
+            Dispatcher.BeginInvoke(() =>
+            {
+                NavigationService.Navigate(new Uri("/LoggedMainPages/Menu.xaml", UriKind.Relative));
+            });
+
         }
 
         private bool IsNetworkAvailable()
@@ -271,11 +300,54 @@ namespace WhereIsMyFriend
             System.Diagnostics.Debug.WriteLine(pushChannel.ChannelUri.ToString());
             var webClient = new WebClient();
             webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
+            var settings = IsolatedStorageSettings.ApplicationSettings;
+            if (!settings.Contains("FirstTime"))
+            {
+            settings.Add("FirstTime", false);
             webClient.UploadStringCompleted += this.sendPostCompleted;
             string json = "{\"Mail\":\"" + mail + "\"," +
-                                           "\"Password\":\"" + password + "\"," + "\"DeviceId\":\"" + pushChannel.ChannelUri.ToString() + "\"," + "\"Platform\":\"" + "wp" + "\"}";
+                                           "\"DeviceId\":\"" + pushChannel.ChannelUri.ToString() + "\"," + "\"Platform\":\"" + "wp" + "\"}";
+            webClient.UploadStringAsync((new Uri(App.webService + "/api/Users/ChangeDeviceId")), "POST", json);
+            }
+            else
+            {
+            settings.Add("FirstTime", true);
+            webClient.UploadStringCompleted += this.sendPostCompleted;
+            if (AppResources.ResourceLanguage.Contains("es"))
+            {
+                language = "esp";
+            }
+            else language = "eng";
+            string json = "{\"Mail\":\"" + mail + "\"," +
+                                           "\"Password\":\"" + password + "\"," + "\"DeviceId\":\"" + pushChannel.ChannelUri.ToString() + "\"," + "\"Platform\":\"" + "wp" + "\"," + "\"Language\":\"" + language + "\"}";
             webClient.UploadStringAsync((new Uri(App.webService + "/api/Users/LoginWhere")), "POST", json);
+
+            }
         }
+        void PushChannel_ChannelUriUpdated2(object sender, NotificationChannelUriEventArgs e)
+        {
+            try
+            {
+
+                System.Diagnostics.Debug.WriteLine(pushChannel.ChannelUri.ToString());
+                var webClient = new WebClient();
+                webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
+                string json = "{\"Mail\":\"" + mail + "\"," +
+                                                   "\"DeviceId\":\"" + pushChannel.ChannelUri.ToString() + "\"," + "\"Platform\":\"" + "wp" + "\"}";
+                webClient.UploadStringAsync((new Uri(App.webService + "/api/Users/ChangeDeviceId")), "POST", json);
+
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+
+            
+        }
+           
+           
+        
         void PushChannel_ErrorOccurred(object sender, NotificationChannelErrorEventArgs e)
         {
             // Error handling logic for your particular application would be here.
@@ -372,51 +444,8 @@ namespace WhereIsMyFriend
 
         }
 
-        void PushChannel_HttpNotificationReceived(object sender, HttpNotificationEventArgs e)
-        {
-            string message;
 
-            using (System.IO.StreamReader reader = new System.IO.StreamReader(e.Notification.Body))
-            {
-                message = reader.ReadToEnd();
-            }
-            SolidColorBrush mybrush = new SolidColorBrush(Color.FromArgb(255, 0, 175, 240));
-
-
-
-            CustomMessageBox messageBox = new CustomMessageBox()
-            {
-                Caption = "",
-                Message = message + " wants to know where you are",
-                LeftButtonContent = "Accept",
-                RightButtonContent = "Cancel",
-                Background = mybrush,
-                IsFullScreen = false
-            };
-
-
-            messageBox.Dismissed += (s1, e1) =>
-            {
-                switch (e1.Result)
-                {
-                    case CustomMessageBoxResult.LeftButton:
-                        // Acción.
-                        break;
-                    case CustomMessageBoxResult.RightButton:
-                        // Acción.
-                        break;
-                    case CustomMessageBoxResult.None:
-                        // Acción.
-                        break;
-                    default:
-                        break;
-                }
-            };
-
-
-            Dispatcher.BeginInvoke(() =>
-                messageBox.Show());
-        }
+          
         private void BuildLocalizedApplicationBar()
         {
             // Set the page's ApplicationBar to a new instance of ApplicationBar.
