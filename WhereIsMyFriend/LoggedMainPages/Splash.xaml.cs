@@ -75,6 +75,25 @@ namespace WhereIsMyFriend.LoggedMainPages
         void PushChannel_ChannelUriUpdated(object sender, NotificationChannelUriEventArgs e)
         {
             System.Diagnostics.Debug.WriteLine(pushChannel.ChannelUri.ToString());
+            try
+            {
+
+                System.Diagnostics.Debug.WriteLine(pushChannel.ChannelUri.ToString());
+                var webClient = new WebClient();
+                webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
+                LoggedUser l = LoggedUser.Instance;
+
+                string json = "{\"Mail\":\"" + l.GetLoggedUser().Mail +"\"," +
+                                                   "\"DeviceId\":\"" + pushChannel.ChannelUri.ToString() + "\"," + "\"Platform\":\"" + "wp" + "\"}";
+                webClient.UploadStringAsync((new Uri(App.webService + "/api/Users/ChangeDeviceId")), "POST", json);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
             
         }
         void PushChannel_ErrorOccurred(object sender, NotificationChannelErrorEventArgs e)

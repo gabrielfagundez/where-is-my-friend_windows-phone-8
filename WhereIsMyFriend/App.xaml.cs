@@ -27,6 +27,7 @@ namespace WhereIsMyFriend
         public static bool VengoDeMapa = false;
         public static string webService = "http://developmentpis.azurewebsites.net";
         public static bool isGpsEnabled = false;
+        public static string Language;
         /// <summary>
         /// Constructor para el objeto Application.
         /// </summary>
@@ -65,19 +66,7 @@ namespace WhereIsMyFriend
             }
 
         }
-        private void checkFirstTimeLaunch()
-        {
-            var settings = IsolatedStorageSettings.ApplicationSettings;
-            if (!settings.Contains("WasLaunched"))
-            {
-                settings.Add("WasLaunched", true);
-            }
-            else
-            {
-                settings.Remove("WasLaunched");
-                settings.Add("WasLaunched", false);
-            }
-        }
+        
 
         // Código para ejecutar cuando la aplicación se inicia (p.ej. a partir de Inicio)
         // Este código no se ejecutará cuando la aplicación se reactive
