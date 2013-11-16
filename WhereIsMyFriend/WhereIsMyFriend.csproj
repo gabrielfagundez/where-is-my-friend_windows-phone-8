@@ -199,7 +199,11 @@
     <Content Include="Assets\images\logout.png" />
     <Content Include="Assets\images\LogoWIMFBlanco.png" />
     <Content Include="Assets\images\Logout-32.png" />
+    <Content Include="Assets\images\map.centerme.png" />
+    <Content Include="Assets\images\pin2.png" />
     <Content Include="Assets\images\profilepic.png" />
+    <Content Include="Assets\images\wp-splash-wmf.png" />
+    <Content Include="Assets\images\wp-tile-simple.fw.png" />
     <Content Include="Assets\Tiles\FlipCycleTileLarge.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

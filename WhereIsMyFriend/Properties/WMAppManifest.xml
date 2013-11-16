@@ -6,7 +6,7 @@
     <Language code="es-ES" />
   </Languages>
   <App xmlns="" ProductID="{825779c5-f2e6-4aeb-9c25-7598039867bb}" Title="WhereIsMyFriend" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="WhereIsMyFriend author" Description="Sample description" Publisher="WhereIsMyFriend" PublisherID="{5540dac5-f19a-4b0f-aa12-e883248a1473}">
-    <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
+    <IconPath IsRelative="true" IsResource="false">Assets\images\wp-tile-simple.fw.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
       <Capability Name="ID_CAP_PUSH_NOTIFICATION" />
@@ -24,9 +24,9 @@
     <Tokens>
       <PrimaryToken TokenID="WhereIsMyFriendToken" TaskName="_default">
         <TemplateFlip>
-          <SmallImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileSmall.png</SmallImageURI>
+          <SmallImageURI IsRelative="true" IsResource="false">Assets\images\wp-tile-simple.fw.png</SmallImageURI>
           <Count>0</Count>
-          <BackgroundImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileMedium.png</BackgroundImageURI>
+          <BackgroundImageURI IsRelative="true" IsResource="false">Assets\images\wp-tile-simple.fw.png</BackgroundImageURI>
           <Title>WhereIsMyFriend</Title>
           <BackContent>
           </BackContent>
@@ -42,9 +42,9 @@
       </PrimaryToken>
     </Tokens>
     <ScreenResolutions>
-      <ScreenResolution Name="ID_RESOLUTION_WVGA" />
       <ScreenResolution Name="ID_RESOLUTION_WXGA" />
       <ScreenResolution Name="ID_RESOLUTION_HD720P" />
+      <ScreenResolution Name="ID_RESOLUTION_WVGA" />
     </ScreenResolutions>
   </App>
 </Deployment>

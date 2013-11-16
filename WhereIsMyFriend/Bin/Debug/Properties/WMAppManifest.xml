@@ -6,32 +6,13 @@
     <Language code="es-ES" />
   </Languages>
   <App xmlns="" ProductID="{825779c5-f2e6-4aeb-9c25-7598039867bb}" Title="WhereIsMyFriend" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="WhereIsMyFriend author" Description="Sample description" Publisher="WhereIsMyFriend" PublisherID="{5540dac5-f19a-4b0f-aa12-e883248a1473}">
-    <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
+    <IconPath IsRelative="true" IsResource="false">Assets\images\wp-tile-simple.fw.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
-      <Capability Name="ID_CAP_MEDIALIB_AUDIO" />
-      <Capability Name="ID_CAP_MEDIALIB_PLAYBACK" />
-      <Capability Name="ID_CAP_SENSORS" />
-      <Capability Name="ID_CAP_WEBBROWSERCOMPONENT" />
       <Capability Name="ID_CAP_PUSH_NOTIFICATION" />
-      <Capability Name="ID_CAP_WALLET_SECUREELEMENT" />
-      <Capability Name="ID_CAP_WALLET_PAYMENTINSTRUMENTS" />
-      <Capability Name="ID_CAP_WALLET" />
-      <Capability Name="ID_CAP_VOIP" />
-      <Capability Name="ID_CAP_SPEECH_RECOGNITION" />
-      <Capability Name="ID_CAP_REMOVABLE_STORAGE" />
-      <Capability Name="ID_CAP_PROXIMITY" />
-      <Capability Name="ID_CAP_PHONEDIALER" />
-      <Capability Name="ID_CAP_MEDIALIB_PHOTO" />
-      <Capability Name="ID_CAP_MICROPHONE" />
       <Capability Name="ID_CAP_MAP" />
       <Capability Name="ID_CAP_LOCATION" />
-      <Capability Name="ID_CAP_ISV_CAMERA" />
-      <Capability Name="ID_CAP_IDENTITY_USER" />
-      <Capability Name="ID_CAP_GAMERSERVICES" />
-      <Capability Name="ID_CAP_CONTACTS" />
       <Capability Name="ID_CAP_IDENTITY_DEVICE" />
-      <Capability Name="ID_CAP_APPOINTMENTS" />
     </Capabilities>
     <Tasks>
       <DefaultTask Name="_default" NavigationPage="/LoggedMainPages/Splash.xaml">
@@ -43,9 +24,9 @@
     <Tokens>
       <PrimaryToken TokenID="WhereIsMyFriendToken" TaskName="_default">
         <TemplateFlip>
-          <SmallImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileSmall.png</SmallImageURI>
+          <SmallImageURI IsRelative="true" IsResource="false">Assets\images\wp-tile-simple.fw.png</SmallImageURI>
           <Count>0</Count>
-          <BackgroundImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileMedium.png</BackgroundImageURI>
+          <BackgroundImageURI IsRelative="true" IsResource="false">Assets\images\wp-tile-simple.fw.png</BackgroundImageURI>
           <Title>WhereIsMyFriend</Title>
           <BackContent></BackContent>
           <BackBackgroundImageURI></BackBackgroundImageURI>
@@ -56,9 +37,9 @@
       </PrimaryToken>
     </Tokens>
     <ScreenResolutions>
-      <ScreenResolution Name="ID_RESOLUTION_WVGA" />
       <ScreenResolution Name="ID_RESOLUTION_WXGA" />
       <ScreenResolution Name="ID_RESOLUTION_HD720P" />
+      <ScreenResolution Name="ID_RESOLUTION_WVGA" />
     </ScreenResolutions>
   </App>
 </Deployment>

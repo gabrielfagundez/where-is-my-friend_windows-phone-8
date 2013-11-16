@@ -40,32 +40,11 @@
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Margin="0,0,0,0">
-        <Grid.Background>
-            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Color="#FF73CAEA" Offset="0"/>
-                <GradientStop Color="#FF00AFF0" Offset="0.378"/>
-            </LinearGradientBrush>
-        </Grid.Background>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="200"/>
-            <RowDefinition Height="300"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-
-        <Grid x:Name="AppTitlePanel" Grid.Row="1" Margin="0,0,0,0" >
-            <TextBlock Text="Where is my friend?"
-        		HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Margin="7,117,5,116" 
-                Foreground="White"
-                Style="{StaticResource PhoneTextTitle1Style}" 
-                FontFamily="Segoe WP Light" 
-                Height="Auto" 
-                Width="Auto" 
-                FontSize="50" FontWeight="Bold"/>
-        </Grid>
-
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="181*"/>
+            <ColumnDefinition Width="299*"/>
+        </Grid.ColumnDefinitions>
+        <Image HorizontalAlignment="Stretch" Height="800" VerticalAlignment="Stretch" Width="480" Source="/Assets/images/wp-splash-wmf.png" Grid.ColumnSpan="2"/>
 
     </Grid>
 
