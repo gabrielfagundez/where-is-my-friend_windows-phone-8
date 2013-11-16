@@ -62,6 +62,90 @@ namespace WhereIsMyFriend.LoggedMainPages
             }
         }
 
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            if (IsNetworkAvailable())
+            {
+                try
+                {
+                    LoggedUser lu = LoggedUser.Instance;
+                    var webClient = new WebClient();
+                    webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
+                    webClient.UploadStringCompleted += this.sendPostCompleted;
+                    string json = "{\"Mail\":\"" + lu.GetLoggedUser().Mail + "\"}";
+                    webClient.UploadStringAsync((new Uri(App.webService + "/api/Users/ResetBadge")), "POST", json);
+                }
+                catch (WebException webex)
+                {
+                    HttpWebResponse webResp = (HttpWebResponse)webex.Response;
+
+                    switch (webResp.StatusCode)
+                    {
+                        case HttpStatusCode.NotFound: // 404
+                            break;
+                        case HttpStatusCode.InternalServerError: // 500
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+        }
+
+        private void sendPostCompleted(object sender, UploadStringCompletedEventArgs e)
+        {
+            if ((e.Error != null) && (e.Error.GetType().Name == "WebException"))
+            {
+                WebException we = (WebException)e.Error;
+                HttpWebResponse response = (System.Net.HttpWebResponse)we.Response;
+
+                switch (response.StatusCode)
+                {
+
+                    case HttpStatusCode.NotFound: // 404
+                        System.Diagnostics.Debug.WriteLine("Not found!");
+                        break;
+                    case HttpStatusCode.Unauthorized: // 401
+                        System.Diagnostics.Debug.WriteLine("Not authorized!");
+                        break;
+                    case HttpStatusCode.BadRequest:
+                        SolidColorBrush mybrush = new SolidColorBrush(Color.FromArgb(255, 0, 175, 240));
+                        CustomMessageBox messageBox = new CustomMessageBox()
+                        {
+                            Message = AppResources.doubleReq,
+                            LeftButtonContent = AppResources.OkTitle,
+                            Background = mybrush,
+                            IsFullScreen = false,
+                        };
+
+
+                        messageBox.Dismissed += (s1, e1) =>
+                        {
+                            switch (e1.Result)
+                            {
+                                case CustomMessageBoxResult.LeftButton:
+                                    break;
+                                case CustomMessageBoxResult.None:
+                                    // Acción.
+                                    break;
+                                default:
+                                    break;
+                            }
+                        };
+
+                        messageBox.Show();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+
+            }
+        }
+
         void OnTimerTick(Object sender, EventArgs args)
         {
             func();  
