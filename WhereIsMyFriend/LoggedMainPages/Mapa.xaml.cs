@@ -407,8 +407,8 @@ namespace WhereIsMyFriend.LoggedMainPages
                 {
                     if (friend.Longitude != null && friend.Latitude != null)
                     {
-                        double lat = Convert.ToDouble(friend.Latitude);
-                        double longi = Convert.ToDouble(friend.Longitude);
+                        double lat = double.Parse(friend.Latitude, System.Globalization.CultureInfo.InvariantCulture);//Convert.ToDouble(friend.Latitude);
+                        double longi = double.Parse(friend.Longitude, System.Globalization.CultureInfo.InvariantCulture);//Convert.ToDouble(friend.Longitude);
                     
                         ph.insert(i.ToString(), friend.Name, new GeoCoordinate(lat, longi));
                         i++;
