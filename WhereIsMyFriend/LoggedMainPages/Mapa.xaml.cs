@@ -28,7 +28,7 @@ namespace WhereIsMyFriend.LoggedMainPages
 {
     public partial class Mapa : PhoneApplicationPage
     {
-
+        string latitud, longitud = string.Empty;
         private GeoCoordinate myOldPosition;
         DispatcherTimer newTimer = new DispatcherTimer();
         DispatcherTimer gpsTimer = new DispatcherTimer();
@@ -284,7 +284,7 @@ namespace WhereIsMyFriend.LoggedMainPages
 
         protected async override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
-
+            iniMap();
             newTimer.Start();
             gpsTimer.Start();
 
@@ -320,7 +320,8 @@ namespace WhereIsMyFriend.LoggedMainPages
 
         protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
         {
-       
+            App.Geolocator.PositionChanged -= geolocator_PositionChanged2;
+            App.Geolocator = null;
             newTimer.Stop();
             gpsTimer.Stop();
 
@@ -464,6 +465,97 @@ namespace WhereIsMyFriend.LoggedMainPages
             ApplicationBarMenuItem appBarMenuItem =
                 new ApplicationBarMenuItem(AppResources.AppBarMenuItemText);
             ApplicationBar.MenuItems.Add(appBarMenuItem);
+        }
+
+        private void iniMap()
+        {
+
+            if (App.Geolocator == null)
+            {
+                //Si nunca se inicializo
+                App.Geolocator = new Geolocator();
+                App.Geolocator.DesiredAccuracy = PositionAccuracy.High;
+                App.Geolocator.MovementThreshold = 15; // The units are meters.
+                App.Geolocator.PositionChanged += geolocator_PositionChanged2;
+            }
+
+        }
+
+        public void geolocator_PositionChanged2(Geolocator sender, PositionChangedEventArgs args)
+        {
+            App.isGpsEnabled = true;
+
+            if (!App.RunningInBackground)
+            {
+                Dispatcher.BeginInvoke(() =>
+                {
+                    System.Diagnostics.Debug.WriteLine("Actualizamos en background");
+                    latitud = args.Position.Coordinate.Latitude.ToString("0.00000").Replace(",", ".");
+                    longitud = args.Position.Coordinate.Longitude.ToString("0.00000").Replace(",", ".");
+
+                    var pos = ConvertGeocoordinate(args.Position.Coordinate);
+                    PointsHandler ph = PointsHandler.Instance;
+                    ph.myPosition = pos;
+
+                    var webClient = new WebClient();
+                    webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
+                    webClient.UploadStringCompleted += this.sendPostCompleted1;
+                    LoggedUser user = LoggedUser.Instance;
+                    string json = "{\"Mail\":\"" + user.GetLoggedUser().Mail + "\"," +
+                                    "\"Latitude\":\"" + latitud + "\"," +
+                                      "\"Longitude\":\"" + longitud + "\"}";
+                    System.Diagnostics.Debug.WriteLine(json);
+
+                    webClient.UploadStringAsync((new Uri(App.webService + "/api/Geolocation/SetLocation/")), "POST", json);
+                });
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("Actualizamos en de frente");
+                latitud = args.Position.Coordinate.Latitude.ToString("0.00000");
+                longitud = args.Position.Coordinate.Longitude.ToString("0.00000");
+                var webClient = new WebClient();
+                webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
+                webClient.UploadStringCompleted += this.sendPostCompleted1;
+                LoggedUser user = LoggedUser.Instance;
+                string json = "{\"Mail\":\"" + user.GetLoggedUser().Mail + "\"," +
+                                "\"Latitude\":\"" + latitud + "\"," +
+                                  "\"Longitude\":\"" + longitud + "\"}";
+                System.Diagnostics.Debug.WriteLine(json);
+
+                webClient.UploadStringAsync((new Uri(App.webService + "/api/Geolocation/SetLocation/")), "POST", json);
+
+
+
+
+            }
+        }
+
+
+        private void sendPostCompleted1(object sender, UploadStringCompletedEventArgs e)
+        {
+            if ((e.Error != null) && (e.Error.GetType().Name == "WebException"))
+            {
+                WebException we = (WebException)e.Error;
+                HttpWebResponse response = (System.Net.HttpWebResponse)we.Response;
+
+                switch (response.StatusCode)
+                {
+
+                    case HttpStatusCode.NotFound: // 404
+                        System.Diagnostics.Debug.WriteLine("Not found!");
+                        break;
+                    case HttpStatusCode.Unauthorized: // 401
+                        System.Diagnostics.Debug.WriteLine("Not authorized!");
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine(e.Result.ToString());
+            }
         }
     }
 }
