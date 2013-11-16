@@ -218,4 +218,7 @@
   <data name="me" xml:space="preserve">
     <value>yo</value>
   </data>
+  <data name="doubleReq" xml:space="preserve">
+    <value>Ya existe una solicitud pendiente para este usuario</value>
+  </data>
 </root>

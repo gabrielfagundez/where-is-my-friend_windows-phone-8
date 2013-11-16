@@ -28,10 +28,15 @@ namespace WhereIsMyFriend.LoggedMainPages
             InitializeComponent();
             TiltEffect.TiltableItems.Add(typeof(Grid));
             // Código de ejemplo para traducir ApplicationBar
+            this.Loaded += MainPage_Loaded;
             BuildLocalizedApplicationBar();
 
 
             
+        }
+        void MainPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Phone.Shell.SystemTray.BackgroundColor = Colors.Black;
         }
         /*private void rc_PushReached(object sender, EventArgs e)
         {

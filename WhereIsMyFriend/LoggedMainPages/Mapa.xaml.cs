@@ -405,11 +405,15 @@ namespace WhereIsMyFriend.LoggedMainPages
                 int i = 0;
                 foreach (var friend in p.Amigos)
                 {
-                    double lat = Convert.ToDouble(friend.Latitude.Replace(".",","));
-                    double longi = Convert.ToDouble(friend.Longitude.Replace(".", ","));
-
-                    ph.insert(i.ToString(), friend.Name, new GeoCoordinate(lat, longi));
-                    i++;
+                    if (friend.Longitude != null && friend.Latitude != null)
+                    {
+                        double lat = Convert.ToDouble(friend.Latitude.Replace(".",","));
+                        double longi = Convert.ToDouble(friend.Longitude.Replace(".", ","));
+                    
+                        ph.insert(i.ToString(), friend.Name, new GeoCoordinate(lat, longi));
+                        i++;
+                    }
+                    
                 }
                 System.Diagnostics.Debug.WriteLine("update friend positions!");
                 updateFriendsPosition();
