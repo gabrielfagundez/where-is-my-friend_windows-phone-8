@@ -26,7 +26,6 @@ namespace WhereIsMyFriend.LoggedMainPages
         public Menu()
         {
             InitializeComponent();
-            TiltEffect.TiltableItems.Add(typeof(Grid));
             // Código de ejemplo para traducir ApplicationBar
             this.Loaded += MainPage_Loaded;
             BuildLocalizedApplicationBar();

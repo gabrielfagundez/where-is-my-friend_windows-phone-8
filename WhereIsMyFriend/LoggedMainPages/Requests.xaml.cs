@@ -73,7 +73,7 @@ namespace WhereIsMyFriend.LoggedMainPages
                     webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
                     webClient.UploadStringCompleted += this.sendPostCompleted;
                     string json = "{\"Mail\":\"" + lu.GetLoggedUser().Mail + "\"}";
-                    webClient.UploadStringAsync((new Uri(App.webService + "/api/Users/ResetBadge")), "POST", json);
+                    webClient.UploadStringAsync((new Uri(App.webService + "/api/Users/ResetSolicitationBadge")), "POST", json);
                 }
                 catch (WebException webex)
                 {
