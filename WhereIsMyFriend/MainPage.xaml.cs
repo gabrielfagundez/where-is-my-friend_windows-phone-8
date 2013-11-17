@@ -114,7 +114,7 @@ namespace WhereIsMyFriend
                             }
                             else
                             {
-                               
+                                
                                 // The channel was already open, so just register for all the events.
                                 pushChannel.ChannelUriUpdated += new EventHandler<NotificationChannelUriEventArgs>(PushChannel_ChannelUriUpdated2);
                                 pushChannel.ErrorOccurred += new EventHandler<NotificationChannelErrorEventArgs>(PushChannel_ErrorOccurred);
@@ -301,7 +301,7 @@ namespace WhereIsMyFriend
             var webClient = new WebClient();
             webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
             var settings = IsolatedStorageSettings.ApplicationSettings;
-            if (!settings.Contains("FirstTime"))
+            if (settings.Contains("FirstTime"))
             {
             settings.Add("FirstTime", false);
             webClient.UploadStringCompleted += this.sendPostCompleted;
