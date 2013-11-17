@@ -221,4 +221,7 @@
   <data name="doubleReq" xml:space="preserve">
     <value>Ya existe una solicitud pendiente para este usuario</value>
   </data>
+  <data name="viewAll" xml:space="preserve">
+    <value>ver todos</value>
+  </data>
 </root>

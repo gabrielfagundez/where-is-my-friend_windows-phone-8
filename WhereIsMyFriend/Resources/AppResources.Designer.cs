@@ -331,6 +331,15 @@ namespace WhereIsMyFriend.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to view all.
+        /// </summary>
+        public static string viewAll {
+            get {
+                return ResourceManager.GetString("viewAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to View.
         /// </summary>
         public static string ViewTitle {
