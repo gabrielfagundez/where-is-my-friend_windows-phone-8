@@ -28,6 +28,7 @@ namespace WhereIsMyFriend.LoggedMainPages
 {
     public partial class Mapa : PhoneApplicationPage
     {
+        bool firstTime;
         string latitud, longitud = string.Empty;
         private GeoCoordinate myOldPosition;
         DispatcherTimer newTimer = new DispatcherTimer();
@@ -61,20 +62,22 @@ namespace WhereIsMyFriend.LoggedMainPages
             }
             catch (Exception)
             {
-
                 App.isGpsEnabled = false;//no esta activado el gps
             }
 
 
         }
 
-
-        void OnTimerTick(Object sender, EventArgs args)
+        private void internaltimer()
         {
             // text box property is set to current system date.
             // ToString() converts the datetime value into text
             System.Diagnostics.Debug.WriteLine("Friends Update en mapa!");
             DibujarAmigos();
+        }
+        void OnTimerTick(Object sender, EventArgs args)
+        {
+            internaltimer();
         }
 
         //******************************************************************************************
@@ -287,6 +290,7 @@ namespace WhereIsMyFriend.LoggedMainPages
             iniMap();
             newTimer.Start();
             gpsTimer.Start();
+            firstTime = true;
 
             try
             {
@@ -298,7 +302,7 @@ namespace WhereIsMyFriend.LoggedMainPages
                 ph.myPosition = pos2;
                 // Make my current location the center of the Map.     
                 App.isGpsEnabled = true;
-                this.mapWithMyLocation.Center = PointsHandler.Instance.myPosition;
+                mapWithMyLocation.ZoomLevel = 2;
 
             }
 
@@ -320,6 +324,7 @@ namespace WhereIsMyFriend.LoggedMainPages
 
         protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
         {
+            firstTime = false;
             App.Geolocator.PositionChanged -= geolocator_PositionChanged2;
             App.Geolocator = null;
             newTimer.Stop();
@@ -416,6 +421,11 @@ namespace WhereIsMyFriend.LoggedMainPages
                     }
                     
                 }
+                if (firstTime)
+                {
+                    firstTime = false;
+                    superIntern();
+                }
                 System.Diagnostics.Debug.WriteLine("update friend positions!");
                 updateFriendsPosition();
             }
@@ -427,12 +437,38 @@ namespace WhereIsMyFriend.LoggedMainPages
 
         }
 
+        private void superIntern(){
+            PointsHandler ph = PointsHandler.Instance;
+            List<KeyValuePair<string, nodo>> l = ph.allCoords();
+            int p = 0;
+            GeoCoordinate yo = null;
+            if (App.isGpsEnabled)
+            {
+                yo = PointsHandler.Instance.myPosition;
+                p = 1;
+            }
+            GeoCoordinate[] geoArr = new GeoCoordinate[l.Count + p];
+            p = 0;
+            foreach (KeyValuePair<string, nodo> n_aux in l)
+            {
+                geoArr[p] = n_aux.Value.pos;
+                p++;
+            }
+            if (yo != null) geoArr[p] = yo;
+            LocationRectangle setRect;
+            setRect = LocationRectangle.CreateBoundingRectangle(geoArr);
+            mapWithMyLocation.SetView(setRect);
+        }
+
+        private void superCenter(object sender, EventArgs e)
+        {
+            superIntern();
+        }
         private void centerMe(object sender, EventArgs e)
         {
             if (App.isGpsEnabled)
             {
-                mapWithMyLocation.SetView(PointsHandler.Instance.myPosition, 15, MapAnimationKind.Parabolic);
-                //this.mapWithMyLocation.Center = PointsHandler.Instance.myPosition;
+                mapWithMyLocation.SetView(PointsHandler.Instance.myPosition, mapWithMyLocation.ZoomLevel, MapAnimationKind.Parabolic);
             }
 
         }
@@ -448,19 +484,25 @@ namespace WhereIsMyFriend.LoggedMainPages
             ApplicationBarIconButton centerButton =
                 new ApplicationBarIconButton(new
                 Uri("/Assets/Images/map.centerme.png", UriKind.Relative));
+            ApplicationBarIconButton superCenterBottom =
+               new ApplicationBarIconButton(new
+               Uri("/Assets/Images/map.hacerxcarme.png", UriKind.Relative));
             appBarButton.Text = AppResources.AppBarAddButtonText;
             centerButton.Text = AppResources.me;
+            superCenterBottom.Text = AppResources.viewAll;
+            superCenterBottom.Click += this.superCenter;
             appBarButton.Click += this.Add_Click;
             centerButton.Click += this.centerMe;
             ApplicationBar.Buttons.Add(appBarButton);
             ApplicationBar.Buttons.Add(centerButton);
+            ApplicationBar.Buttons.Add(superCenterBottom);
             ApplicationBar.BackgroundColor = Color.FromArgb(255, 0, 175, 240);
             ApplicationBar.IsMenuEnabled = false;
             ApplicationBar.IsVisible = true;
             ApplicationBar.Opacity = (double)(.99);
             ApplicationBar.Mode = ApplicationBarMode.Default;
 
-
+            
             // Create a new menu item with the localized string from AppResources.
             ApplicationBarMenuItem appBarMenuItem =
                 new ApplicationBarMenuItem(AppResources.AppBarMenuItemText);
