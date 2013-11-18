@@ -160,7 +160,7 @@ namespace WhereIsMyFriend.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enter your email.
+        ///   Looks up a localized string similar to Please enter your email.
         /// </summary>
         public static string invalidMail {
             get {
@@ -169,7 +169,7 @@ namespace WhereIsMyFriend.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enter your password.
+        ///   Looks up a localized string similar to Please enter your password.
         /// </summary>
         public static string invalidPassword {
             get {
@@ -349,7 +349,7 @@ namespace WhereIsMyFriend.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The email you entered is not correct.
+        ///   Looks up a localized string similar to The mail you entered is not correct.
         /// </summary>
         public static string WrongMailError {
             get {

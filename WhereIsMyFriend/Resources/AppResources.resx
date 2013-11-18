@@ -153,7 +153,7 @@
     <value>settings</value>
   </data>
   <data name="WrongMailError" xml:space="preserve">
-    <value>The email you entered is not correct</value>
+    <value>The mail you entered is not correct</value>
   </data>
   <data name="WrongPasswordError" xml:space="preserve">
     <value>The password you entered is not correct</value>
@@ -171,10 +171,10 @@
     <value>Friends</value>
   </data>
   <data name="invalidMail" xml:space="preserve">
-    <value>Enter your email</value>
+    <value>Please enter your email</value>
   </data>
   <data name="invalidPassword" xml:space="preserve">
-    <value>Enter your password</value>
+    <value>Please enter your password</value>
   </data>
   <data name="MapTitleTile" xml:space="preserve">
     <value>Map</value>
