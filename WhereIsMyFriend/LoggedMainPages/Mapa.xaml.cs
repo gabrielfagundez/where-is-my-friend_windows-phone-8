@@ -23,7 +23,7 @@ using WhereIsMyFriend.Classes;
 using Windows.Devices.Geolocation;
 using WhereIsMyFriend.Resources;
 using System.Reflection.Emit;
-
+using Microsoft.Phone.Net.NetworkInformation;
 namespace WhereIsMyFriend.LoggedMainPages
 {
     public partial class Mapa : PhoneApplicationPage
