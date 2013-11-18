@@ -572,7 +572,7 @@ namespace WhereIsMyFriend.LoggedMainPages
                 Uri("/Assets/Images/map.centerme.png", UriKind.Relative));
             ApplicationBarIconButton superCenterBottom =
                new ApplicationBarIconButton(new
-               Uri("/Assets/Images/map.hacerxcarme.png", UriKind.Relative));
+               Uri("/Assets/Images/mapfriends.png", UriKind.Relative));
             appBarButton.Text = AppResources.AppBarAddButtonText;
             centerButton.Text = AppResources.me;
             superCenterBottom.Text = AppResources.viewAll;
