@@ -295,7 +295,7 @@ namespace WhereIsMyFriend.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to en-US.
+        ///   Looks up a localized string similar to en.
         /// </summary>
         public static string ResourceLanguage {
             get {

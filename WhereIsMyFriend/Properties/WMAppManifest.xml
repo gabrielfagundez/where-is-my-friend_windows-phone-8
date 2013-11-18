@@ -1,9 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
-  <DefaultLanguage xmlns="" code="en-US" />
+  <DefaultLanguage xmlns="" code="en" />
   <Languages xmlns="">
     <Language code="en-US" />
     <Language code="es-ES" />
+    <Language code="en" />
+    <Language code="es" />
   </Languages>
   <App xmlns="" ProductID="{825779c5-f2e6-4aeb-9c25-7598039867bb}" Title="WhereIsMyFriend" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="WhereIsMyFriend author" Description="Sample description" Publisher="WhereIsMyFriend" PublisherID="{5540dac5-f19a-4b0f-aa12-e883248a1473}">
     <IconPath IsRelative="true" IsResource="false">Assets\images\wp-tile-simple.fw.png</IconPath>
