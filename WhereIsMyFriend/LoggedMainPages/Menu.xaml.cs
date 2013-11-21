@@ -131,7 +131,7 @@ namespace WhereIsMyFriend.LoggedMainPages
             {
                 Dispatcher.BeginInvoke(() =>
                 {
-                    System.Diagnostics.Debug.WriteLine("Actualizamos en background");
+                    System.Diagnostics.Debug.WriteLine("Actualizamos en frente");
                     latitud = args.Position.Coordinate.Latitude.ToString("0.00000").Replace(",",".");
                     longitud = args.Position.Coordinate.Longitude.ToString("0.00000").Replace(",", ".");
 
@@ -144,6 +144,7 @@ namespace WhereIsMyFriend.LoggedMainPages
                     webClient.UploadStringCompleted += this.sendPostCompleted1;
                     LoggedUser user = LoggedUser.Instance;
                     string json = "{\"Mail\":\"" + user.GetLoggedUser().Mail + "\"," +
+                        "\"Name\":\"" + user.GetLoggedUser().Name + "\"," +
                                     "\"Latitude\":\"" + latitud + "\"," +
                                       "\"Longitude\":\"" + longitud + "\"}";
                     System.Diagnostics.Debug.WriteLine(json);
@@ -153,7 +154,7 @@ namespace WhereIsMyFriend.LoggedMainPages
             }
             else
             {
-                System.Diagnostics.Debug.WriteLine("Actualizamos en de frente");
+                System.Diagnostics.Debug.WriteLine("Actualizamos en background");
                 latitud = args.Position.Coordinate.Latitude.ToString("0.00000").Replace(",",".");
                 longitud = args.Position.Coordinate.Longitude.ToString("0.00000").Replace(",", ".");
                 var webClient = new WebClient();
@@ -161,6 +162,7 @@ namespace WhereIsMyFriend.LoggedMainPages
                 webClient.UploadStringCompleted += this.sendPostCompleted1;
                 LoggedUser user = LoggedUser.Instance;
                 string json = "{\"Mail\":\"" + user.GetLoggedUser().Mail + "\"," +
+                    "\"Name\":\"" + user.GetLoggedUser().Name + "\"," +
                                 "\"Latitude\":\"" + latitud + "\"," +
                                   "\"Longitude\":\"" + longitud + "\"}";
                 System.Diagnostics.Debug.WriteLine(json);

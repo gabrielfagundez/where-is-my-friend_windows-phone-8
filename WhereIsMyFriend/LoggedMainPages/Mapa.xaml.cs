@@ -633,6 +633,7 @@ namespace WhereIsMyFriend.LoggedMainPages
                     webClient.UploadStringCompleted += this.sendPostCompleted1;
                     LoggedUser user = LoggedUser.Instance;
                     string json = "{\"Mail\":\"" + user.GetLoggedUser().Mail + "\"," +
+                                     "\"Name\":\"" + user.GetLoggedUser().Name + "\"," +
                                     "\"Latitude\":\"" + latitud + "\"," +
                                       "\"Longitude\":\"" + longitud + "\"}";
                     System.Diagnostics.Debug.WriteLine(json);
@@ -643,13 +644,14 @@ namespace WhereIsMyFriend.LoggedMainPages
             else
             {
                 System.Diagnostics.Debug.WriteLine("Actualizamos en de frente");
-                latitud = args.Position.Coordinate.Latitude.ToString("0.00000");
-                longitud = args.Position.Coordinate.Longitude.ToString("0.00000");
+                latitud = args.Position.Coordinate.Latitude.ToString("0.00000").Replace(",", ".");
+                longitud = args.Position.Coordinate.Longitude.ToString("0.00000").Replace(",", ".");
                 var webClient = new WebClient();
                 webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
                 webClient.UploadStringCompleted += this.sendPostCompleted1;
                 LoggedUser user = LoggedUser.Instance;
                 string json = "{\"Mail\":\"" + user.GetLoggedUser().Mail + "\"," +
+                              "\"Name\":\"" + user.GetLoggedUser().Name + "\"," +
                                 "\"Latitude\":\"" + latitud + "\"," +
                                   "\"Longitude\":\"" + longitud + "\"}";
                 System.Diagnostics.Debug.WriteLine(json);
