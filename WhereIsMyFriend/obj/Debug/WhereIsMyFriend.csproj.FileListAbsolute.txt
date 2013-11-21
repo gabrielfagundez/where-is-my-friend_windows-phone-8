@@ -480,11 +480,8 @@ C:\Users\Carmela\Documents\GitHub\wmf_wp\WhereIsMyFriend\Bin\Debug\es-ES\WhereIs
 C:\Users\Carmela\Documents\GitHub\wmf_wp\WhereIsMyFriend\obj\Debug\WhereIsMyFriend.Resources.AppResources.es-ES.resources
 C:\Users\Carmela\Documents\GitHub\wmf_wp\WhereIsMyFriend\obj\Debug\es-ES\WhereIsMyFriend.resources.dll
 C:\Users\Carmela\Documents\GitHub\wmf_wp\WhereIsMyFriend\obj\Debug\LoggedMainPages\LogoutConfirmation.g.cs
-C:\wmf_wp\WhereIsMyFriend\Bin\Debug\es-ES\WhereIsMyFriend.resources.dll
 C:\wmf_wp\WhereIsMyFriend\obj\Debug\LoggedMainPages\LogoutConfirmation.g.cs
 C:\wmf_wp\WhereIsMyFriend\obj\Debug\LoggedMainPages\Settings.g.cs
-C:\wmf_wp\WhereIsMyFriend\obj\Debug\WhereIsMyFriend.Resources.AppResources.es-ES.resources
-C:\wmf_wp\WhereIsMyFriend\obj\Debug\es-ES\WhereIsMyFriend.resources.dll
 C:\wmf nueva\wmf_wp\WhereIsMyFriend\Bin\Debug\Assets\ApplicationIcon.png
 C:\wmf nueva\wmf_wp\WhereIsMyFriend\Bin\Debug\Assets\Tiles\FlipCycleTileLarge.png
 C:\wmf nueva\wmf_wp\WhereIsMyFriend\Bin\Debug\Assets\Tiles\FlipCycleTileMedium.png
@@ -739,3 +736,6 @@ C:\Users\Guille\Documents\GitHub\Version Final\wmf_wp\WhereIsMyFriend\obj\Debug\
 C:\Users\Guille\Documents\GitHub\Version Final\wmf_wp\WhereIsMyFriend\obj\Debug\WhereIsMyFriend.dll
 C:\Users\Guille\Documents\GitHub\Version Final\wmf_wp\WhereIsMyFriend\obj\Debug\WhereIsMyFriend.pdb
 C:\Users\Guille\Documents\GitHub\Version Final\wmf_wp\WhereIsMyFriend\obj\Debug\XapCacheFile.xml
+C:\wmf_wp\WhereIsMyFriend\Bin\Debug\es\WhereIsMyFriend.resources.dll
+C:\wmf_wp\WhereIsMyFriend\obj\Debug\WhereIsMyFriend.Resources.AppResources.es.resources
+C:\wmf_wp\WhereIsMyFriend\obj\Debug\es\WhereIsMyFriend.resources.dll

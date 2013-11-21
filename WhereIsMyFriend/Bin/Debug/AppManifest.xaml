@@ -4,7 +4,6 @@
     <AssemblyPart x:Name="Microsoft.Phone.Controls" Source="Microsoft.Phone.Controls.dll" />
     <AssemblyPart x:Name="Microsoft.Phone.Controls.Toolkit" Source="Microsoft.Phone.Controls.Toolkit.dll" />
     <AssemblyPart x:Name="Newtonsoft.Json" Source="Newtonsoft.Json.dll" />
-    <AssemblyPart Source="es-ES/WhereIsMyFriend.resources.dll" />
-    <AssemblyPart Source="es-ES/Microsoft.Phone.Controls.Toolkit.resources.dll" />
+    <AssemblyPart Source="es/WhereIsMyFriend.resources.dll" />
   </Deployment.Parts>
 </Deployment>
