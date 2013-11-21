@@ -271,6 +271,7 @@ namespace WhereIsMyFriend.LoggedMainPages
         }
         private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
+            txtSearch.Foreground = new SolidColorBrush(Colors.Black);
             List<FriendData> fl = LoggedUser.Instance.getFriends().Friends;
             if ( fl != null)
             {
