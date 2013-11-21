@@ -37,6 +37,8 @@ namespace WhereIsMyFriend.LoggedMainPages
         {
 
             InitializeComponent();
+           zoomIN.Visibility= System.Windows.Visibility.Collapsed;
+           zoomOUT.Visibility = System.Windows.Visibility.Collapsed;
             // Código de ejemplo para traducir ApplicationBar
             BuildLocalizedApplicationBar();
             newTimer.Interval = TimeSpan.FromSeconds(5);
