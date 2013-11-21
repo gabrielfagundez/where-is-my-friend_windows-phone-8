@@ -542,8 +542,11 @@ namespace WhereIsMyFriend.LoggedMainPages
             }
             if (yo != null) geoArr[p] = yo;
             LocationRectangle setRect;
-            setRect = LocationRectangle.CreateBoundingRectangle(geoArr);
-            mapWithMyLocation.SetView(setRect);
+            if (geoArr.Count() > 0)
+            {
+                setRect = LocationRectangle.CreateBoundingRectangle(geoArr);
+                mapWithMyLocation.SetView(setRect);
+            }
         }
 
         private void superCenter(object sender, EventArgs e)

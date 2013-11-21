@@ -43,8 +43,8 @@ namespace WhereIsMyFriend
             if (PageTitle.Text == "iniciar sesión"){
                 PageTitle.FontSize = 83;
             }
-            MailIngresado.Text = "marcio1@mail.com";
-            PassIngresado.Password = "passwordm";
+            MailIngresado.Text = "marcio2@mail.com";
+            PassIngresado.Password = "aaaaaa";
 
 
 
