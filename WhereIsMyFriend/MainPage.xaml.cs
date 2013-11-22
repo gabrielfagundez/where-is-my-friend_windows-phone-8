@@ -16,6 +16,7 @@ using System.Windows.Media;
 using WhereIsMyFriend.Classes;
 using System.IO.IsolatedStorage;
 using Microsoft.Phone.Net.NetworkInformation;
+using Windows.Phone.System.Power;
 
 namespace WhereIsMyFriend
 {
@@ -43,8 +44,6 @@ namespace WhereIsMyFriend
             if (PageTitle.Text == "iniciar sesión"){
                 PageTitle.FontSize = 83;
             }
-            MailIngresado.Text = "marcio2@mail.com";
-            PassIngresado.Password = "aaaaaa";
 
 
 
@@ -86,42 +85,61 @@ namespace WhereIsMyFriend
                         else
                         {
                             string channelName = "ToastSampleChannel";
-
                             ProgressB.IsIndeterminate = true;
                             Connecting.Visibility = System.Windows.Visibility.Visible;
                             ErrorBlock.Visibility = System.Windows.Visibility.Collapsed;
-                             //Try to find the push channel.
-                            pushChannel = HttpNotificationChannel.Find(channelName);
-
-                             //If the channel was not found, then create a new connection to the push service.
-                            if (pushChannel == null)
+                            if (PowerManager.PowerSavingMode.Equals(PowerSavingMode.Off))
                             {
-                            pushChannel = new HttpNotificationChannel(channelName);
+                                //Try to find the push channel.
+                                pushChannel = HttpNotificationChannel.Find(channelName);
 
-                             //Register for all the events before attempting to open the channel.
-                            pushChannel.ChannelUriUpdated += new EventHandler<NotificationChannelUriEventArgs>(PushChannel_ChannelUriUpdated);
-                            pushChannel.ErrorOccurred += new EventHandler<NotificationChannelErrorEventArgs>(PushChannel_ErrorOccurred);
+                                //If the channel was not found, then create a new connection to the push service.
+                                if (pushChannel == null)
+                                {
+                                    pushChannel = new HttpNotificationChannel(channelName);
 
-                             //Register for this notification only if you need to receive the notifications while your application is running.
-                            pushChannel.ShellToastNotificationReceived += new EventHandler<NotificationEventArgs>(PushChannel_ShellToastNotificationReceived);
+                                    //Register for all the events before attempting to open the channel.
+                                    pushChannel.ChannelUriUpdated += new EventHandler<NotificationChannelUriEventArgs>(PushChannel_ChannelUriUpdated);
+                                    pushChannel.ErrorOccurred += new EventHandler<NotificationChannelErrorEventArgs>(PushChannel_ErrorOccurred);
 
-                            pushChannel.Open();
+                                    //Register for this notification only if you need to receive the notifications while your application is running.
+                                    pushChannel.ShellToastNotificationReceived += new EventHandler<NotificationEventArgs>(PushChannel_ShellToastNotificationReceived);
 
-                             //Bind this new channel for toast events.
-                            pushChannel.BindToShellToast();
+                                    pushChannel.Open();
 
-                            pushChannel.BindToShellTile();
+                                    //Bind this new channel for toast events.
+                                    pushChannel.BindToShellToast();
+
+                                    pushChannel.BindToShellTile();
+                                }
+                                else
+                                {
+
+                                    // The channel was already open, so just register for all the events.
+                                    pushChannel.ChannelUriUpdated += new EventHandler<NotificationChannelUriEventArgs>(PushChannel_ChannelUriUpdated2);
+                                    pushChannel.ErrorOccurred += new EventHandler<NotificationChannelErrorEventArgs>(PushChannel_ErrorOccurred);
+
+                                    // Register for this notification only if you need to receive the notifications while your application is running.
+                                    pushChannel.ShellToastNotificationReceived += new EventHandler<NotificationEventArgs>(PushChannel_ShellToastNotificationReceived);
+
+                                    var webClient = new WebClient();
+                                    webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
+                                    webClient.UploadStringCompleted += this.sendPostCompleted;
+                                    if (AppResources.ResourceLanguage.Contains("es"))
+                                    {
+                                        language = "esp";
+                                    }
+                                    else language = "eng";
+                                    string json = "{\"Mail\":\"" + MailIngresado.Text + "\"," +
+                                                          "\"Password\":\"" + PassIngresado.Password + "\"," + "\"DeviceId\":\"" + pushChannel.ChannelUri.ToString() + "\"," + "\"Platform\":\"" + "wp" + "\"," + "\"Language\":\"" + language + "\"}";
+
+                                    webClient.UploadStringAsync((new Uri(App.webService + "/api/Users/LoginWhere")), "POST", json);
+
+                                }
+
                             }
                             else
                             {
-                                
-                                // The channel was already open, so just register for all the events.
-                                pushChannel.ChannelUriUpdated += new EventHandler<NotificationChannelUriEventArgs>(PushChannel_ChannelUriUpdated2);
-                                pushChannel.ErrorOccurred += new EventHandler<NotificationChannelErrorEventArgs>(PushChannel_ErrorOccurred);
-
-                                // Register for this notification only if you need to receive the notifications while your application is running.
-                                pushChannel.ShellToastNotificationReceived += new EventHandler<NotificationEventArgs>(PushChannel_ShellToastNotificationReceived);
-
                                 var webClient = new WebClient();
                                 webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
                                 webClient.UploadStringCompleted += this.sendPostCompleted;
@@ -130,27 +148,10 @@ namespace WhereIsMyFriend
                                     language = "esp";
                                 }
                                 else language = "eng";
-                                string json;
-                                if (pushChannel.ChannelUri == null)
-                                {
-                                    json = "{\"Mail\":\"" + MailIngresado.Text + "\"," +
-                                                       "\"Password\":\"" + PassIngresado.Password + "\"," + "\"DeviceId\":\"" + "no push" + "\"," + "\"Platform\":\"" + "wp" + "\"," + "\"Language\":\"" + language + "\"}";
-                                }
-                                else
-                                {
-                                    json = "{\"Mail\":\"" + MailIngresado.Text + "\"," +
-                                                      "\"Password\":\"" + PassIngresado.Password + "\"," + "\"DeviceId\":\"" + pushChannel.ChannelUri.ToString() + "\"," + "\"Platform\":\"" + "wp" + "\"," + "\"Language\":\"" + language + "\"}";
-                                }
-                                
-           
-
+                                string json = "{\"Mail\":\"" + MailIngresado.Text + "\"," +
+                                                          "\"Password\":\"" + PassIngresado.Password + "\"," + "\"DeviceId\":\"" + "no push" + "\"," + "\"Platform\":\"" + "wp" + "\"," + "\"Language\":\"" + language + "\"}";
                                 webClient.UploadStringAsync((new Uri(App.webService + "/api/Users/LoginWhere")), "POST", json);
-
-                                System.Diagnostics.Debug.WriteLine(pushChannel.ChannelUri.ToString());
                             }
-
-                           
-
                         }
                 }
                 catch (WebException webex)
@@ -297,7 +298,6 @@ namespace WhereIsMyFriend
 
         void PushChannel_ChannelUriUpdated(object sender, NotificationChannelUriEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine(pushChannel.ChannelUri.ToString());
             var webClient = new WebClient();
             webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
             var settings = IsolatedStorageSettings.ApplicationSettings;
@@ -328,8 +328,6 @@ namespace WhereIsMyFriend
         {
             try
             {
-
-                System.Diagnostics.Debug.WriteLine(pushChannel.ChannelUri.ToString());
                 var webClient = new WebClient();
                 webClient.Headers[HttpRequestHeader.ContentType] = "text/json";
                 string json = "{\"Mail\":\"" + mail + "\"," +
