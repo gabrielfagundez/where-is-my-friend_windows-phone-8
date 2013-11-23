@@ -44,6 +44,8 @@ namespace WhereIsMyFriend
             if (PageTitle.Text == "iniciar sesión"){
                 PageTitle.FontSize = 83;
             }
+            MailIngresado.Text = "carme@mail.com";
+            PassIngresado.Password = "aaaaaa";
 
 
 
@@ -130,7 +132,13 @@ namespace WhereIsMyFriend
                                         language = "esp";
                                     }
                                     else language = "eng";
-                                    string json = "{\"Mail\":\"" + MailIngresado.Text + "\"," +
+                                    string json;
+                                    if (pushChannel.ChannelUri == null)
+                                    {
+                                        json = "{\"Mail\":\"" + MailIngresado.Text + "\"," +
+                                                         "\"Password\":\"" + PassIngresado.Password + "\"," + "\"DeviceId\":\"" + "no push" + "\"," + "\"Platform\":\"" + "wp" + "\"," + "\"Language\":\"" + language + "\"}";
+                                    }
+                                    else json = "{\"Mail\":\"" + MailIngresado.Text + "\"," +
                                                           "\"Password\":\"" + PassIngresado.Password + "\"," + "\"DeviceId\":\"" + pushChannel.ChannelUri.ToString() + "\"," + "\"Platform\":\"" + "wp" + "\"," + "\"Language\":\"" + language + "\"}";
 
                                     webClient.UploadStringAsync((new Uri(App.webService + "/api/Users/LoginWhere")), "POST", json);
